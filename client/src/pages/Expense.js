@@ -1,38 +1,42 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Table from 'react-bootstrap/Table';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const Expense = () => {
+
+  const [expenseList, setExpenseList] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/expense/all`).then(res => {
+      const result = res.data
+      setExpenseList(result)
+    });
+  },[])
+
+  console.log(expenseList)
+
   return (
     <Wrapper>
     <h1> Expenses </h1>
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
+          <th> ID </th>
+          <th> Title </th>
+          <th> Amount </th>
+          <th> Date </th>
         </tr>
       </thead>
       <tbody>
+        {expenseList.map(expense => (
         <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <td>{expense._id.slice(0,4)}</td>
+          <td>{expense.title}</td>
+          <td>{expense.amount}</td>
+          <td>{expense.date.slice(0,10)}</td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        ))}
       </tbody>
     </Table>
     </Wrapper>

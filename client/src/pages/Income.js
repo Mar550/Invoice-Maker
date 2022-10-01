@@ -16,6 +16,7 @@ const Income = () => {
 
   return (
     <Wrapper>
+      <div>
     <h1> Incomes </h1>
     <Table striped bordered hover>
       <thead>
@@ -37,6 +38,7 @@ const Income = () => {
         ))}
       </tbody>
     </Table>
+    </div>
     </Wrapper>
   )
 }

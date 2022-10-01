@@ -22,7 +22,8 @@ const connectDB = async() => {
 
 connectDB();
 
-
+var cors = require('cors');
+app.use(cors());
 app.use(express.json());
 
 //Routes
@@ -30,8 +31,6 @@ app.use("/api/auth", authController);
 app.use("/api/user", userController);
 app.use("/api/expense", expenseController);
 app.use("/api/income", incomeController);
-
-
 
 app.listen(process.env.PORT || 5000, ()=>{
     console.log("Backend server is running")

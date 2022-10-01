@@ -18,6 +18,7 @@ const Expense = () => {
 
   return (
     <Wrapper>
+      <div>
     <h1> Expenses </h1>
     <Table striped bordered hover>
       <thead>
@@ -39,12 +40,14 @@ const Expense = () => {
         ))}
       </tbody>
     </Table>
+    </div>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-padding: 2rem;
+  padding: 2rem;
+  display: flex;
 
 `
 

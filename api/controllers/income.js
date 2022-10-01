@@ -42,7 +42,7 @@ router.get("/find/:id", async (req, res) => {
 
 // FIND ALL Incomes
 
-router.get("/", async (req, res) => {
+router.get("/all", async (req, res) => {
     try {
         let incomes;
         incomes = await Income.find();

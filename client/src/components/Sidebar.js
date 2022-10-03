@@ -87,9 +87,7 @@ const Sidebar = () => {
 
 const Wrapper = styled.div`
 
-body{
-  width: 12rem;
-}
+
 .sidebar {
   width: 10rem;
   border-right: 0.5px solid rgb(230, 227, 227);

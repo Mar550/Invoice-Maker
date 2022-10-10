@@ -7,12 +7,19 @@ import Button from 'react-bootstrap/Button';
 const PopupI = (props) => {
 
   const [trigger, setTrigger] = useState(false)
-  const [income, setIncome] = useState([
-    { title: '',
-      amount:'', 
-      date:''
-    },
-  ]);
+
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState();
+  const [date, setDate] = useState('');
+  
+
+  const createIncome = async () => {
+    const income = {title,amount,date};
+    await axios.post('http://localhost:5000/api/income/create',income)
+    .then( response => console.log(response))
+    props.setTrigger(false);
+  }
+  
 
   return (props.trigger) ? (
     <Wrap>
@@ -20,12 +27,14 @@ const PopupI = (props) => {
       <div className="container">
       <h2 className="title"> NEW INCOME </h2> 
       <br/>
-      <form> 
+      <form onSubmit={createIncome}> 
       <div className="mb-3">
         <label for="exampleFormControlInput1" className="form-label"> Title </label>
         <input 
         type="text" 
         name="title"
+        value={title}  
+        onChange={(e)=>setTitle(e.target.value)}
         className ="form-control" 
         id="exampleFormControlInput1"/>
         </div>
@@ -36,6 +45,8 @@ const PopupI = (props) => {
         type="number" 
         className="form-control" 
         name="amount"
+        value={amount}  
+        onChange={(e)=>setAmount(e.target.value)}
         aria-label="Dollar amount (with dot and two decimal places)"/>
         <span className="input-group-text"> € </span>
         </div>
@@ -48,12 +59,14 @@ const PopupI = (props) => {
         type="date" 
         name="date" 
         className="form-control" 
+        value={date}  
+        onChange={(e)=>setDate(e.target.value)}
         aria-label="Dollar amount (with dot and two decimal places)"/>
         </div>
       </div>
       <br/>
       <div className='buttonsPopup' >
-        <Button className="button" variant="primary" size="sm">
+        <Button type="sumbit" className="button" variant="primary" size="sm">
           Submit
         </Button>
         <Button  className="button" variant="secondary" size="sm" onClick={() => props.setTrigger(false)}>
@@ -100,6 +113,7 @@ const Wrap = styled.div`
 
 .title{
   font-weight:700;
+  text-align:center;
 }
 
 .vat{

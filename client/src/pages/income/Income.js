@@ -11,18 +11,29 @@ const Income = () => {
   const [buttonPopup, setButtonPopup] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/income/all`).then(res => {
-      const result = res.data
-      setIncomeList(result)
-    });
+    const fetchData = async () => {
+      axios.get(`http://localhost:5000/api/income/all`).then(res => {
+        const result = res.data
+        setIncomeList(result)
+      });
+    }
+    fetchData()
   },[])
+
+  const deleteIncome = async(_id) => {
+    await axios.delete(`http://localhost:5000/api/income/delete/${_id}`)
+    .then(window.location.reload())
+    .catch(err => console.log(err))
+  }
+
+  //Another useEffect with the function inside the current useEffect
 
   return (
     <Wrapper>
       <div>
         <div className='header'>
           <h1> Incomes </h1>
-          <button type="button" id='openPopup' class="btn btn-secondary" onClick={() => setButtonPopup(true)}> ADD NEW </button>       
+          <button type="button" id='openPopup' className="btn btn-secondary" onClick={() => setButtonPopup(true)}> ADD NEW </button>       
         </div>
     <Table striped bordered hover className="table">
       <thead>
@@ -36,13 +47,13 @@ const Income = () => {
       <tbody>
       {incomeList.map(income => (
         <tr>
-          <td>{income._id.slice(0,4)}</td>
+          <td>{income._id.slice(3,6)}</td>
           <td>{income.title}</td>
           <td>{income.amount}</td>
           <td className="date">{income.date.slice(0,10)}
           <span className="buttons">  
             <Button variant="outline-warning">Update</Button>
-            <Button variant="outline-danger">Delete</Button>
+            <Button onClick={()=>deleteIncome(income._id)} variant="outline-danger">Delete</Button>
           </span>
           </td> 
         </tr>
@@ -59,7 +70,6 @@ const Income = () => {
 
 const Wrapper = styled.div`
 padding: 2rem;
-
 .header{
     display:flex;
     flex-direction: row;
@@ -69,20 +79,17 @@ padding: 2rem;
   width: 70rem;
   margin-top: 2rem;
 }
-
 .buttons{
   margin-left: 53%;
   display:flex;
   flex-direction: row;
   gap:0.5rem;
 }
-
 .date{
   display:flex;
   flex-direction:row;
   gap: 1rem;
 }
-
 #openPopup{
   width: 7rem;
   height: 2.7rem;

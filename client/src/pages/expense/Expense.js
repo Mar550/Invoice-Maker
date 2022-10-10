@@ -12,20 +12,27 @@ const Expense = () => {
 
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/expense/all`).then(res => {
-      const result = res.data
-      setExpenseList(result)
-    });
+    const fetchData = async () => {
+      axios.get(`http://localhost:5000/api/expense/all`).then(res => {
+        const result = res.data
+        setExpenseList(result)
+      });
+    }
+    fetchData()
   },[])
 
-  
+  const deleteExpense = async(_id) => {
+    await axios.delete(`http://localhost:5000/api/expense/delete/${_id}`)
+    .then(window.location.reload())
+    .catch(err => console.log(err))
+  }
 
   return (
     <Wrapper>
       <div>
         <div className="header">
         <h1> Expenses </h1>
-        <button type="button" id='openPopup' class="btn btn-secondary" onClick={() => setButtonPopup(true)}> ADD NEW </button>       
+        <button type="button" id='openPopup' className="btn btn-secondary" onClick={() => setButtonPopup(true)}> ADD NEW </button>       
         </div>
     <Table striped bordered hover className="table">
       <thead>
@@ -39,13 +46,13 @@ const Expense = () => {
       <tbody>
         {expenseList.map(expense => (
         <tr>
-          <td>{expense._id.slice(0,4)}</td>
+          <td>{expense._id.slice(7,10)}</td>
           <td>{expense.title}</td>
           <td>{expense.amount}</td>
           <td className="date">{expense.date.slice(0,10)}
           <span className="buttons">  
             <Button variant="outline-warning">Update</Button>
-            <Button variant="outline-danger">Delete</Button>
+            <Button variant="outline-danger" onClick={()=>deleteExpense(expense._id)}>Delete</Button>
           </span>
           </td>
         </tr>

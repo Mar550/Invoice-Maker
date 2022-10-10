@@ -6,37 +6,39 @@ import Button from 'react-bootstrap/Button';
 
 const PopupE = (props) => {
 
-  const[expense,setExpense] = useState({});
+  //Popup state
   const [trigger, setTrigger] = useState(false)
 
+  //Data state
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState();
+  const [date, setDate] = useState('');
+  
 
-  const [expenses, setExpenses] = useState([
-    { title: '',
-      amount:'', 
-      date:''
-    },
-  ]);
-
-  /*** const createExpense = async () => {
-    await axios.post('http://localhost:5000/api/expense/create').then(res=>{
-    const result = res.data
-    console.log(result)
-  })};
-    */
+  const createExpense = async () => {
+    const expense = {title,amount,date};
+    await axios.post('http://localhost:5000/api/expense/create',expense)
+    .then( response => console.log(response))
+    props.setTrigger(false);
+  }
+  
 
   return (props.trigger) ? (
     <Wrap>
       <div className="popup">
+
       <div className="container">
       <h2 className="title"> NEW EXPENSE </h2> 
       <br/>
-      <form> 
+      <form onSubmit={createExpense}> 
       <div className="mb-3">
         <label for="exampleFormControlInput1" className="form-label"> Title </label>
         <input 
         type="text" 
         name="title"
         className ="form-control" 
+        value={title}  
+        onChange={(e)=>setTitle(e.target.value)}
         id="exampleFormControlInput1"/>
         </div>
       <div className="input-group" id="amountmain">
@@ -46,6 +48,8 @@ const PopupE = (props) => {
         type="number" 
         className="form-control" 
         name="amount"
+        value={amount}  
+        onChange={(e)=>setAmount(e.target.value)}
         aria-label="Dollar amount (with dot and two decimal places)"/>
         <span className="input-group-text"> € </span>
         </div>
@@ -58,12 +62,14 @@ const PopupE = (props) => {
         type="date" 
         name="date" 
         className="form-control" 
+        value={date}  
+        onChange={(e)=>setDate(e.target.value)}
         aria-label="Dollar amount (with dot and two decimal places)"/>
         </div>
       </div>
       <br/>
       <div className='buttonsPopup' >
-        <Button className="button" variant="primary" size="sm">
+        <Button type="submit" className="button" variant="primary" size="sm">
           Submit
         </Button>
         <Button  className="button" variant="secondary" size="sm" onClick={() => props.setTrigger(false)}>
@@ -110,6 +116,7 @@ const Wrap = styled.div`
 
 .title{
   font-weight:700;
+  text-align:center;
 }
 
 .vat{

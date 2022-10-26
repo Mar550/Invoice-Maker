@@ -15,7 +15,7 @@ router.post("/create", async(req,res) => {
 })
 
 //Get Chart
-router.get("/find/:id", async (req, res) => {
+router.get("find/:id", async (req, res) => {
     try {
         const chart = await Chart.findById(req.params.id);
         res.status(200).json(chart);
@@ -24,6 +24,14 @@ router.get("/find/:id", async (req, res) => {
     }
 })
 
-
+// Get all charts
+router.get("/all", async (req, res) => {
+    try {
+        let charts = await Chart.find();
+        res.status(200).json(charts);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
 
 module.exports = router;

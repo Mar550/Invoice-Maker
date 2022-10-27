@@ -1,1 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+.App{
+    display:flex;
+    flex-direction:row;
+    font-family: 'Asap', sans-serif;
+
+}

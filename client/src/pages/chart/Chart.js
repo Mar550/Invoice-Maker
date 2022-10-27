@@ -14,7 +14,6 @@ import {
   Filler,
   Legend,
 } from 'chart.js';
-import { MdDataExploration } from 'react-icons/md';
 
 ChartJS.register(
   CategoryScale,

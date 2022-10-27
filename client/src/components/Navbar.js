@@ -4,7 +4,7 @@ import logo from '../assets/B.png';
 
 const Container = styled.div`
     display:flex;
-    gap: 28%;
+    gap: 26%;
     padding: 1rem;
     width: 100%;
 `

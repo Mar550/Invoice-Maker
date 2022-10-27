@@ -19,10 +19,11 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width:80%;
+  width:75%;
 `
 const Right = styled.div`
-width: 50%;`
+margin-right: 7.5rem;
+width: 75%;`
 
 const Span = styled.p`
 color: #2c2a2b;
@@ -40,7 +41,9 @@ const Title3 = styled.span`
   color:#6415FF;
 `
 const Image = styled.img`
-width: 30rem;`
+width: 120%;
+float: left;
+`
 
 const Text2 = styled.p``
 
@@ -140,22 +143,22 @@ const Line = styled.div`
 const Started = styled.div`
   border: 1px solid grey;
   border-radius: 25px;
-  width: 60%;
+  width: 70%;
   &:hover{
     border: 2px solid #6415FF;
   }
 `
 const InputStart = styled.input`
 border: none;
-margin-left: 1rem;
 margin-top: 0.6rem;
+margin-left: 5px;
 `
 const Start = styled.button`
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   background-color: #6415FF;
   border: none;
-  width: 12rem;
+  width: 40%;
   height: 3rem;
   border-radius: 20px;
   float:right;
@@ -171,7 +174,6 @@ const Home = () => {
           <Title2> A simple and practical invoicing appplication <Title3> for you </Title3> </Title2>
           </Header>
           <Text> Our application is easy to understand, complete and practical to use. You'll find all the tools you need to handle effectively your invoicing system.</Text>
-          <Image src={Img}/>
           <Started> 
               <InputStart placeholder="Your E-mail Adress" />
               <Start> Get Started </Start>
@@ -179,24 +181,7 @@ const Home = () => {
           
         </Left>
         <Right>
-        <FormContainer>
-          <Title>
-            LOGIN TO YOUR ACCOUNT
-          </Title>
-          <Social>
-            <Button> <Icon src={google}/> Login With Google </Button>
-            <Button> <Icon src={twitter}/> Login With Twitter </Button>
-          </Social>
-          <Subtitle> <Line></Line> <Span> Or your can login with your email </Span> <Line></Line> </Subtitle>
-          <Form> 
-            <Input placeholder="Email" />            
-            <Input placeholder="Password" />
-            <Submit> 
-              SUBMIT
-            </Submit>
-          </Form>
-          <Linked> Still not registered ? Sign Up Here</Linked>
-        </FormContainer>
+          <Image src={Img}/>
         </Right>
       </Container>
     </Wrapper>

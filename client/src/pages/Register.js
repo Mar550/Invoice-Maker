@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import styled from 'styled-components'
 import google from '../assets/google-svg.svg'
 import twitter from '../assets/twitter-svg.svg'
 import data2 from '../assets/data2.svg'
+import { publicRequest } from '../request';
 
 const Wrapper = styled.div`
   background-color: #3c0d99;
@@ -29,7 +30,7 @@ const FormContainer = styled.div`
   margin: 0;
   gap: 0.7rem;
 `
-const Form = styled.div`
+const Form = styled.form`
 display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -74,14 +75,15 @@ const Submit = styled.button`
   margin-top: 1rem;
   border-radius: 5px;
   color: white;
-  background-color: #8f00ff;
+  font-weight: bold;
+  background-color: #3c0d99;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
   height: 3rem;
   border:none;
   &:hover {
-    background-color: #3c0d99;
+    background-color: black;
   }
 `
 const ImgContainer = styled.div`
@@ -125,8 +127,26 @@ margin-top: 12px;
 height:1px;
 width: 20%;
 `
-
 const Register = () => {
+
+  const [data, setData] = useState({
+    username:"",
+    email:"",
+    password:"",
+  })
+
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]:input.value })
+  }
+
+  const handleSubmit = async () => {
+    try {
+        const res = await publicRequest.post("/auth/register/",data);
+      } catch(error) {
+        console.log(error)
+      }
+  };
+
   return (
     <>
     <Wrapper>
@@ -140,12 +160,24 @@ const Register = () => {
             <Button> <Icon src={twitter}/> Sign up With Twitter </Button>
           </Social>
           <Subtitle> <Line></Line> <Text> Or your can register with your email </Text> <Line></Line> </Subtitle>
-          <Form> 
-            <Input placeholder="Username" />            
-            <Input placeholder="Email" />            
-            <Input placeholder="Password" />
-            <Input placeholder="Confirm Password" />            
-            <Submit> 
+          <Form  onSubmit={handleSubmit}> 
+            <Input 
+            placeholder="Username" 
+            value={data.username} 
+            onChange={handleChange}
+            name="username" />            
+            <Input 
+            placeholder="Email"
+            value={data.email} 
+            onChange={handleChange}
+            name="email" />            
+            <Input 
+            placeholder="Password"
+            type="password"
+            value={data.password} 
+            onChange={handleChange}
+            name="password" />
+            <Submit type="submit"> 
               CREATE AN ACCOUNT
             </Submit>
           </Form>

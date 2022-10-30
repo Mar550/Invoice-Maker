@@ -1,11 +1,14 @@
-import React from 'react'
+import React,{useState, useEffect, useRef, useContext} from "react";
 import styled from 'styled-components'
 import google from '../assets/google-svg.svg'
-import twitter from '../assets/twitter-svg.svg'
+import twitter from '../assets/twitter-svg.svg';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import AuthContext from "../context/AuthProvider";
+import { publicRequest } from "../request";
 
-const Login = () => {
 
-  const Container = styled.div `
+const Container = styled.div `
   background-color: #3c0d99;
   width: 100%;
   height: 40rem;`
@@ -24,7 +27,7 @@ const Login = () => {
   width:35%; 
 
 `
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -117,6 +120,41 @@ margin-left: auto;
 margin-right:auto;
 `
 
+const Login = () => {
+
+  const [success, setSuccess] = useState(false)
+  const [data, setData] = useState({
+    email:"",
+    password:"",
+  })
+  const navigate = useNavigate();
+
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]:input.value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+       await axios.post(
+        "http://localhost:5000/api/auth/login/",data,
+        {
+          headers: {
+          'Content-Type': "application/json",
+          'Accept': "application/json",
+          }  
+        } 
+      ).then((res) => 
+     localStorage.setItem('auth', res.data.accessToken)
+      );
+      console.log(data)
+      setSuccess(true)
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  
   return (
     <Container>
     <FormContainer>
@@ -128,15 +166,25 @@ margin-right:auto;
             <Button> <Icon src={twitter}/> Login With Twitter </Button>
           </Social>
           <Subtitle> <Line></Line> <Span> Or your can login with your email </Span> <Line></Line> </Subtitle>
-          <Form> 
-            <Input placeholder="Email" />            
-            <Input placeholder="Password" />
-            <Submit> 
+          <Form onSubmit={handleSubmit}> 
+            <Input 
+            placeholder="Email"
+            name="email"
+            value={data.email} 
+            onChange={handleChange} />            
+            <Input 
+            placeholder="Password"
+            type="password"
+            value={data.password}
+            name="password"
+            onChange={handleChange}/>
+            <Submit type="submit"> 
               SUBMIT
             </Submit>
           </Form>
           <Linked> Still not registered ? Sign Up Here</Linked>
       </FormContainer>
+   
     </Container>
   )
 }

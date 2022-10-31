@@ -6,6 +6,7 @@ const userController = require("./controllers/user");
 const authController = require("./controllers/auth");
 const expenseController = require("./controllers/expense");
 const incomeController = require("./controllers/income");
+const invoiceController = require("./controllers/invoice");
 const jwt = require("jsonwebtoken");
 
 dotenv.config();
@@ -31,6 +32,8 @@ app.use("/api/auth", authController);
 app.use("/api/user", userController);
 app.use("/api/expense", expenseController);
 app.use("/api/income", incomeController);
+app.use("/api/invoice", invoiceController);
+
 
 app.listen(process.env.PORT || 5000, ()=>{
     console.log("Backend server is running")

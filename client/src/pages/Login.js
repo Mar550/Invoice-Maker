@@ -4,7 +4,6 @@ import google from '../assets/google-svg.svg'
 import twitter from '../assets/twitter-svg.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import AuthContext from "../context/AuthProvider";
 import { publicRequest } from "../request";
 
 

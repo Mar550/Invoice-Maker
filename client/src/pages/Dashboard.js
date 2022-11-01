@@ -4,6 +4,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {AiOutlineDown} from 'react-icons/ai'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import {BsChevronRight} from 'react-icons/bs';
+
+
 // Container
 const Container = styled.div`
   display:flex;
@@ -42,18 +44,15 @@ const Container2 = styled.div`
 
 // General
 const Title = styled.h1`
-
 `
 const Number = styled.p`
   font-weight: 600;
   font-size: 1.2rem;
 `
-
 const Text = styled.p`
 color: white;
 font-size: 16px;
 `
-
 const Button = styled.button`
     border: none;
     border-radius: 5px;
@@ -77,7 +76,6 @@ const Button = styled.button`
     letter-spacing: -.25px;
     color: white;
 `
-
 const Span = styled.span`
   color:#6b52d6;
 `
@@ -88,7 +86,6 @@ const Li = styled.li`
   color: #33d69f;
   font-size: 1rem;
 `
-
 // INVOICE
 const Invoice = styled.div`
   padding: 1rem;
@@ -104,24 +101,20 @@ const Invoice = styled.div`
     cursor: pointer;
   }
 `
-
 const Id = styled.p`
   font-weight: bold;
 `
-
 const Amount = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 `
-
 const Heading = styled.div`
   padding: 10px;
   display:flex;
   flex-direction:row;
   justify-content: space-between;
 `
-
 
 const Content = styled.div`
   padding: 10px;
@@ -141,7 +134,6 @@ const Actions = styled.div`
   flex-direction: row;
   gap: 2.7rem;
 `
-
 const Status = styled.div`
   font-size: 1.2rem;
     line-height: .9375rem;

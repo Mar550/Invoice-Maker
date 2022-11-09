@@ -1,92 +1,99 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {FaTrashAlt} from 'react-icons/fa';
+import axios from 'axios';
 
-const Wrapper = styled.div`
-width: 100%;
-background-color: rgba(0,0,0, 0.5);
-height: 100%;
-padding-top: 3rem;
-padding-bottom: 3rem;
+
+const WrapperX = styled.div`
+    width: 100%;
+    background-color: rgba(0,0,0, 0.6);
+    height: 100%;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    margin: auto;
 `
 
-
-const Container = styled.div`
-border-radius: 10px;
-background-color:#141625;
-width: 50%;
-color: white;
-margin-left: auto;
-margin-right: auto;
-display: flex;
-flex-direction: column;
-gap: 1rem;
-padding: 4%;
+const ContainerX = styled.div`
+    border-radius: 10px;
+    background-color:#141625;
+    width: 50%;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 4%;
 `
 
-const Title = styled.h1`
-font-weight:bold;
-font-size: 1.7rem;
+const TitleX = styled.h1`
+    font-weight:bold;
+    font-size: 1.7rem;
 `
-const Title2 = styled.h3`
-font-weight:bold;
-font-size: 1.3rem;
-margin-top: 4rem;`
-
-const Subtitle = styled.h4`
-margin-top: 1.2rem;
-font-weight: bold;
-font-size: 1rem;
-color: #7c5dfa;
+const Title2X = styled.h3`
+    font-weight:bold;
+    font-size: 1.3rem;
+    margin-top: 4rem;
 `
 
-const Group = styled.div`
-display: flex;
-flex-direction: column;
+const SubtitleX = styled.h4`
+    margin-top: 1.2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #7c5dfa;
 `
 
-const Input = styled.input`
+const GroupX = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+
+const InputX = styled.input`
     width: 100%;
     background-color: #1e2139;
     border: 1px solid #252945;
     height: 3rem;
     padding: 0 1.125rem;
     border-radius: 0.25rem;
+    color: white;
 `
 
-const Input2 = styled.input`
+const Input2X = styled.input`
     width: 40%;
     background-color: #1e2139;
     border: 1px solid #252945;
     height: 3rem;
     padding: 0 1.125rem;
-    border-radius: 0.25rem; 
+    border-radius: 0.25rem;
+    color: white; 
 `
 
-const Date = styled.input`
-    width: 90%;
+const DateX = styled.input`
+    width: 100%;
     background-color: #1e2139;
     border: 1px solid #252945;
     height: 3rem;
     padding: 0 1.125rem;
     border-radius: 0.25rem;
+    color: white;
 `
 
-const Row = styled.div`
-color: white;
-display:inline-flex;
+const RowX = styled.div`
+    color: white;
+    display:inline-flex;
+    justify-content: space-between;
 `
 
-const Row2 = styled.div`
-color: white;
-display:inline-flex;
-justify-content: space-between;
-gap: 2rem;
+const Row2X = styled.div`
+    color: white;
+    display:inline-flex;
+    justify-content: space-between;
+    gap: 2rem;
 `
 
-const Label = styled.label``
+const LabelX = styled.label``
 
-const Button = styled.button`
+const ButtonX = styled.button`
     margin-top: 2rem;
     display: flex;
     align-items: center;
@@ -105,7 +112,7 @@ const Button = styled.button`
     font-weight: 700;
 `
 
-const Action = styled.button`
+const ActionX = styled.button`
     width: 28%;
     height: 3rem;
     padding: 0 1.5rem;
@@ -121,9 +128,9 @@ const Action = styled.button`
     color: white;
 `
 
-const Space = styled.div``
+const SpaceX = styled.div``
 
-const Footer = styled.div`
+const FooterX = styled.div`
     padding: 2.5rem 2rem ;
     height: 6rem;
     display: flex;
@@ -132,103 +139,130 @@ const Footer = styled.div`
     gap: 2%;
 `
 
-const Invoice = () => {
+const InvoicePopup = () => {
+
+    const [data, setData] = useState({
+        adress: "",
+        country: "",
+        city: "",
+        code: "",
+        clname: "",
+        clemail: "",
+        cladress: "",
+        clcountry: "",
+        clcity: "",
+        clcode: "",
+        date:"",
+        term:"",
+        description:"",
+        itname:"",
+        itquantity:"",
+        itprice:"",
+    })
+    const handleChange = ({ currentTarget: input }) => {
+        setData({ ...data, [input.name]:input.value })
+      }
+    const createInvoice = async () => {
+        await axios.post('http://localhost:5000/api/expense/create',data)
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+    }
+
   return (
     <> 
-        <Wrapper> 
-        <Container>
-            <Title> New Invoice </Title>
-            <Subtitle> Bill From </Subtitle>
-            <Group>
-                <Label> Street Adress </Label>
-                <Input />
-            </Group>
-            <Row>
-                <Group>
-                    <Label> Country </Label>
-                    <Input />
-                </Group>
-                <Group>
-                    <Label> City </Label>
-                    <Input />
-                </Group>
-            </Row>
-            <Group>
-                <Label> Post Code </Label>
-                <Input />
-            </Group>
-            <Subtitle> Bill To </Subtitle>
-            <Group>
-                <Label> Client's Name </Label>
-                <Input />
-            </Group>
-            <Group>
-                <Label> Client's Email </Label>
-                <Input />
-            </Group>
-            <Group>
-                <Label> Street Address </Label>
-                <Input />
-            </Group>
-            <Row>
-                <Group>
-                    <Label> Country </Label>
-                    <Input />
-                </Group>
-                <Group>
-                    <Label> City </Label>
-                    <Input />
-                </Group>
-            </Row>
-            <Group>
-                <Label> Post Code </Label>
-                <Input />
-            </Group>
-            <Group>
-               <Label> Invoice Date </Label>
-                <Date type="date"/>
-            </Group> 
-            <Group>
-               <Label> Payment Terms </Label>
-                <Date type="date"/>
-            </Group>
-            <Group>
-                <Label> Project Description </Label>
-                <Input />
-            </Group>
-            <Title2> Item List (1) </Title2>
-            <Group>
-                <Label> Item Name </Label>
-                <Input />
-            </Group>
-            <Row2>
-                <Group>
-                    <Label> Qty. </Label>
-                    <Input2 />
-                </Group>
-                <Group>
-                    <Label> Price </Label>
-                    <Input2 />
-                </Group>
-                <Group>
-                    <Label> Total </Label>
-                    <Space> 0.00 </Space>
-                </Group>
-                <Group>
-                    <Space> <FaTrashAlt/> </Space>
-                </Group>
-            </Row2>
-            <Button> + Add New Item </Button>
-            <Footer>
-                <Action style={{backgroundColor:"#252945"}}> Discard </Action>
-                <Action style={{backgroundColor:"#373b53"}}> Save as Draft </Action>
-                <Action style={{backgroundColor:"#7c5dfa"}}> Save & Send </Action>      
-            </Footer>
-        </Container>
-        
-        </Wrapper>
+        <WrapperX> 
+        <ContainerX>
+            <TitleX> New Invoice </TitleX>
+            <SubtitleX> Bill From </SubtitleX>
+            <GroupX>
+                <LabelX> Street Adress </LabelX>
+                <InputX />
+            </GroupX>
+            <RowX>
+                <GroupX>
+                    <LabelX> Country </LabelX>
+                    <InputX />
+                </GroupX>
+                <GroupX>
+                    <LabelX> City </LabelX>
+                    <InputX />
+                </GroupX>
+            </RowX>
+            <GroupX>
+                <LabelX> Post Code </LabelX>
+                <InputX />
+            </GroupX>
+            <SubtitleX> Bill To </SubtitleX>
+            <GroupX>
+                <LabelX> Client's Name </LabelX>
+                <InputX />
+            </GroupX>
+            <GroupX>
+                <LabelX> Client's Email </LabelX>
+                <InputX />
+            </GroupX>
+            <GroupX>
+                <LabelX> Street Address </LabelX>
+                <InputX />
+            </GroupX>
+            <RowX>
+                <GroupX>
+                    <LabelX> Country </LabelX>
+                    <InputX />
+                </GroupX>
+                <GroupX>
+                    <LabelX> City </LabelX>
+                    <InputX />
+                </GroupX>
+            </RowX>
+            <GroupX>
+                <LabelX> Post Code </LabelX>
+                <InputX />
+            </GroupX>
+            <GroupX>
+               <LabelX> Invoice Date </LabelX>
+                <DateX type="date"/>
+            </GroupX> 
+            <GroupX>
+               <LabelX> Payment Terms </LabelX>
+                <DateX type="date"/>
+            </GroupX>
+            <GroupX>
+                <LabelX> Project Description </LabelX>
+                <InputX />
+            </GroupX>
+            <Title2X> Item List (1) </Title2X>
+            <GroupX>
+                <LabelX> Item Name </LabelX>
+                <InputX />
+            </GroupX>
+            <Row2X>
+                <GroupX>
+                    <LabelX> Qty. </LabelX>
+                    <Input2X />
+                </GroupX>
+                <GroupX>
+                    <LabelX> Price </LabelX>
+                    <Input2X />
+                </GroupX>
+                <GroupX>
+                    <LabelX> Total </LabelX>
+                    <SpaceX> 0.00 </SpaceX>
+                </GroupX>
+                <GroupX>
+                    <SpaceX> <FaTrashAlt/> </SpaceX>
+                </GroupX>
+            </Row2X>
+            <ButtonX> + Add New Item </ButtonX>
+            <FooterX>
+                <ActionX style={{backgroundColor:"#252945"}}> Discard </ActionX>
+                <ActionX style={{backgroundColor:"#373b53"}}> Save as Draft </ActionX>
+                <ActionX style={{backgroundColor:"#7c5dfa"}}> Save & Send </ActionX>      
+            </FooterX>
+        </ContainerX>  
+        </WrapperX>
     </>
-  )
+  );
 }
 
-export default Invoice
+export default InvoicePopup;

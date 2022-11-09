@@ -13,7 +13,7 @@ import Graph from "./pages/chart/Chart";
 import New from "./pages/chart/New";
 import Home from "./pages/Home";
 import Login from './pages/Login';
-import Invoice from "./pages/Invoice";
+import InvoicePopup from './pages/Invoice';
 
 function App() {
 
@@ -27,7 +27,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/expense" element={<Expense />} />
             <Route path="/income" element={<Income />} />
-            <Route path="/invoice" element={<Invoice />} />
+            <Route path="/invoice" element={<InvoicePopup />} />
             <Route path="/popup" element={<Popup />} />
             <Route path="/chart/:id" element={<Graph />} />
             <Route path="/chart/create" element={<New />} />

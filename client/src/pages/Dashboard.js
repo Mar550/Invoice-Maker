@@ -1,10 +1,15 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import Dropdown from 'react-bootstrap/Dropdown';
+import axios from 'axios';
+import Switch from "react-switch";
+
+//Icons
 import {AiOutlineDown} from 'react-icons/ai'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import {BsChevronRight} from 'react-icons/bs';
-
+import { AiFillHome } from 'react-icons/ai';
+import {MdOutlineNightlightRound} from 'react-icons/md';
 
 // Container
 const Container = styled.div`
@@ -18,9 +23,30 @@ const Container = styled.div`
 const Header = styled.div`
   background-color: #252945; 
   width: 100%;
-  height: 3rem;
+  height: 4.5rem;
   color: white;
 `
+const Home = styled.div`
+  background-color: #7c5dfa;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  font-size: 35px;
+  width: 4.3rem;
+  height: 4.5rem;
+  float: left;
+  border-radius: 5px;
+  cursor: pointer;
+`
+const Mode = styled.div`
+  color: white;
+  border:none;
+  float:right;
+  font-size: 28px;
+  cursor:pointer;
+  margin-right: 5%;
+  margin-top: 1rem;
+`
+
 const Container2 = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,7 +60,7 @@ const Container2 = styled.div`
 
 // Header
   const Head = styled.div`
-  width: 70%;
+  width: 65%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -86,11 +112,16 @@ const Li = styled.li`
   color: #33d69f;
   font-size: 1rem;
 `
+const Li2 = styled.li`
+  color: #ff8f00;
+  font-size: 1rem;
+`
 // INVOICE
 const Invoice = styled.div`
   padding: 1rem;
   background-color: #1E2139;
-  width: 70%;
+  width: 65%;
+  height: 70%;
   border: 1px solid white;
   margin-left: auto;
   margin-right: auto;
@@ -134,7 +165,35 @@ const Actions = styled.div`
   flex-direction: row;
   gap: 2.7rem;
 `
+const Invoices = styled.div `
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+`
 const Status = styled.div`
+  font-size: 1.2rem;
+    line-height: .9375rem;
+    letter-spacing: -.25px;
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    min-width: 6.5rem;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 6px;
+    background: #1F2C3F;
+    margin-top: -0.6rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    -webkit-box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+    box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+    cursor: pointer;
+    -webkit-transition: .3s ease;
+    transition: .3s ease;
+    border: 1px solid transparent;
+    color: #33d69f;
+`
+const Status2 = styled.div`
   font-size: 1.2rem;
     line-height: .9375rem;
     letter-spacing: -.25px;
@@ -188,12 +247,46 @@ const Filter = styled.div`
   }
 `
 
+
 const Dashboard = () => {
+  
+  const [invoiceList, setInvoiceList] = useState([])
+  const [toggle, setToggle] = useState(true);
+
+  const fetchData = async () => {
+    axios.get(`http://localhost:5000/api/invoice/all`).then(res => {
+      const result = res.data
+      setInvoiceList(result)
+    });
+  }
+
+  useEffect(() => {
+    
+    fetchData()
+  },[])
+
+  console.log(invoiceList)
+
+  const openPopup = () => {
+    setToggle(true)
+    console.log("click")
+  }
+
   return (
     <>
     <Container>
     <Header>
-      Header
+      <Home>
+        <AiFillHome/>
+      </Home>
+      <Mode>      
+        <div style={{display:"inline-flex", gap:"1rem"}}>
+          <div style={{marginTop:"0.5rem"}}>
+          <Switch className="switch-btn" />
+          </div> 
+          <label> <MdOutlineNightlightRound/> </label>
+        </div>
+      </Mode>
     </Header>
     <Container2>
       <Head>
@@ -215,28 +308,54 @@ const Dashboard = () => {
             </div>
           </div>
         </Filter>
-          <Button> <BsFillPlusCircleFill style={{fontSize:"2.1rem"}}/>
+          <Button onClick={openPopup}> <BsFillPlusCircleFill style={{fontSize:"2.1rem"}}/>
             New Invoice
           </Button>
         </Actions>
       </Head>
+      <Invoices>
       <Invoice> 
         <Content>
           <Id> <Span>#</Span> RT3080 </Id>
-          <Text> Due 19 Aug 2021 </Text>
+          <Text> Due 30 Nov 2022 </Text>
           <Text> Jensen Huang </Text>
-          <Number> $1,800.90 </Number>
+          <Number> €1,800.90 </Number>
           <div style={{ display:"inline-flex", gap:"1.4rem"}}>
           <Status> <Li>Paid</Li> </Status>
           <BsChevronRight style={{color:"#33d69f", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
           </div>
         </Content>
       </Invoice>
-    </Container2>
-      
+      <Invoice> 
+        <Content>
+          <Id> <Span>#</Span> FO5030 </Id>
+          <Text> Due 25 Dec 2022 </Text>
+          <Text> James L. Ivy </Text>
+          <Number> €500.50 </Number>
+          <div style={{ display:"inline-flex", gap:"1.4rem"}}>
+          <Status> <Li>Paid</Li> </Status>
+          <BsChevronRight style={{color:"#33d69f", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
+          </div>
+        </Content>
+      </Invoice>
+      <Invoice> 
+        <Content>
+          <Id> <Span>#</Span> PA2000 </Id>
+          <Text> Due 10 Feb 2023 </Text>
+          <Text> Diana J. Cribb </Text>
+          <Number> €3.200 </Number>
+          <div style={{ display:"inline-flex", gap:"1.4rem"}}>
+          <Status2> <Li2> Pending </Li2> </Status2>
+          <BsChevronRight style={{color:"#33d69f", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
+          </div>
+        </Content>
+      </Invoice>
+      </Invoices>
+      </Container2>
     </Container>
+  
     </>
   )
 }
 
-export default Dashboard
+export default Dashboard;

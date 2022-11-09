@@ -6,14 +6,13 @@ import data2 from '../assets/data2.svg'
 import { publicRequest } from '../request';
 
 const Wrapper = styled.div`
-  background-color: #3c0d99;
   width: 100%;
   height: 49rem;
   padding: 2rem;
 `
 const Container = styled.div`
   background-color: white;
-  padding: 2rem;
+  padding: 3rem;
   display:flex;
   flex-direction: row;
   border-radius: 10px;
@@ -22,6 +21,7 @@ const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-top: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 const FormContainer = styled.div`
   width: 80%;
@@ -37,13 +37,11 @@ display: flex;
 
 `
 const Title = styled.h1`
-  margin-top: 1rem;
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 600;
   text-align:center;
 `
 const Social = styled.div`
-margin-top: 1rem;
   display:flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -56,7 +54,7 @@ const Input = styled.input`
   color: black;
   border: 1px solid grey;
   border-radius: 5px;
-  width: 80%;
+  width: 65%;
   margin-left: auto;
   margin-right: auto;
   font-size: 15px;
@@ -77,7 +75,7 @@ const Submit = styled.button`
   color: white;
   font-weight: bold;
   background-color: #3c0d99;
-  width: 80%;
+  width: 65%;
   margin-left: auto;
   margin-right: auto;
   height: 3rem;
@@ -92,8 +90,9 @@ const ImgContainer = styled.div`
 
 `
 const Image = styled.img`
-  width: 100%;
-  margin-top: 22%;
+  width: 80%;
+  margin-top: 20%;
+  margin-left: 10%;
 `
 const Text = styled.p`
   color: #2c2a2b;
@@ -181,7 +180,6 @@ const Register = () => {
               CREATE AN ACCOUNT
             </Submit>
           </Form>
-          <Text> By creating an account, i agree to the general Terms of Service and the Privacy Policy</Text>
           <Linked> Already have an account ? Sign In Here</Linked>
         </FormContainer>
         <ImgContainer>

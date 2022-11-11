@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Dropdown from 'react-bootstrap/Dropdown';
 import axios from 'axios';
 import Switch from "react-switch";
+import InvoicePopup from './InvoicePopup';
 
 //Icons
 import {AiOutlineDown} from 'react-icons/ai'
@@ -17,7 +18,7 @@ const Container = styled.div`
   flex-direction: column; 
   background-color: #141625;
   width: 100%;
-  height: 70rem;
+  height: 45rem;
 
 `
 const Header = styled.div`
@@ -251,7 +252,7 @@ const Filter = styled.div`
 const Dashboard = () => {
   
   const [invoiceList, setInvoiceList] = useState([])
-  const [toggle, setToggle] = useState(true);
+  const [buttonPopup, setButtonPopup] = useState(false);
 
   const fetchData = async () => {
     axios.get(`http://localhost:5000/api/invoice/all`).then(res => {
@@ -267,13 +268,9 @@ const Dashboard = () => {
 
   console.log(invoiceList)
 
-  const openPopup = () => {
-    setToggle(true)
-    console.log("click")
-  }
-
   return (
     <>
+    <div>
     <Container>
     <Header>
       <Home>
@@ -308,7 +305,7 @@ const Dashboard = () => {
             </div>
           </div>
         </Filter>
-          <Button onClick={openPopup}> <BsFillPlusCircleFill style={{fontSize:"2.1rem"}}/>
+          <Button onClick={() => setButtonPopup(true)}> <BsFillPlusCircleFill style={{fontSize:"2.1rem"}}/>
             New Invoice
           </Button>
         </Actions>
@@ -343,7 +340,7 @@ const Dashboard = () => {
           <Id> <Span>#</Span> PA2000 </Id>
           <Text> Due 10 Feb 2023 </Text>
           <Text> Diana J. Cribb </Text>
-          <Number> €3.200 </Number>
+          <Number> €3,200.00 </Number>
           <div style={{ display:"inline-flex", gap:"1.4rem"}}>
           <Status2> <Li2> Pending </Li2> </Status2>
           <BsChevronRight style={{color:"#33d69f", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
@@ -352,8 +349,10 @@ const Dashboard = () => {
       </Invoice>
       </Invoices>
       </Container2>
+
     </Container>
-  
+    <InvoicePopup trigger={buttonPopup} setTrigger = {buttonPopup} />
+    </div>
     </>
   )
 }

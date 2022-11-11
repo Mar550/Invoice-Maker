@@ -5,21 +5,25 @@ import axios from 'axios';
 
 
 const WrapperX = styled.div`
+    position: fixed;
     width: 100%;
-    background-color: rgba(0,0,0, 0.6);
-    height: 100%;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.8);
+    
 `
 
 const ContainerX = styled.div`
+    position:relative;
+    overflow:auto;
+    height:100%;
     border-radius: 10px;
     background-color:#141625;
     width: 50%;
     color: white;
-    margin-left: auto;
-    margin-right: auto;
+    transform: translateX(0%);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -88,28 +92,22 @@ const Row2X = styled.div`
     color: white;
     display:inline-flex;
     justify-content: space-between;
-    gap: 2rem;
+    gap: 0.8rem;
 `
 
-const LabelX = styled.label``
+const LabelX = styled.label`
+font-size: 15px;`
 
 const ButtonX = styled.button`
-    margin-top: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 1rem;
+    padding: 1rem 2rem 1rem 2rem;
     color: #fff;
     background: #1e2139;
-    height: 3rem;
-    padding: 0 1.5rem;
-    border-radius: 1.5rem;
+    font-weight: bold;
+    height: 10rem;
     border: none;
     width: 100%;
-    white-space: nowrap;
-    font-size: .9rem;
-    line-height: .9375rem;
-    letter-spacing: -.25px;
-    font-weight: 700;
+    border-radius: 1rem;
 `
 
 const ActionX = styled.button`
@@ -128,7 +126,9 @@ const ActionX = styled.button`
     color: white;
 `
 
-const SpaceX = styled.div``
+const SpaceX = styled.div`
+
+`
 
 const FooterX = styled.div`
     padding: 2.5rem 2rem ;
@@ -139,7 +139,7 @@ const FooterX = styled.div`
     gap: 2%;
 `
 
-const InvoicePopup = () => {
+const InvoicePopup = (props) => {
 
     const [data, setData] = useState({
         adress: "",
@@ -159,6 +159,7 @@ const InvoicePopup = () => {
         itquantity:"",
         itprice:"",
     })
+    const [trigger, setTrigger] = useState(false)
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]:input.value })
       }
@@ -168,7 +169,7 @@ const InvoicePopup = () => {
         .catch(error => console.log(error))
     }
 
-  return (
+  return (props.trigger) ? (
     <> 
         <WrapperX> 
         <ContainerX>
@@ -232,11 +233,11 @@ const InvoicePopup = () => {
                 <InputX />
             </GroupX>
             <Title2X> Item List (1) </Title2X>
-            <GroupX>
+            <Row2X>
+                <GroupX>
                 <LabelX> Item Name </LabelX>
                 <InputX />
-            </GroupX>
-            <Row2X>
+                </GroupX>
                 <GroupX>
                     <LabelX> Qty. </LabelX>
                     <Input2X />
@@ -249,7 +250,7 @@ const InvoicePopup = () => {
                     <LabelX> Total </LabelX>
                     <SpaceX> 0.00 </SpaceX>
                 </GroupX>
-                <GroupX>
+                <GroupX >
                     <SpaceX> <FaTrashAlt/> </SpaceX>
                 </GroupX>
             </Row2X>
@@ -262,7 +263,7 @@ const InvoicePopup = () => {
         </ContainerX>  
         </WrapperX>
     </>
-  );
+  ) : "";
 }
 
 export default InvoicePopup;

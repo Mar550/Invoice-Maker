@@ -12,10 +12,23 @@ const invoiceSchema = new mongoose.Schema({
     client_postcode: {type: String},
     date: {type: Date, required:true},
     term: {type: Date, required:true},
-    description: {type:String},
-    name: {type:String, required:true},
-    quantity: {type:Number, required:true},
-    price: {type:Number, required:true}
+    description: {type: String},
+    items: [
+        {
+            name:{
+                type: String,
+                required: true
+            },
+            quantity:{
+                type: Number,
+                required: true, 
+            },
+            price:{
+                type: Number,
+                required: true
+            }
+        }
+    ],
 },  
 { timestamp: true }
 )

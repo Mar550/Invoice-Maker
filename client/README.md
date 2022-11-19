@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# Invoice Maker - Beta
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Invoice Maker is an application allowing the user to manage his business and sales by creating invoices, intended for personal or legal use. The user can change the payment status of an existing invoice, update its informations, or cancel it.
+On top of that, the application contains other sections for budget management, like listing the expenses and incomes, and generating a representative chart of the gross revenue for any period.
 
-## Available Scripts
+## How to run the app
 
-In the project directory, you can run:
+1. Downlaod the app's Github repository 
+2. Install all dependencies in each folder using the ‘npm install’ command.
+3. Start the client web server by accessing the client folder in the terminal and running ‘npm start’. The client server will be served at http://localhost:3000/.
+4. Start the api web server by accessing the api folder in the terminal and running ‘npm start’. The server will be served at http://localhost:5000/.
+5. Go to http://localhost:3000/ in your browser and access to the home page.
+6. Navigate to desired route to view other pages.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Front-End:
+    React JS
+    Chart JS
+    Bootstrap 
 
-### `npm test`
+- Back-End:
+    Node JS,
+    Express JS,
+    MongoDB
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+- NodeJS V16
+- MongoDB account
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Dependencies
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Bootstrap
+- React Bootstrap
+- React-chart-JS
+- React Router Dom
+- Styled Components
+- React Icons
+- React-switch
+- JsonWebToken
+- Mongoose
+- Nodemon
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## User Stories
 
-### `npm run eject`
+- The user can create an account.
+- The user can login into his account.
+- The user can view the list of the existing invoices.
+- The user can sort the list of the invoices according to many criterias.
+- The user can change the theme of the application from light to dark mode or the opposite.
+- The user can view and edit a selected invoice.
+- The user can change the status of an invoice.
+- The user can view the list of his incomes and expenses.
+- The user can perform crud operations on his incomes and expenses.
+- The use can generate a chart with the already existing data of his incomes and expenses.
+- The user can logout from his account.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## What the website looks like 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<img src="https://i.ibb.co/h1c8zmk/screen1.png" alt="screen1">
+<img src="https://i.ibb.co/dr47v74/screen-2.png" alt="screen-2">
+<img src="https://i.ibb.co/RCjHytd/screen3.png" alt="screen3">

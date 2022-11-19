@@ -18,8 +18,8 @@ const PopupE = (props) => {
   const createExpense = async () => {
     const expense = {title,amount,date};
     await axios.post('http://localhost:5000/api/expense/create',expense)
-    .then( response => console.log(response))
-    props.setTrigger(false);
+    .then(response => console.log(response))
+    props.setTrigger(false)
   }
   
 

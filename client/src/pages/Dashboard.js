@@ -71,6 +71,7 @@ const Container2 = styled.div`
 
 // General
 const Title = styled.h1`
+font-weight: 600;
 `
 const Number = styled.p`
   font-weight: 600;
@@ -254,7 +255,7 @@ const Dashboard = () => {
   const [invoiceList, setInvoiceList] = useState([])
   const [buttonPopup, setButtonPopup] = useState(false);
 
-  const fetchData = async () => {
+  const getInvoices = async () => {
     axios.get(`http://localhost:5000/api/invoice/all`).then(res => {
       const result = res.data
       setInvoiceList(result)
@@ -262,11 +263,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    
-    fetchData()
+    getInvoices()
   },[])
-
   console.log(invoiceList)
+
+
 
   return (
     <>
@@ -285,7 +286,7 @@ const Dashboard = () => {
         </div>
       </Mode>
     </Header>
-    <Container2>
+    <Container2 >
       <Head>
         <div>
           <Title> Invoices </Title>
@@ -298,10 +299,9 @@ const Dashboard = () => {
               Filter by status
             </a>
             <div class="dropdown-menu" >
-              <div> <input type="checkbox"/> <label> Action 1 </label> </div>
-              <div> <input type="checkbox"/> <label> Action 2 </label> </div>
-              <div> <input type="checkbox"/> <label> Acion 3 </label> </div> 
-              <div> <input type="checkbox"/> <label> Action 4 </label>  </div>
+              <div> <input type="checkbox"/> <label> Draft </label> </div>
+              <div> <input type="checkbox"/> <label> Pending </label> </div>
+              <div> <input type="checkbox"/> <label> Paid </label> </div> 
             </div>
           </div>
         </Filter>
@@ -351,7 +351,10 @@ const Dashboard = () => {
       </Container2>
 
     </Container>
-    <InvoicePopup trigger={buttonPopup} setTrigger = {buttonPopup} />
+    <InvoicePopup 
+      trigger={buttonPopup} 
+      setTrigger={setButtonPopup} 
+      />
     </div>
     </>
   )

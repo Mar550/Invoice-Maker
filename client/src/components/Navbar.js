@@ -38,7 +38,7 @@ const Link = styled.p`
 `
 const Auth = styled.div`
     display: flex;
-    gap 2.2rem;
+    gap: 2.2rem;
 `
 const Button = styled.div`
     margin-top: 0.3rem;

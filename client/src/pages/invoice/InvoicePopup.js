@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {FaTrashAlt} from 'react-icons/fa';
 import axios from 'axios';
-import Item from '../components/Item';
+import Item from '../../components/Item';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 
 const Wrapper = styled.div`
@@ -48,7 +48,7 @@ const Subtitle = styled.h4`
 const Group = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
 `
 const Input = styled.input`
     width: 100%;
@@ -127,6 +127,9 @@ const Footer = styled.div`
     justify-content: space-around;
     gap: 2%;
 `
+
+const Line = styled.br``
+
 
 const InvoicePopup = (props) => {
 
@@ -232,8 +235,9 @@ const InvoicePopup = (props) => {
                 onChange={handleChange}
                 />
             </Group>
+            <Line/>
             <Subtitle> Bill To </Subtitle>
-            <Group>
+            <Group style={{marginTop:"2rem"}}>
                 <Label> Client's Name </Label>
                 <Input
                 name="client_name"

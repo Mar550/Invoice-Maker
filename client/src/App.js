@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from './pages/Register';
 import Expense from './pages/expense/Expense';
 import Income from './pages/income/Income';
-import Dashboard from './pages/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
@@ -13,8 +12,9 @@ import Graph from "./pages/chart/Chart";
 import New from "./pages/chart/New";
 import Home from "./pages/Home";
 import Login from './pages/Login';
-import InvoicePopup from './pages/InvoicePopup';
-
+import InvoicePopup from './pages/invoice/InvoicePopup';
+import List from './pages/invoice/List';
+import Invoice from './pages/invoice/Invoice';
 
 function App() {
 
@@ -25,10 +25,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/invoices" element={<List />} />
             <Route path="/expense" element={<Expense />} />
             <Route path="/income" element={<Income />} />
-            <Route path="/invoice" element={<InvoicePopup />} />
+            <Route path="/invoice" element={<Invoice />} />
             <Route path="/popup" element={<Popup />} />
             <Route path="/chart/:id" element={<Graph />} />
             <Route path="/chart/create" element={<New />} />

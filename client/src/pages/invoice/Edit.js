@@ -131,7 +131,7 @@ const Footer = styled.div`
 const Line = styled.br``
 
 
-const InvoicePopup = (props) => {
+const Edit = (props) => {
 
     const [data, setData] = useState({
         address: "",
@@ -191,7 +191,7 @@ const InvoicePopup = (props) => {
 
     console.log(data)
 
-    return (props.trigger) ? (
+    return (
         <> 
         <Wrapper >
         <Container>
@@ -336,7 +336,7 @@ const InvoicePopup = (props) => {
         </Container>  
         </Wrapper>
         </>
-    ) : "";
+    )
 }
 
-export default InvoicePopup;
+export default Edit;

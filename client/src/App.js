@@ -4,17 +4,15 @@ import Register from './pages/Register';
 import Expense from './pages/expense/Expense';
 import Income from './pages/income/Income';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
 import './App.css';
 import Popup from "./pages/expense/Popup";
 import Graph from "./pages/chart/Chart";
 import New from "./pages/chart/New";
 import Home from "./pages/Home";
 import Login from './pages/Login';
-import InvoicePopup from './pages/invoice/InvoicePopup';
 import List from './pages/invoice/List';
 import Invoice from './pages/invoice/Invoice';
+import Edit from './pages/invoice/Edit';
 
 function App() {
 
@@ -28,10 +26,11 @@ function App() {
             <Route path="/invoices" element={<List />} />
             <Route path="/expense" element={<Expense />} />
             <Route path="/income" element={<Income />} />
-            <Route path="/invoice" element={<Invoice />} />
+            <Route path="/invoice/:id" element={<Invoice />} />
             <Route path="/popup" element={<Popup />} />
             <Route path="/chart/:id" element={<Graph />} />
             <Route path="/chart/create" element={<New />} />
+            <Route path="/edit/:id" element={<Edit />} />
         </Routes>
       </BrowserRouter>
     </div>

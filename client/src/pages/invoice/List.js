@@ -79,7 +79,7 @@ const Number = styled.p`
 `
 const Text = styled.p`
 color: white;
-font-size: 16px;
+font-size: 11px;
 `
 const Button = styled.button`
     border: none;
@@ -136,6 +136,7 @@ const Invoice = styled.div`
 `
 const Id = styled.p`
   font-weight: bold;
+  font-size: 15px;
 `
 const Amount = styled.div`
   display: flex;
@@ -266,8 +267,6 @@ const Dashboard = () => {
   },[])
   console.log(invoiceList)
 
-
-
   return (
     <>
     <div>
@@ -310,18 +309,20 @@ const Dashboard = () => {
         </Actions>
       </Head>
       <Invoices>
+      {invoiceList.map(invoice => (
       <Invoice> 
         <Content>
-          <Id> <Span>#</Span> RT3080 </Id>
-          <Text> Due 30 Nov 2022 </Text>
-          <Text> Jensen Huang </Text>
-          <Number> €1,800.90 </Number>
+          <Id> <Span>#</Span>{invoice._id.slice(0,8).toUpperCase()}</Id>
+          <Text> Due {Date(invoice.term).toString().slice(4,15)} </Text>
+          <Text> {invoice.client_name} </Text>
+          <Number> € {invoice.items.price * invoice.items.quantity} </Number>
           <div style={{ display:"inline-flex", gap:"1.4rem"}}>
           <Status> <Li>Paid</Li> </Status>
           <BsChevronRight style={{color:"#33d69f", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
           </div>
         </Content>
       </Invoice>
+        ))}
       <Invoice> 
         <Content>
           <Id> <Span>#</Span> FO5030 </Id>

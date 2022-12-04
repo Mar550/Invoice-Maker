@@ -1,9 +1,12 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { AiFillHome } from 'react-icons/ai';
 import Switch from "react-switch";
 import {MdOutlineNightlightRound} from 'react-icons/md';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
+import { FaFileInvoiceDollar } from 'react-icons/fa';
+import Edit from './Edit';
 
 // Container
 const Wrapper = styled.div`
@@ -42,7 +45,7 @@ const Mode = styled.div`
 `
 const Container = styled.div`
   margin-top: 1rem;
-  width: 80%;
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
   background-color: #1e2139; 
@@ -113,9 +116,11 @@ const Id = styled.p`
   display: inline-flex;
   font-size: 1.2rem;
 `
+
 const Span = styled.span`
   color:#6b52d6;
 `
+
 const Group = styled.div`
     display: flex;
     flex-direction: column;
@@ -132,7 +137,7 @@ const Title = styled.h3`
 `
 const Container2 = styled.div`
   margin-top: 1rem;
-  width: 80%;
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
   background-color: #1e2139; 
@@ -166,6 +171,10 @@ const Row = styled.div`
 `
 
 const Invoice = () => {
+
+  const [edit, setEdit] = useState(false);
+ 
+
   return (
     <Wrapper>
     <Header>
@@ -181,7 +190,7 @@ const Invoice = () => {
         </div>
       </Mode>
     </Header>
-    <div style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white"}}>
+    <div style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
       <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label > Go Back </Label> 
     </div>
     <Container>
@@ -191,15 +200,21 @@ const Invoice = () => {
         <Status> <Li>Paid</Li> </Status>
       </div>
       <div style={{display:"inline-flex",gap:"1rem"}}> 
-        <Action style={{backgroundColor:"#252945"}}> Edit </Action>
+        <Action onClick={() => setEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
         <Action style={{backgroundColor:"#ec5757"}}> Delete </Action>
       </div>
     </Container>
     <Container2>
       <div>
-    <Id> <Span>#</Span> FO5030 </Id>
-    <Text> Re-branding </Text>
-    <Text style={{marginTop:"-15px"}}> 19 Union Terrace London E1 3EZ United Kingdom </Text>
+        <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+            <div>
+            <Id> <Span>#</Span> FO5030 </Id>
+            <Text> Re-branding </Text>
+            </div>
+            <div style={{width:"7rem"}}>
+            <Text style={{marginTop:"-15px"}}> 19 Union Terrace London E1 3EZ United Kingdom </Text>
+            </div>
+        </div>
     <div style={{display:"inline-flex", gap:"20%"}}> 
     <div style={{display:"flex", flexDirection:"column"}}>
     <Group>
@@ -250,4 +265,4 @@ const Invoice = () => {
   )
 }
 
-export default Invoice
+export default Invoice;

@@ -14,7 +14,7 @@ router.post("/create", async(req,res) => {
 })
 
 //UPDATE
-router.put("/:id", async(req,res) => {
+router.put("/update/:id", async(req,res) => {
     try{
         const updatedInvoice = await Invoice.findByIdAndUpdate(
             req.params.id,
@@ -25,6 +25,16 @@ router.put("/:id", async(req,res) => {
         );
         res.status(200).json(updatedInvoice);
     } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
+//EDIT
+router.get("/edit/:id", async (req, res) => {
+    try {
+        const invoice = await Invoice.findById(req.params.id);
+        res.status(200).json(invoice);
+    }   catch(err) {
         res.status(500).json(err);
     }
 })

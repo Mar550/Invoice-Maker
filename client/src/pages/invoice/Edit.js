@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {FaTrashAlt} from 'react-icons/fa';
 import axios from 'axios';
@@ -127,12 +128,15 @@ const Footer = styled.div`
     justify-content: space-around;
     gap: 2%;
 `
-
 const Line = styled.br``
-
 
 const Edit = (props) => {
 
+    // Handle Location Id
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+
+    // Handle Form Data
     const [data, setData] = useState({
         address: "",
         country: "",
@@ -149,19 +153,28 @@ const Edit = (props) => {
         description:"",
         items: {name:"",quantity:"",price:""}
     })
+    const getInvoice = async () => {
+        axios.get(`http://localhost:5000/api/invoice/edit/` + id)
+        .then(res => {
+        const result = res.data
+        setData(result)
+      })};
+    
+    useEffect(() => {
+        getInvoice()
+    },[])
 
-    const [trigger, setTrigger] = useState(false)
-
-    const createInvoice = async () => {
-        await axios.post('http://localhost:5000/api/invoice/create',data)
+    // Update Function
+    const updateInvoice = async () => {
+        await axios.put('http://localhost:5000/api/invoice/update/' + id, data)
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }
 
+    // Handle Input
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]:input.value })
     }
-
     const handleItemChange = ({ currentTarget: input }) => {
         setData({ 
             ...data,
@@ -172,26 +185,25 @@ const Edit = (props) => {
         });    
     }
 
+    // Handle Items in Form
     const [itemsToAdd, setItemsToAdd] = useState(1);
-
     const addItem = (e) => {
         e.preventDefault();
         setItemsToAdd(itemsToAdd + 1)
     }
-
     const removeItem = () => {
         if ( itemsToAdd > 1) {
             setItemsToAdd(itemsToAdd - 1)
         } 
     }
-    
+
+    // Handle Popup
+    const [trigger, setTrigger] = useState(false)
     const closePopup = () => {
         props.setTrigger(false);
     }
 
-    console.log(data)
-
-    return (
+    return (props.trigger) ? (
         <> 
         <Wrapper >
         <Container>
@@ -214,7 +226,7 @@ const Edit = (props) => {
                     <Label> Country </Label>
                     <Input 
                     name="country"
-                    value={data.country}  
+                    defaultValue={data.country}  
                     onChange={handleChange}
                     />
                 </Group>
@@ -330,13 +342,13 @@ const Edit = (props) => {
             <Footer>
                 <Action onClick={closePopup} style={{backgroundColor:"#252945"}} > Discard </Action>
                 <Action style={{backgroundColor:"#373b53"}}> Save as Draft </Action>
-                <Action onClick={createInvoice} style={{backgroundColor:"#7c5dfa"}}> Save & Send </Action>      
+                <Action onClick={updateInvoice} style={{backgroundColor:"#7c5dfa"}}> Save & Send </Action>      
             </Footer>
             </form>
         </Container>  
         </Wrapper>
         </>
-    )
+    ) : ""
 }
 
 export default Edit;

@@ -4,6 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import axios from 'axios';
 import Switch from "react-switch";
 import InvoicePopup from './InvoicePopup';
+import {Link} from 'react-router-dom';
 
 //Icons
 import {AiOutlineDown} from 'react-icons/ai'
@@ -79,7 +80,7 @@ const Number = styled.p`
 `
 const Text = styled.p`
 color: white;
-font-size: 11px;
+font-size: 13px;
 `
 const Button = styled.button`
     border: none;
@@ -311,6 +312,7 @@ const Dashboard = () => {
       <Invoices>
       {invoiceList.map(invoice => (
       <Invoice> 
+        <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <Content>
           <Id> <Span>#</Span>{invoice._id.slice(0,8).toUpperCase()}</Id>
           <Text> Due {Date(invoice.term).toString().slice(4,15)} </Text>
@@ -321,8 +323,10 @@ const Dashboard = () => {
           <BsChevronRight style={{color:"#33d69f", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
           </div>
         </Content>
+        </Link>
       </Invoice>
         ))}
+
       <Invoice> 
         <Content>
           <Id> <Span>#</Span> FO5030 </Id>

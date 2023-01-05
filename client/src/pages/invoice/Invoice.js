@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AiFillHome } from 'react-icons/ai';
 import Switch from "react-switch";
@@ -59,12 +60,12 @@ const Container = styled.div`
 
 const Text = styled.p`
   color: white;
-  font-size: 16px;
+  font-size: 15px;
 `
 
 const Text2 = styled.p`
   color: white;
-  font-size: 1.1rem;
+  font-size: 17px;
   font-weight: bold;
 `
 
@@ -128,7 +129,7 @@ const Group = styled.div`
     width: 10rem;
 `
 const Label = styled.label`
-    font-size: 15px;
+    font-size: 14px;
 `
 const Title = styled.h3`
     font-weight:bold;
@@ -150,7 +151,7 @@ const Container2 = styled.div`
 `
 
 const Container3 = styled.div`
-  margin-top: 5rem;
+  margin-top: 2rem;
   background-color:#252945;
   display: flex;
   flex-direction: column;
@@ -160,7 +161,7 @@ const Container3 = styled.div`
 
 const Container4 = styled.div`
   background-color: #0c0e16;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1.5rem;
   border-radius: 0 0 0.5rem 0.5rem;
 `
 
@@ -172,10 +173,51 @@ const Row = styled.div`
 
 const Invoice = () => {
 
-  const [edit, setEdit] = useState(false);
- 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+
+  const [buttonEdit, setButtonEdit] = useState(false);
+
+  const [invoice, setInvoice] = useState({})
+
+  const getInvoice = async () => {
+    axios.get(`http://localhost:5000/api/invoice/find/` + id)
+      .then(res => {
+    const result = res.data
+    setInvoice(result)
+  })};
+
+  useEffect(() => {
+    getInvoice()
+  },[])
+
+  const deleteInvoice = async () => {
+    await axios.delete('http://localhost:5000/api/invoice/delete/' + id)
+    .then(navigate("/invoices"))
+    .catch(error => console.log(error))
+}
+
+  function toMonthName(monthNumber) {
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+    return date.toLocaleString('en-US', {
+      month: 'long',
+    });
+  }
+
+  //const dateStart = invoice.date
+ // let day = dateStart.slice(8,10)
+  //let month = toMonthName(dateStart.slice(5,7))
+  //let year = dateStart.slice(0,4)
+  //const dateEnd = day + ' ' + month + ' ' + year
+
+  console.log(invoice)
+
+
 
   return (
+    <>
     <Wrapper>
     <Header>
       <Home>
@@ -191,51 +233,51 @@ const Invoice = () => {
       </Mode>
     </Header>
     <div style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
-      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label > Go Back </Label> 
+      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <Label > Go Back </Label> 
     </div>
     <Container>
     
       <div style={{display:"inline-flex",gap:"2rem",marginTop:"0.6rem"}}>  
-        <Text style={{marginTop:"0.3rem"}}> Status </Text>
+        <Text2 style={{marginTop:"0.3rem"}}> Status </Text2>
         <Status> <Li>Paid</Li> </Status>
       </div>
       <div style={{display:"inline-flex",gap:"1rem"}}> 
-        <Action onClick={() => setEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
-        <Action style={{backgroundColor:"#ec5757"}}> Delete </Action>
+        <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+        <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
       </div>
     </Container>
     <Container2>
       <div>
         <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
             <div>
-            <Id> <Span>#</Span> FO5030 </Id>
+            <Id> <Span>#</Span> {id.slice(0,8).toUpperCase()} </Id>
             <Text> Re-branding </Text>
             </div>
             <div style={{width:"7rem"}}>
-            <Text style={{marginTop:"-15px"}}> 19 Union Terrace London E1 3EZ United Kingdom </Text>
+            <Text > {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Text>
             </div>
         </div>
     <div style={{display:"inline-flex", gap:"20%"}}> 
     <div style={{display:"flex", flexDirection:"column"}}>
     <Group>
       <Label> Invoice Date </Label>
-      <Text2> 18 Aug 2021 </Text2>
+      <Text2> 18 May 2022 </Text2>
     </Group>
 
     <Group>
       <Label> Payment Due </Label>
-      <Text2> 19 Aug 2021 </Text2>
+      <Text2> 30 November 2022 </Text2>
     </Group>
     </div>
     <Group>
       <Label> Bill To </Label>
-      <Text2> Jensen Huang </Text2>
-      <Text style={{width:"10rem"}}> 106 Kendell Street Sharrington NR24 5WQ United Kingdom </Text>
+      <Text2> {invoice.client_name} </Text2>
+      <Text style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Text>
     </Group>
     
     <Group>
       <Label> Sent To </Label>
-      <Text2> jensen@gmail.com </Text2>
+      <Text2> {invoice.client_email} </Text2>
     </Group>
     </div>
     </div>
@@ -247,21 +289,26 @@ const Invoice = () => {
         <Text> Total </Text>
       </Row>
       <Row style={{fontWeight:"bold"}}>
-        <Text> Brand Guidelines </Text>
-        <Text> 1 </Text>
-        <Text> $1,800.90 </Text>
-        <Text> $1,800.90 </Text>
+        <Text> {invoice.items && invoice.items.name ? invoice.items.name : 'missing name' }</Text>
+        <Text> {invoice.items && invoice.items.quantity ? invoice.items.quantity : 'missing quantity' } </Text>
+        <Text> {invoice.items && invoice.items.price ? invoice.items.price : 'missing price' } $ </Text>
+        <Text> $ {invoice.items && invoice.items.quantity & invoice.items.price ? invoice.items.quantity*invoice.items.price : 'missing information'} </Text>
       </Row>
     </Container3>
     <Container4>
       <Row>
-        <Text> Amount Due </Text>
-        <Text style={{fontSize:"1.4rem",fontWeight:"bold"}}> $1,800.90 </Text>
+        <Text2> Amount Due </Text2>
+        <Text style={{fontSize:"1.4rem",fontWeight:"bold"}}> $ {invoice.items && invoice.items.quantity & invoice.items.price ? (invoice.items.quantity*invoice.items.price).toFixed(2) : 'missing information'} </Text>
       </Row>
     </Container4>
 
     </Container2>
     </Wrapper>
+    <Edit 
+      trigger={buttonEdit} 
+      setTrigger={setButtonEdit} 
+      />
+    </>
   )
 }
 

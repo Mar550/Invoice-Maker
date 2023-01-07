@@ -189,16 +189,14 @@ const InvoicePopup = (props) => {
         props.setTrigger(false);
     }
 
-    console.log(data)
-
     return (props.trigger) ? (
         <> 
         <Wrapper >
         <Container>
             <div onClick={closePopup} style={{marginTop:"-1rem", cursor:"pointer"}}>
-                <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label > Go Back </Label> 
+                <MdOutlineArrowBackIosNew  style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label > Go Back </Label> 
             </div>
-            <Title> Edit Invoice </Title>
+            <Title> Create Invoice </Title>
             <Subtitle> Bill From </Subtitle>
             <form> 
             <Group>

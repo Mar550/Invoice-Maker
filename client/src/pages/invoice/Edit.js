@@ -170,7 +170,7 @@ const Edit = (props) => {
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }
-
+    
     // Handle Input
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]:input.value })

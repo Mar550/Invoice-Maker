@@ -8,6 +8,8 @@ import {MdOutlineNightlightRound} from 'react-icons/md';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 import Edit from './Edit';
+import Moment from 'moment';
+
 
 // Container
 const Wrapper = styled.div`
@@ -173,48 +175,52 @@ const Row = styled.div`
 
 const Invoice = () => {
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const id = location.pathname.split("/")[2];
+  const [invoice, setInvoice] = useState([])
+  const [items, setItems] = useState([])
 
-  const [buttonEdit, setButtonEdit] = useState(false);
-
-  const [invoice, setInvoice] = useState({})
 
   const getInvoice = async () => {
     axios.get(`http://localhost:5000/api/invoice/find/` + id)
       .then(res => {
-    const result = res.data
-    setInvoice(result)
-  })};
+    const result = res.data;
+    setInvoice(result);
+    setItems(result.items);
+
+    })
+  };
 
   useEffect(() => {
     getInvoice()
   },[])
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [buttonEdit, setButtonEdit] = useState(false);
+
   const deleteInvoice = async () => {
     await axios.delete('http://localhost:5000/api/invoice/delete/' + id)
     .then(navigate("/invoices"))
     .catch(error => console.log(error))
-}
-
-  function toMonthName(monthNumber) {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-    return date.toLocaleString('en-US', {
-      month: 'long',
-    });
   }
 
-  //const dateStart = invoice.date
- // let day = dateStart.slice(8,10)
-  //let month = toMonthName(dateStart.slice(5,7))
-  //let year = dateStart.slice(0,4)
-  //const dateEnd = day + ' ' + month + ' ' + year
+  function backHome() {
+    navigate("/invoices");
+  }
 
-  console.log(invoice)
+  // Function Amount Due
+  function dueAmount(array){
+    let sum = 0
+    for (let i = 0; i < array.length; i++) {
+      sum += array[i].price*array[i].quantity;
+    }
+    return sum
+  }
 
-
+  // Function Format Dates
+  function formatDate(myDate) {
+    return Moment(new Date(myDate)).format("DD MMM YYYY");
+  }
 
   return (
     <>
@@ -232,8 +238,8 @@ const Invoice = () => {
         </div>
       </Mode>
     </Header>
-    <div style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
-      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <Label > Go Back </Label> 
+    <div onClick={backHome} style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <Label style={{cursor:"pointer"}} > Go Back </Label> 
     </div>
     <Container>
     
@@ -259,15 +265,14 @@ const Invoice = () => {
         </div>
     <div style={{display:"inline-flex", gap:"20%"}}> 
     <div style={{display:"flex", flexDirection:"column"}}>
-    <Group>
-      <Label> Invoice Date </Label>
-      <Text2> 18 May 2022 </Text2>
-    </Group>
-
-    <Group>
-      <Label> Payment Due </Label>
-      <Text2> 30 November 2022 </Text2>
-    </Group>
+      <Group>
+        <Label> Invoice Date </Label>
+        <Text2> {formatDate(invoice.date)}</Text2>
+      </Group>
+      <Group>
+        <Label> Payment Due </Label>
+        <Text2> {formatDate(invoice.term)}</Text2>
+      </Group>
     </div>
     <Group>
       <Label> Bill To </Label>
@@ -288,18 +293,22 @@ const Invoice = () => {
         <Text> Price </Text>
         <Text> Total </Text>
       </Row>
-      <Row style={{fontWeight:"bold"}}>
-        <Text> {invoice.items && invoice.items.name ? invoice.items.name : 'missing name' }</Text>
-        <Text> {invoice.items && invoice.items.quantity ? invoice.items.quantity : 'missing quantity' } </Text>
-        <Text> {invoice.items && invoice.items.price ? invoice.items.price : 'missing price' } $ </Text>
-        <Text> $ {invoice.items && invoice.items.quantity & invoice.items.price ? invoice.items.quantity*invoice.items.price : 'missing information'} </Text>
-      </Row>
+      {items.map(item => (
+        <Row style={{fontWeight:"bold"}}>
+          <Text> {item.name}</Text>
+          <Text> {item.quantity} </Text>
+          <Text> {item.price} $ </Text>
+          <Text> $ {item.quantity*item.price} </Text>
+        </Row>
+        //toFixed(2)
+      ))}
     </Container3>
     <Container4>
       <Row>
         <Text2> Amount Due </Text2>
-        <Text style={{fontSize:"1.4rem",fontWeight:"bold"}}> $ {invoice.items && invoice.items.quantity & invoice.items.price ? (invoice.items.quantity*invoice.items.price).toFixed(2) : 'missing information'} </Text>
+        <Text style={{fontSize:"1.4rem",fontWeight:"bold"}}> $ {dueAmount(items)} </Text>
       </Row>
+
     </Container4>
 
     </Container2>

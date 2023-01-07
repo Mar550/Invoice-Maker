@@ -263,6 +263,15 @@ const Dashboard = () => {
     });
   }
 
+  // Amount Due
+  function dueAmount(array){
+    let sum = 0
+    for (let i = 0; i < array.length; i++) {
+      sum += array[i].price*array[i].quantity;
+    }
+    return sum
+  }
+
   useEffect(() => {
     getInvoices()
   },[])
@@ -317,7 +326,9 @@ const Dashboard = () => {
           <Id> <Span>#</Span>{invoice._id.slice(0,8).toUpperCase()}</Id>
           <Text> Due {Date(invoice.term).toString().slice(4,15)} </Text>
           <Text> {invoice.client_name} </Text>
-          <Number> € {invoice.items.price * invoice.items.quantity} </Number>
+         
+            <Number> € {dueAmount(invoice.items)} </Number>
+       
           <div style={{ display:"inline-flex", gap:"1.4rem"}}>
           <Status> <Li>Paid</Li> </Status>
           <BsChevronRight style={{color:"#33d69f", marginTop:"0.5rem", fontSize:"1.2rem"}}/>

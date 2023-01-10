@@ -1,19 +1,21 @@
-import React,{useState, useEffect, useRef, useContext} from "react";
+import React,{useState, useEffect} from "react";
 import styled from 'styled-components'
 import google from '../assets/google-svg.svg'
 import twitter from '../assets/twitter-svg.svg';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios";
-import { publicRequest } from "../request";
+import { login, reset } from '../features/authSlice';
 
 
 const Container = styled.div `
-  background-color: #3c0d99;
+  background-color: #f0f0f0;
   width: 100%;
-  height: 40rem;`
+  height: 41rem;
+  padding: 3rem;
+  `
 
   const FormContainer = styled.div`
-  margin-top: 3rem; 
   display: flex;
   flex-direction: column;
   border-radius: 10px;
@@ -49,7 +51,7 @@ const Social = styled.div`
 const Input = styled.input`
   background-color: #f0f0f0;
   color: black;
-  border: 1px solid grey;
+  border: 2px solid #f0f0f0;
   border-radius: 5px;
   width: 80%;
   margin-left: auto;
@@ -121,36 +123,46 @@ margin-right:auto;
 
 const Login = () => {
 
-  const [success, setSuccess] = useState(false)
   const [data, setData] = useState({
     email:"",
     password:"",
   })
+
+  const { email, password } = data
+
+  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+  
+  useEffect(() => {
+    if (isError) {
+      alert(message)
+    }
+
+    if (isSuccess || user) {
+      navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]:input.value })
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-       await axios.post(
-        "http://localhost:5000/api/auth/login/",data,
-        {
-          headers: {
-          'Content-Type': "application/json",
-          'Accept': "application/json",
-          }  
-        } 
-      ).then((res) => 
-     localStorage.setItem('auth', res.data.accessToken)
-      );
-      console.log(data)
-      setSuccess(true)
-    } catch(err){
-      console.log(err)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const userData = {
+      email,
+      password
     }
+    dispatch(login(userData))
+    window.location.reload()
   }
 
   

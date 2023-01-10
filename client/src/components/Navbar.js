@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../assets/B.png';
-
+import { Link } from 'react-router-dom';
 const Container = styled.div`
     display:flex;
     gap: 26%;
-    padding: 1rem;
+    padding: 0.9rem;
     width: 100%;
 `
 const Logo = styled.div`
@@ -26,7 +26,7 @@ const Links = styled.div`
     display: flex;
     gap: 30%;
 `
-const Link = styled.p`
+const Linked = styled.p`
     margin-top: 0.8rem;
     color: #2d2d2d;
     font-weight: 600;
@@ -38,15 +38,34 @@ const Link = styled.p`
 `
 const Auth = styled.div`
     display: flex;
-    gap: 2.2rem;
+    gap: 1rem;
 `
+
 const Button = styled.div`
+    text-decoration: none;
     margin-top: 0.3rem;
     width: 7rem;
     text-align:center;
     padding: 0.6rem;
     color: white;
     background-color: #6415FF;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    &:hover{
+        cursor: pointer;
+    }
+`
+
+const Button2 = styled.div`
+    text-decoration: none;
+    color: black;
+    margin-top: 0.3rem;
+    width: 7rem;
+    text-align:center;
+    padding: 0.6rem;
+    background-color: white;
+    border: 2px solid #6415FF;
     border-radius: 10px;
     font-weight: 600;
     font-size: 18px;
@@ -65,27 +84,30 @@ const Navbar = () => {
         </Title>
         </Logo>
         <Links> 
-        <Link>
+        <Linked>
             About
-        </Link>
-        <Link>
+        </Linked>
+        <Linked>
             Blog
-        </Link>
-        <Link>
+        </Linked>
+        <Linked>
             Pricing
-        </Link>
-        <Link>
+        </Linked>
+        <Linked>
             Contact 
-        </Link>
-        
+        </Linked>
         </Links>
         <Auth>
-            <Link>
-                Login
+            <Link to='/login' style={{ textDecoration: 'none' }}>
+                <Button2>
+                    Login
+                </Button2>
             </Link>
-            <Button>
-                Signup
-            </Button>
+            <Link to='/register' style={{ textDecoration: 'none' }}>
+                <Button>
+                    Signup
+                </Button>
+            </Link>
         </Auth>
     </Container>
   )

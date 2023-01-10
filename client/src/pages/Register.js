@@ -5,10 +5,15 @@ import twitter from '../assets/twitter-svg.svg'
 import data2 from '../assets/data2.svg'
 import { publicRequest } from '../request';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { register, reset } from '../features/authSlice'
+
 const Wrapper = styled.div`
   width: 100%;
   height: 49rem;
   padding: 2rem;
+  background-color: #f0f0f0;
 `
 const Container = styled.div`
   background-color: white;
@@ -132,18 +137,30 @@ const Register = () => {
     username:"",
     email:"",
     password:"",
+    password2:"",
   })
+  const { username,email, password} = data
 
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+  
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]:input.value })
   }
 
-  const handleSubmit = async () => {
-    try {
-        const res = await publicRequest.post("/auth/register/",data);
-      } catch(error) {
-        console.log(error)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+      const userData = {
+        username,
+        email,
+        password
       }
+      dispatch(register(userData))
   };
 
   return (
@@ -152,14 +169,14 @@ const Register = () => {
       <Container>
         <FormContainer>
           <Title>
-            SIGN UP TO JOIN US
+            SIGN UP TO JOIN US !
           </Title>
           <Social>
             <Button> <Icon src={google}/> Sign up With Google </Button>
             <Button> <Icon src={twitter}/> Sign up With Twitter </Button>
           </Social>
           <Subtitle> <Line></Line> <Text> Or your can register with your email </Text> <Line></Line> </Subtitle>
-          <Form  onSubmit={handleSubmit}> 
+          <Form> 
             <Input 
             placeholder="Username" 
             value={data.username} 
@@ -176,7 +193,7 @@ const Register = () => {
             value={data.password} 
             onChange={handleChange}
             name="password" />
-            <Submit type="submit"> 
+            <Submit type="submit" onClick={handleSubmit}> 
               CREATE AN ACCOUNT
             </Submit>
           </Form>

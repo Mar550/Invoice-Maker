@@ -6,6 +6,7 @@ const { restart } = require("nodemon");
 const jwt = require("jsonwebtoken"); 
 const { verify } = require("./verifyToken");
 
+
 //Register
 
 router.post("/register", async (req,res)=>{
@@ -15,13 +16,12 @@ router.post("/register", async (req,res)=>{
         password: CryptoJS.AES
         .encrypt(req.body.password, process.env.PASS_SECRET_KEY)
         .toString()    })
-
     try {
         const savedUser = await newUser.save();
         res.status(201).json(savedUser)
         console.log(savedUser)
     } catch(err){
-       res.status(500).json(err)
+        res.status(500).json(err)
     }
 })
 

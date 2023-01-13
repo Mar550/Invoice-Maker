@@ -40,7 +40,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
         error.toString()
       return thunkAPI.rejectWithValue(message)
     }
-    console.log('Logged in sucess')
+    
   })
   
   // Logout User

@@ -11,51 +11,53 @@ const Input = styled.input`
     background-color: #1e2139;
     border: 1px solid #252945;
     height: 3rem;
-    padding: 0 1.125rem;
+    padding: 0 0.5rem;
     border-radius: 0.25rem;
     color: white;
+    font-size: 15px;
 `
 const Label = styled.label`
-    font-size: 15px;`
-
+    font-size: 15px;
+`
 const Label2 = styled.label`
     font-size: 15px;
-    margin-left: 1rem;`
-
-const Input2 = styled.input`
-    width: 60%;
     margin-left: 1rem;
+`
+const Input2 = styled.input`
+    width: 80%;
     background-color: #1e2139;
     border: 1px solid #252945;
     height: 3rem;
-    padding: 0 1.125rem;
+    padding: 0 0.5rem;
     border-radius: 0.25rem;
     color: white; 
     font-size: 18px;
+    margin-left: 1rem;
+    font-size: 15px;
 `
 const Input3 = styled.input`
 
 `
 const Row2 = styled.div`
-    color: white;
-    display:inline-flex;
-    justify-content: space-between;
+    display:grid;
+    grid-template-columns: repeat(14,1fr) ;
+    gap: 0.5rem;
 `
 const Space = styled.div`
     width: 60%;
     height: 3rem;
     padding: 0.5rem;
     font-size: 20px;
+    left: 0.3rem;
 `
 const Line = styled.br``
 
 const Item = ({ removeItem, data, handleItemChange }) => {
 
-    
     return (
     <>
     <Row2>
-        <Group>
+        <Group style={{gridColumn:"1/7"}}>
             <Label> Item Name </Label>
             <Input
             name="name"
@@ -63,7 +65,7 @@ const Item = ({ removeItem, data, handleItemChange }) => {
             onChange={handleItemChange}         
             />
         </Group>
-        <Group>
+        <Group style={{gridColumn:"7/9"}}>
             <Label2> Qty. </Label2>
             <Input2
             type="number"
@@ -72,7 +74,7 @@ const Item = ({ removeItem, data, handleItemChange }) => {
             onChange={handleItemChange}
             />
         </Group>
-        <Group>
+        <Group  style={{gridColumn:"9/11"}}>
             <Label2> Price </Label2>
             <Input2 
             type="number"
@@ -81,13 +83,12 @@ const Item = ({ removeItem, data, handleItemChange }) => {
             onChange={handleItemChange}
             />
         </Group>
-        <Group>
+        <Group  style={{gridColumn:"11/13"}}>
             <Label> Total </Label>
-            <Space> 0.00 </Space>
+            <Space> {data.items.price && data.items.quantity ? data.items.quantity * data.items.price : ' ' } </Space>
         </Group>
-        <Group >
-            <Line/>
-            <Space> <FaTrashAlt onClick={removeItem} style={{cursor:"pointer"}}/> </Space>
+        <Group style={{gridColumn:"13/14",paddingTop:"1.5rem"}} >
+            <Space > <FaTrashAlt  onClick={removeItem} style={{cursor:"pointer"}}/> </Space>
         </Group>
     </Row2>
     </>

@@ -147,7 +147,7 @@ const InvoicePopup = (props) => {
         date:"",
         term:"",
         description:"",
-        items: {name:"",quantity:"",price:""}
+        items: [{name:"",quantity:"",price:""}]
     })
 
     const [trigger, setTrigger] = useState(false)
@@ -173,7 +173,6 @@ const InvoicePopup = (props) => {
     }
 
     const [itemsToAdd, setItemsToAdd] = useState(1);
-
     const addItem = (e) => {
         e.preventDefault();
         setItemsToAdd(itemsToAdd + 1)
@@ -311,7 +310,7 @@ const InvoicePopup = (props) => {
                 onChange={handleChange}
                 />
             </Group>
-            <Title2> Item List </Title2>
+            <Title2>  Item List </Title2>
             
             {[...Array(itemsToAdd),].map((value, index) => (
                 <Item 
@@ -321,8 +320,7 @@ const InvoicePopup = (props) => {
                 handleItemChange={handleItemChange}
                 removeItem={removeItem}
                 />
-                ))
-            }
+            ))}
 
             <Button onClick={addItem}> + Add New Item </Button>
             <Footer>

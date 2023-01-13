@@ -4,15 +4,14 @@ import google from '../assets/google-svg.svg'
 import twitter from '../assets/twitter-svg.svg'
 import data2 from '../assets/data2.svg'
 import { publicRequest } from '../request';
-
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { register, reset } from '../features/authSlice'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 49rem;
-  padding: 2rem;
+  padding: 3rem;
   background-color: #f0f0f0;
 `
 const Container = styled.div`
@@ -59,7 +58,7 @@ const Input = styled.input`
   color: black;
   border: 1px solid grey;
   border-radius: 5px;
-  width: 65%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   font-size: 15px;
@@ -80,7 +79,7 @@ const Submit = styled.button`
   color: white;
   font-weight: bold;
   background-color: #3c0d99;
-  width: 65%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   height: 3rem;
@@ -108,6 +107,7 @@ const Text = styled.p`
   margin-right:auto;
 `
 const Linked = styled.p`
+  margin-top: 0.5rem;
   color: #2c2a2b;
   font-weight: bold;
   font-size: 16px;
@@ -197,7 +197,7 @@ const Register = () => {
               CREATE AN ACCOUNT
             </Submit>
           </Form>
-          <Linked> Already have an account ? Sign In Here</Linked>
+          <Linked> <Link to="/login" style={{color:"black", textDecoration: "none"}}> Already have an account ? Sign In Here </Link> </Linked>
         </FormContainer>
         <ImgContainer>
           <Image src={data2}/>

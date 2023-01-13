@@ -162,7 +162,7 @@ const Login = () => {
       password
     }
     dispatch(login(userData))
-    window.location.reload()
+    navigate('/invoices')
   }
 
   
@@ -176,7 +176,7 @@ const Login = () => {
             <Button> <Icon src={google}/> Login With Google </Button>
             <Button> <Icon src={twitter}/> Login With Twitter </Button>
           </Social>
-          <Subtitle> <Line></Line> <Span> Or your can login with your email </Span> <Line></Line> </Subtitle>
+          <Subtitle> <Line></Line> <Span> Or your can enter using your credentials </Span> <Line></Line> </Subtitle>
           <Form onSubmit={handleSubmit}> 
             <Input 
             placeholder="Email"

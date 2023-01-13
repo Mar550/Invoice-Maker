@@ -1,7 +1,16 @@
-# Invoice Maker - Beta
+# Invoice Maker 
 
 Invoice Maker is an application allowing the user to manage his business and sales by creating invoices, intended for personal or legal use. The user can change the payment status of an existing invoice, update its informations, or cancel it.
 On top of that, the application contains other sections for budget management, like listing the expenses and incomes, and generating a representative chart of the gross revenue for any period.
+
+## What the website looks like 
+
+<img src="https://i.ibb.co/h1c8zmk/screen1.png" alt="screen1">
+<img src="https://i.ibb.co/dr47v74/screen-2.png" alt="screen-2">
+<img src="https://i.ibb.co/RCjHytd/screen3.png" alt="screen3">
+<img src="https://i.ibb.co/bdd4FCb/screenshot21.png" alt="screenshot21">
+<img src="https://i.ibb.co/HgjJpRY/screenshot-20.png" alt="screenshot-20">
+<img src="https://i.ibb.co/Gcgww32/screenshot22.png" alt="screenshot22">
 
 ## How to run the app
 
@@ -57,8 +66,3 @@ On top of that, the application contains other sections for budget management, l
 - The use can generate a chart with the already existing data of his incomes and expenses.
 - The user can logout from his account.
 
-## What the website looks like 
-
-<img src="https://i.ibb.co/h1c8zmk/screen1.png" alt="screen1">
-<img src="https://i.ibb.co/dr47v74/screen-2.png" alt="screen-2">
-<img src="https://i.ibb.co/RCjHytd/screen3.png" alt="screen3">

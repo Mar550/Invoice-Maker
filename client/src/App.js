@@ -2,10 +2,9 @@ import React, { Component }  from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from './pages/Register';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 import Home from "./pages/Home";
 import Login from './pages/Login';
-import Dashboard from './pages/invoice/Dashboard';
+import Dashboard from './pages/Dashboard';
 import Invoice from './pages/invoice/Invoice';
 import Edit from './pages/invoice/Edit';
 

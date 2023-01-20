@@ -5,6 +5,33 @@ import Img from '../assets/home.svg';
 import google from '../assets/google-svg.svg'
 import twitter from '../assets/twitter-svg.svg'
 
+
+const Home = () => {
+  return (
+    <Wrapper>
+      <Navbar/>
+      <Container>
+        <Left>
+          <Header>
+          <Title2> A simple and practical invoicing appplication <Title3> for you </Title3> </Title2>
+          </Header>
+          <Text> Our application is easy to understand, complete and practical to use. You'll find all the tools you need to handle effectively your invoicing system.</Text>
+          <Started> 
+              <InputStart placeholder="Your E-mail Adress" />
+              <Start> Get Started </Start>
+          </Started>
+          
+        </Left>
+        <Right>
+          <Image src={Img}/>
+        </Right>
+      </Container>
+    </Wrapper>
+  )
+}
+
+// STYLES
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -164,29 +191,6 @@ const Start = styled.button`
   float:right;
 `
 
-const Home = () => {
-  return (
-    <Wrapper>
-      <Navbar/>
-      <Container>
-        <Left>
-          <Header>
-          <Title2> A simple and practical invoicing appplication <Title3> for you </Title3> </Title2>
-          </Header>
-          <Text> Our application is easy to understand, complete and practical to use. You'll find all the tools you need to handle effectively your invoicing system.</Text>
-          <Started> 
-              <InputStart placeholder="Your E-mail Adress" />
-              <Start> Get Started </Start>
-          </Started>
-          
-        </Left>
-        <Right>
-          <Image src={Img}/>
-        </Right>
-      </Container>
-    </Wrapper>
-  )
-}
 
 
 export default Home

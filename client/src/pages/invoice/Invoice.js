@@ -2,182 +2,25 @@ import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { AiFillHome } from 'react-icons/ai';
-import Switch from "react-switch";
-import {MdOutlineNightlightRound} from 'react-icons/md';
-import { MdOutlineArrowBackIosNew } from 'react-icons/md';
-import { FaFileInvoiceDollar } from 'react-icons/fa';
-import Edit from './Edit';
 import Moment from 'moment';
 
+// UI Icons
+import { AiFillHome } from 'react-icons/ai';
+import { MdOutlineArrowBackIosNew } from 'react-icons/md';
+import {MdLightMode} from 'react-icons/md';
+import {MdModeNight} from 'react-icons/md';
 
-// Container
-const Wrapper = styled.div`
-  display:flex;
-  flex-direction: column; 
-  background-color: #141625;
-  width: 100%;
-  height: 65rem;
-  font-size: 0.5rem;
-`
-const Header = styled.div`
-  background-color: #252945; 
-  width: 100%;
-  height: 4.5rem;
-  color: white;
-`
-const Home = styled.div`
-  background-color: #7c5dfa;
-  padding-left: 1rem;
-  padding-top: 0.5rem;
-  font-size: 35px;
-  width: 4.3rem;
-  height: 4.5rem;
-  float: left;
-  border-radius: 5px;
-  cursor: pointer;
-`
-const Mode = styled.div`
-  color: white;
-  border:none;
-  float:right;
-  font-size: 28px;
-  cursor:pointer;
-  margin-right: 5%;
-  margin-top: 1rem;
-`
-const Container = styled.div`
-  margin-top: 1rem;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #1e2139; 
-  padding: 2rem;
-  border-radius: 0.5rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  color: white;
-`
-
-const Text = styled.p`
-  color: white;
-  font-size: 15px;
-`
-
-const Text2 = styled.p`
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
-`
-
-const Status = styled.div`
-    font-size: 1.2rem;
-    line-height: .9375rem;
-    letter-spacing: -.25px;
-    display: flex;
-    align-items: center;
-    height: 2.5rem;
-    min-width: 6.5rem;
-    justify-content: center;
-    font-weight: 700;
-    border-radius: 6px;
-    background: #1F2C3F;
-    margin-top: -0.6rem;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    -webkit-box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
-    box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
-    cursor: pointer;
-    -webkit-transition: .3s ease;
-    transition: .3s ease;
-    border: 1px solid transparent;
-    color: #33d69f;
-`
-
-const Li = styled.li`
-  color: #33d69f;
-  font-size: 1rem;
-`
-const Action = styled.button`
-    width: 6rem;
-    height: 3rem;
-    padding: 0 1.5rem;
-    border-radius: 1.5rem;
-    border: none;
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
-    white-space: nowrap;
-    font-size: .9rem;
-    line-height: .9375rem;
-    letter-spacing: -.25px;
-    font-weight: 700;
-    color: white;
-`
-const Id = styled.p`
-  font-weight: bold;
-  display: inline-flex;
-  font-size: 1.2rem;
-`
-
-const Span = styled.span`
-  color:#6b52d6;
-`
-
-const Group = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-    width: 10rem;
-`
-const Label = styled.label`
-    font-size: 14px;
-`
-const Title = styled.h3`
-    font-weight:bold;
-    font-size: 1.3rem;
-    margin-top: 4rem;
-`
-const Container2 = styled.div`
-  margin-top: 1rem;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #1e2139; 
-  padding: 2rem;
-  border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: white;
-`
-
-const Container3 = styled.div`
-  margin-top: 2rem;
-  background-color:#252945;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  border-radius: 0.5rem 0.5rem 0 0;
-`
-
-const Container4 = styled.div`
-  background-color: #0c0e16;
-  padding: 1.5rem 1.5rem;
-  border-radius: 0 0 0.5rem 0.5rem;
-`
-
-const Row = styled.div`
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
+// Components
+import Edit from './Edit';
+import Paid from '../../components/status/Paid';
+import Pending from '../../components/status/Pending';
+import Draft from '../../components/status/Draft';
 
 const Invoice = () => {
 
   const [invoice, setInvoice] = useState([])
   const [items, setItems] = useState([])
-
+  const [lightMode, setLightMode] = useState(true);
 
   const getInvoice = async () => {
     axios.get(`http://localhost:5000/api/invoice/find/` + id)
@@ -224,95 +67,179 @@ const Invoice = () => {
 
   return (
     <>
-    <Wrapper>
+    { lightMode ? 
+    <WrapperDark>
     <Header>
       <Home>
         <AiFillHome/>
       </Home>
-      <Mode>      
-        <div style={{display:"inline-flex", gap:"1rem"}}>
-          <div style={{marginTop:"0.5rem"}}>
-          <Switch className="switch-btn" />
-          </div> 
-          <label> <MdOutlineNightlightRound/> </label>
-        </div>
-      </Mode>
+      <ModeDark onClick={() => setLightMode(!lightMode)} >      
+           <MdLightMode />
+      </ModeDark>
     </Header>
     <div onClick={backHome} style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
-      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <Label style={{cursor:"pointer"}} > Go Back </Label> 
+      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer"}} > Go Back </LabelDark> 
     </div>
-    <Container>
+    <ContainerDark>
     
       <div style={{display:"inline-flex",gap:"2rem",marginTop:"0.6rem"}}>  
-        <Text2 style={{marginTop:"0.3rem"}}> Status </Text2>
+        <Dark style={{marginTop:"0.3rem"}}> Status </Dark>
         <Status> <Li>Paid</Li> </Status>
       </div>
       <div style={{display:"inline-flex",gap:"1rem"}}> 
         <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
         <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
       </div>
-    </Container>
-    <Container2>
+    </ContainerDark>
+    <Container2Dark>
       <div>
         <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
             <div>
             <Id> <Span>#</Span> {id.slice(0,8).toUpperCase()} </Id>
-            <Text> Re-branding </Text>
+            <Dark> Re-branding </Dark>
             </div>
             <div style={{width:"7rem"}}>
-            <Text > {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Text>
+            <Dark> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Dark>
             </div>
         </div>
     <div style={{display:"inline-flex", gap:"20%"}}> 
     <div style={{display:"flex", flexDirection:"column"}}>
       <Group>
-        <Label> Invoice Date </Label>
-        <Text2> {formatDate(invoice.date)}</Text2>
+        <LabelDark> Invoice Date </LabelDark>
+        <Text2Dark> {formatDate(invoice.date)}</Text2Dark>
       </Group>
       <Group>
-        <Label> Payment Due </Label>
-        <Text2> {formatDate(invoice.term)}</Text2>
+        <LabelDark> Payment Due </LabelDark>
+        <Text2Dark> {formatDate(invoice.term)}</Text2Dark>
       </Group>
     </div>
     <Group>
-      <Label> Bill To </Label>
-      <Text2> {invoice.client_name} </Text2>
-      <Text style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Text>
+      <LabelDark> Bill To </LabelDark>
+      <Text2Dark> {invoice.client_name} </Text2Dark>
+      <Dark style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Dark>
     </Group>
     
     <Group>
-      <Label> Sent To </Label>
-      <Text2> {invoice.client_email} </Text2>
+      <LabelDark> Sent To </LabelDark>
+      <Text2Dark> {invoice.client_email} </Text2Dark>
     </Group>
     </div>
     </div>
-    <Container3>
+    <Container3Dark>
       <Row>
-        <Text> Item Name </Text>
-        <Text> QTY. </Text>
-        <Text> Price </Text>
-        <Text> Total </Text>
+        <Dark> Item Name </Dark>
+        <Dark> QTY. </Dark>
+        <Dark> Price </Dark>
+        <Dark> Total </Dark>
       </Row>
       {items.map(item => (
         <Row style={{fontWeight:"bold"}}>
-          <Text> {item.name}</Text>
-          <Text> {item.quantity} </Text>
-          <Text> {item.price} $ </Text>
-          <Text> $ {item.quantity*item.price} </Text>
+          <Dark> {item.name}</Dark>
+          <Dark> {item.quantity} </Dark>
+          <Dark> {item.price} $ </Dark>
+          <Dark> $ {item.quantity*item.price} </Dark>
         </Row>
         //toFixed(2)
       ))}
-    </Container3>
-    <Container4>
+    </Container3Dark>
+    <Container4Dark>
       <Row>
-        <Text2> Amount Due </Text2>
-        <Text style={{fontSize:"1.4rem",fontWeight:"bold"}}> $ {dueAmount(items)} </Text>
+        <Text2Dark> Amount Due </Text2Dark>
+        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> $ {dueAmount(items)} </Dark>
       </Row>
 
-    </Container4>
+    </Container4Dark>
 
-    </Container2>
-    </Wrapper>
+    </Container2Dark>
+    </WrapperDark> 
+    
+    :
+
+    <WrapperLight>
+    <Header>
+      <Home>
+        <AiFillHome/>
+      </Home>
+      <ModeLight onClick={() => setLightMode(!lightMode)} >      
+           <MdModeNight />
+      </ModeLight>
+    </Header>
+    <div onClick={backHome} style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer"}} > Go Back </LabelLight> 
+    </div>
+    <ContainerLight>
+      <div style={{display:"inline-flex",gap:"2rem",marginTop:"0.6rem"}}>  
+        <Light style={{marginTop:"0.3rem"}}> Status </Light>
+        <StatusLight> <Li>Paid</Li> </StatusLight>
+      </div>
+      <div style={{display:"inline-flex",gap:"1rem"}}> 
+        <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+        <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+      </div>
+    </ContainerLight>
+    <Container2Light>
+      <div>
+        <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+            <div>
+            <Id> <Span>#</Span> {id.slice(0,8).toUpperCase()} </Id>
+            <Light> Re-branding </Light>
+            </div>
+            <div style={{width:"7rem"}}>
+            <Light> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Light>
+            </div>
+        </div>
+    <div style={{display:"inline-flex", gap:"20%"}}> 
+    <div style={{display:"flex", flexDirection:"column"}}>
+      <Group>
+        <LabelLight> Invoice Date </LabelLight>
+        <Text2Light> {formatDate(invoice.date)}</Text2Light>
+      </Group>
+      <Group>
+        <LabelLight> Payment Due </LabelLight>
+        <Text2Light> {formatDate(invoice.term)}</Text2Light>
+      </Group>
+    </div>
+    <Group>
+      <LabelLight> Bill To </LabelLight>
+      <Text2Light> {invoice.client_name} </Text2Light>
+      <Light style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Light>
+    </Group>
+    
+    <Group>
+      <LabelLight> Sent To </LabelLight>
+      <Text2Light> {invoice.client_email} </Text2Light>
+    </Group>
+    </div>
+    </div>
+    <Container3Light>
+      <Row>
+        <Light> Item Name </Light>
+        <Light> QTY. </Light>
+        <Light> Price </Light>
+        <Light> Total </Light>
+      </Row>
+      {items.map(item => (
+        <Row style={{fontWeight:"bold"}}>
+          <Light> {item.name}</Light>
+          <Light> {item.quantity} </Light>
+          <Light> {item.price} $ </Light>
+          <Light> $ {item.quantity*item.price} </Light>
+        </Row>
+        //toFixed(2)
+      ))}
+    </Container3Light>
+    <Container4Light>
+      <Row>
+        <Text2Dark> Amount Due </Text2Dark>
+        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> $ {dueAmount(items)} </Dark>
+      </Row>
+
+    </Container4Light>
+
+    </Container2Light>
+    </WrapperLight>
+    }
+    
     <Edit 
       trigger={buttonEdit} 
       setTrigger={setButtonEdit} 
@@ -320,5 +247,271 @@ const Invoice = () => {
     </>
   )
 }
+
+// STYLES
+
+// Container
+
+const WrapperDark = styled.div`
+  display:flex;
+  flex-direction: column; 
+  background: #141625;
+  width: 100%;
+  height: 65rem;
+  font-size: 0.5rem;
+`
+const WrapperLight = styled.div`
+  display:flex;
+  flex-direction: column; 
+  background-color: #f8f8fb;
+  width: 100%;
+  height: 65rem;
+  font-size: 0.5rem;
+`
+const Header = styled.div`
+  background-color: #252945; 
+  width: 100%;
+  height: 4.5rem;
+  color: white;
+`
+const Home = styled.div`
+  background-color: #7c5dfa;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  font-size: 35px;
+  width: 4.3rem;
+  height: 4.5rem;
+  float: left;
+  border-radius: 5px;
+  cursor: pointer;
+`
+const ModeDark = styled.div`
+  color: white;
+  border:none;
+  float:right;
+  font-size: 25px;
+  margin-right: 10%;
+  margin-top: 0.7rem;
+  color:white;
+  opacity: 0.6;
+  &:hover{
+    cursor: pointer;
+    opacity: 1;
+  }
+`
+
+const ModeLight = styled.div`
+  border:none;
+  float:right;
+  font-size: 25px;
+  margin-right: 10%;
+  margin-top: 0.7rem;
+  color:white;
+  opacity: 0.6;
+  &:hover{
+    cursor: pointer;
+    opacity: 1;
+  }
+`
+
+const ContainerDark = styled.div`
+  margin-top: 1rem;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #1e2139; 
+  padding: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+`
+
+const ContainerLight = styled.div`
+  margin-top: 1rem;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white; 
+  padding: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: black;
+  box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+`
+
+const Dark = styled.p`
+  color: white;
+  font-size: 15px;
+`
+
+const Light = styled.p`
+  color: grey;
+  font-size: 15px;
+`
+
+const Text2Dark = styled.p`
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+`
+
+const Text2Light = styled.p`
+  color: black;
+  font-size: 17px;
+  font-weight: bold;
+`
+
+const Status = styled.div`
+    font-size: 1.2rem;
+    letter-spacing: -.25px;
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    min-width: 6.5rem;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 6px;
+    background: #1F2C3F;
+    margin-top: -0.6rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+    cursor: pointer;
+    color: #33d69f;
+`
+
+const StatusLight = styled.div`
+    font-size: 1.2rem;
+    letter-spacing: -.25px;
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    min-width: 6.5rem;
+    justify-content: center;
+    background-color: rgba(51,214,159,.0571);
+    font-weight: 700;
+    border-radius: 6px;
+    margin-top: -0.6rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+    cursor: pointer;
+    color: #33d69f;
+`
+const Li = styled.li`
+  color: #33d69f;
+  font-size: 1rem;
+`
+const Action = styled.button`
+    width: 6rem;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 1.5rem;
+    border: none;
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    white-space: nowrap;
+    font-size: .9rem;
+    line-height: .9375rem;
+    letter-spacing: -.25px;
+    font-weight: 700;
+    color: white;
+`
+const Id = styled.p`
+  font-weight: bold;
+  display: inline-flex;
+  font-size: 1.2rem;
+`
+const Span = styled.span`
+  color:#6b52d6;
+`
+const Group = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    width: 10rem;
+`
+const LabelDark = styled.label`
+    font-size: 14px;
+    color: white;
+`
+const LabelLight = styled.label`
+    font-size: 14px;
+    color:black;
+`
+
+
+const Container2Dark = styled.div`
+  margin-top: 1rem;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #1e2139; 
+  padding: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+`
+
+const Container2Light = styled.div`
+  margin-top: 1rem;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white; 
+  padding: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: black;
+  box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
+`
+
+const Container3Dark = styled.div`
+  margin-top: 2rem;
+  background-color:#252945;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+`
+
+const Container3Light = styled.div`
+  margin-top: 2rem;
+  background-color:#f9fafe;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  color: black;
+`
+
+const Container4Dark = styled.div`
+  background-color: #0c0e16;
+  padding: 1.5rem 1.5rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+`
+
+const Container4Light = styled.div`
+  background-color: #0c0e16;
+  padding: 1.5rem 1.5rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  color: white;
+`
+
+const Row = styled.div`
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
 
 export default Invoice;

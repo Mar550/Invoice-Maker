@@ -8,6 +8,87 @@ import axios from "axios";
 import { login, reset } from '../features/authSlice';
 
 
+const Login = () => {
+
+  const [data, setData] = useState({
+    email:"",
+    password:"",
+  })
+
+  const { email, password } = data
+
+  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+  
+  useEffect(() => {
+    if (isError) {
+      alert(message)
+    }
+
+    if (isSuccess || user) {
+      navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]:input.value })
+  }
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const userData = {
+      email,
+      password
+    }
+    dispatch(login(userData))
+    navigate('/invoices')
+  }
+
+  
+  return (
+    <Container>
+    <FormContainer>
+          <Title>
+            LOGIN NOW
+          </Title>
+          <Social>
+            <Button> <Icon src={google}/> Login With Google </Button>
+            <Button> <Icon src={twitter}/> Login With Twitter </Button>
+          </Social>
+          <Subtitle> <Line></Line> <Span> Or your can enter using your credentials </Span> <Line></Line> </Subtitle>
+          <Form onSubmit={handleSubmit}> 
+            <Input 
+            placeholder="Email"
+            name="email"
+            value={data.email} 
+            onChange={handleChange} />            
+            <Input 
+            placeholder="Password"
+            type="password"
+            value={data.password}
+            name="password"
+            onChange={handleChange}/>
+            <Submit type="submit"> 
+              SUBMIT
+            </Submit>
+          </Form>
+          <Linked> Still not registered ? Sign Up Here</Linked>
+      </FormContainer>
+   
+    </Container>
+  )
+}
+
+// STYLES
+
 const Container = styled.div `
   background-color: #f0f0f0;
   width: 100%;
@@ -121,83 +202,4 @@ margin-left: auto;
 margin-right:auto;
 `
 
-const Login = () => {
-
-  const [data, setData] = useState({
-    email:"",
-    password:"",
-  })
-
-  const { email, password } = data
-
-  
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  )
-  
-  useEffect(() => {
-    if (isError) {
-      alert(message)
-    }
-
-    if (isSuccess || user) {
-      navigate('/')
-    }
-
-    dispatch(reset())
-  }, [user, isError, isSuccess, message, navigate, dispatch])
-
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]:input.value })
-  }
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const userData = {
-      email,
-      password
-    }
-    dispatch(login(userData))
-    navigate('/invoices')
-  }
-
-  
-  return (
-    <Container>
-    <FormContainer>
-          <Title>
-            LOGIN NOW
-          </Title>
-          <Social>
-            <Button> <Icon src={google}/> Login With Google </Button>
-            <Button> <Icon src={twitter}/> Login With Twitter </Button>
-          </Social>
-          <Subtitle> <Line></Line> <Span> Or your can enter using your credentials </Span> <Line></Line> </Subtitle>
-          <Form onSubmit={handleSubmit}> 
-            <Input 
-            placeholder="Email"
-            name="email"
-            value={data.email} 
-            onChange={handleChange} />            
-            <Input 
-            placeholder="Password"
-            type="password"
-            value={data.password}
-            name="password"
-            onChange={handleChange}/>
-            <Submit type="submit"> 
-              SUBMIT
-            </Submit>
-          </Form>
-          <Linked> Still not registered ? Sign Up Here</Linked>
-      </FormContainer>
-   
-    </Container>
-  )
-}
-
-export default Login
+export default Login;

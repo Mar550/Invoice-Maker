@@ -4,8 +4,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userController = require("./controllers/user");
 const authController = require("./controllers/auth");
-const expenseController = require("./controllers/expense");
-const incomeController = require("./controllers/income");
 const invoiceController = require("./controllers/invoice");
 const jwt = require("jsonwebtoken");
 
@@ -30,8 +28,6 @@ app.use(express.json());
 //Routes
 app.use("/api/auth", authController);
 app.use("/api/user", userController);
-app.use("/api/expense", expenseController);
-app.use("/api/income", incomeController);
 app.use("/api/invoice", invoiceController);
 
 

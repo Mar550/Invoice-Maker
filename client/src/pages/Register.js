@@ -7,7 +7,87 @@ import { publicRequest } from '../request';
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { register, reset } from '../features/authSlice'
+import { register, reset } from '../features/authSlice';
+
+
+const Register = () => {
+
+  const [data, setData] = useState({
+    username:"",
+    email:"",
+    password:"",
+    password2:"",
+  })
+  const { username,email, password} = data
+
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+  
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]:input.value })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+      const userData = {
+        username,
+        email,
+        password
+      }
+      dispatch(register(userData))
+  };
+
+  return (
+    <>
+    <Wrapper>
+      <Container>
+        <FormContainer>
+          <Title>
+            SIGN UP TO JOIN US !
+          </Title>
+          <Social>
+            <Button> <Icon src={google}/> Sign up With Google </Button>
+            <Button> <Icon src={twitter}/> Sign up With Twitter </Button>
+          </Social>
+          <Subtitle> <Line></Line> <Text> Or your can register with your email </Text> <Line></Line> </Subtitle>
+          <Form> 
+            <Input 
+            placeholder="Username" 
+            value={data.username} 
+            onChange={handleChange}
+            name="username" />            
+            <Input 
+            placeholder="Email"
+            value={data.email} 
+            onChange={handleChange}
+            name="email" />            
+            <Input 
+            placeholder="Password"
+            type="password"
+            value={data.password} 
+            onChange={handleChange}
+            name="password" />
+            <Submit type="submit" onClick={handleSubmit}> 
+              CREATE AN ACCOUNT
+            </Submit>
+          </Form>
+          <Linked> <Link to="/login" style={{color:"black", textDecoration: "none"}}> Already have an account ? Sign In Here </Link> </Linked>
+        </FormContainer>
+        <ImgContainer>
+          <Image src={data2}/>
+        </ImgContainer>
+      </Container>
+    </Wrapper>
+  </>
+  )
+}
+
+// STYLES
 
 const Wrapper = styled.div`
   width: 100%;
@@ -131,81 +211,5 @@ margin-top: 12px;
 height:1px;
 width: 20%;
 `
-const Register = () => {
-
-  const [data, setData] = useState({
-    username:"",
-    email:"",
-    password:"",
-    password2:"",
-  })
-  const { username,email, password} = data
-
-  const navigate = useNavigate()
-
-  const dispatch = useDispatch()
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  )
-  
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]:input.value })
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-      const userData = {
-        username,
-        email,
-        password
-      }
-      dispatch(register(userData))
-  };
-
-  return (
-    <>
-    <Wrapper>
-      <Container>
-        <FormContainer>
-          <Title>
-            SIGN UP TO JOIN US !
-          </Title>
-          <Social>
-            <Button> <Icon src={google}/> Sign up With Google </Button>
-            <Button> <Icon src={twitter}/> Sign up With Twitter </Button>
-          </Social>
-          <Subtitle> <Line></Line> <Text> Or your can register with your email </Text> <Line></Line> </Subtitle>
-          <Form> 
-            <Input 
-            placeholder="Username" 
-            value={data.username} 
-            onChange={handleChange}
-            name="username" />            
-            <Input 
-            placeholder="Email"
-            value={data.email} 
-            onChange={handleChange}
-            name="email" />            
-            <Input 
-            placeholder="Password"
-            type="password"
-            value={data.password} 
-            onChange={handleChange}
-            name="password" />
-            <Submit type="submit" onClick={handleSubmit}> 
-              CREATE AN ACCOUNT
-            </Submit>
-          </Form>
-          <Linked> <Link to="/login" style={{color:"black", textDecoration: "none"}}> Already have an account ? Sign In Here </Link> </Linked>
-        </FormContainer>
-        <ImgContainer>
-          <Image src={data2}/>
-        </ImgContainer>
-      </Container>
-    </Wrapper>
-  </>
-  )
-}
 
 export default Register

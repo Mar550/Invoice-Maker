@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import logo from '../assets/B.png';
+import logo from '../../assets/B.png';
 import { Link } from 'react-router-dom';
+
 const Container = styled.div`
     display:flex;
     gap: 26%;

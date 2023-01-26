@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/navbar/Navbar';
 import Img from '../assets/home.svg';
 import google from '../assets/google-svg.svg'
 import twitter from '../assets/twitter-svg.svg'

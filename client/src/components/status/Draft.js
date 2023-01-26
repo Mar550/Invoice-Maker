@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const Draft = ({mode}) => {
   
-  console.log(mode)
   return (
     <>
     { mode ?

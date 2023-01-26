@@ -11,16 +11,18 @@ import { AiFillHome } from 'react-icons/ai';
 import {MdLightMode} from 'react-icons/md';
 
 // Components
+import Header from '../components/navbar/Header';
 import InvoicePopup from './invoice/InvoicePopup';
 import Paid from '../components/status/Paid';
 import Pending from '../components/status/Pending';
 import Draft from '../components/status/Draft';
 
+
 const Dashboard = (props) => {
   
   const [invoiceList, setInvoiceList] = useState([])
   const [buttonPopup, setButtonPopup] = useState(false);
-  const [lightMode, setLightMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(true);
 
   const getInvoices = async () => {
     axios.get(`http://localhost:5000/api/invoice/all`).then(res => {
@@ -41,22 +43,14 @@ const Dashboard = (props) => {
   useEffect(() => {
     getInvoices()
   },[])
-  console.log(invoiceList)
 
 
   return (
     <>
-    { lightMode ? 
+    { darkMode ? 
+    <div>
     <Container>
-    <Header>
-      <Home>
-        <AiFillHome/>
-      </Home>
-      <ModeDark onClick={() => setLightMode(!lightMode)} >      
-           <MdLightMode />
-      </ModeDark>
-    </Header>
-    
+    <Header mode={darkMode} setMode={setDarkMode} />
     <ContainerDark >
       <Head>
         <div>
@@ -65,11 +59,11 @@ const Dashboard = (props) => {
         </div>
         <Actions>
         <FilterDark>
-          <div class="dropdown show" >
-            <a class="btn dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div className="dropdown show" >
+            <a className="btn dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Filter by status
             </a>
-            <div class="dropdown-menu" >
+            <div className="dropdown-menu" >
               <div> <input type="checkbox"/> <label> Draft </label> </div>
               <div> <input type="checkbox"/> <label> Pending </label> </div>
               <div> <input type="checkbox"/> <label> Paid </label> </div> 
@@ -94,7 +88,7 @@ const Dashboard = (props) => {
           {
             invoice.status == "Paid" ? <Paid/>
             : invoice.status == "Pending" ? <Pending/>
-            :  <Draft mode={lightMode} />
+            :  <Draft mode={darkMode} />
           }
           <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
           </div>
@@ -106,19 +100,18 @@ const Dashboard = (props) => {
       </ContainerDark>
 
     </Container>
+
+    <InvoicePopup 
+    trigger={buttonPopup} 
+    setTrigger={setButtonPopup} 
+    mode={darkMode}
+    /> 
+    </div>
     :
+    <div>
     <Container>
-    <Header>
-      <Home>
-        <AiFillHome/>
-      </Home>
-      <ModeLight>      
-        <div style={{display:"inline-flex", gap:"1rem"}}>
-          <label> <MdLightMode onClick={() => setLightMode(!lightMode)}/> </label>
-        </div>
-      </ModeLight>
-    </Header>
     
+    <Header mode={darkMode} setMode={setDarkMode} />
     <ContainerLight >
       <Head>
         <div>
@@ -131,7 +124,7 @@ const Dashboard = (props) => {
             <a class="btn dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Filter by status
             </a>
-            <div class="dropdown-menu" >
+            <div class="dropdown-menu">
               <div> <input type="checkbox"/> <label> Draft </label> </div>
               <div> <input type="checkbox"/> <label> Pending </label> </div>
               <div> <input type="checkbox"/> <label> Paid </label> </div> 
@@ -157,7 +150,7 @@ const Dashboard = (props) => {
             {
               invoice.status == "Paid" ? <Paid/>
               : invoice.status == "Pending" ? <Pending/>
-              :  <Draft mode={lightMode} />
+              :  <Draft mode={darkMode} />
             } 
           <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
           </div>
@@ -168,12 +161,13 @@ const Dashboard = (props) => {
       </Invoices>
       </ContainerLight>
 
-    </Container>
-    } 
+    </Container>  
       <InvoicePopup 
       trigger={buttonPopup} 
       setTrigger={setButtonPopup} 
-      /> 
+      mode={darkMode}/> 
+      </div>
+          }
     </>
   )
 }
@@ -189,53 +183,6 @@ const Container = styled.div`
   height: 45rem;
 
 `
-const Header = styled.div`
-  background-color: #252945; 
-  width: 100%;
-  height: 4.5rem;
-  color: white;
-`
-const Home = styled.div`
-  background-color: #7c5dfa;
-  padding-left: 1rem;
-  padding-top: 0.5rem;
-  font-size: 35px;
-  width: 4.3rem;
-  height: 4.5rem;
-  float: left;
-  border-radius: 5px;
-  cursor: pointer;
-
-`
-const ModeDark = styled.div`
-  color: white;
-  border:none;
-  float:right;
-  font-size: 28px;
-  margin-right: 8%;
-  margin-top: 0.9rem;
-  color: #62688d;
-  &:hover{
-    cursor: pointer;
-    font-size: 32px;
-    margin-top: 0.7rem;
-  }
-`
-const ModeLight = styled.div`
-  color: white;
-  border:none;
-  float:right;
-  font-size: 28px;
-  margin-right: 8%;
-  margin-top: 0.9rem;
-  color: white;
-  &:hover{
-    cursor: pointer;
-    font-size: 32px;
-    margin-top: 0.7rem;
-  }
-`
-
 const ContainerDark = styled.div`
   display: flex;
   flex-direction: column;
@@ -319,14 +266,7 @@ const Span = styled.span`
 const Span2 = styled.span`
 color: white;
 `
-const Li = styled.li`
-  color: #33d69f;
-  font-size: 1rem;
-`
-const Li2 = styled.li`
-  color: #ff8f00;
-  font-size: 1rem;
-`
+
 // INVOICE
 const InvoiceDark = styled.div`
   padding: 1rem;
@@ -401,29 +341,7 @@ const Invoices = styled.div `
   flex-direction: column;
   gap: 1.2rem;
 `
-const PendingD = styled.div`
-  font-size: 1.2rem;
-    line-height: .9375rem;
-    letter-spacing: -.25px;
-    display: flex;
-    align-items: center;
-    height: 2.5rem;
-    min-width: 6.7rem;
-    justify-content: center;
-    font-weight: 700;
-    border-radius: 6px;
-    background: rgba(255,143,0,.0571);
-    margin-top: -0.6rem;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    -webkit-box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
-    box-shadow: 0 10px 10px -10px rgb(72 84 159 / 10%);
-    cursor: pointer;
-    -webkit-transition: .3s ease;
-    transition: .3s ease;
-    border: 1px solid transparent;
-    color: #33d69f;
-`
+
 // header #252945
 // container #141625
 // invoice #1E2139

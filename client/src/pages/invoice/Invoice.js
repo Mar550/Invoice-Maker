@@ -11,16 +11,18 @@ import {MdLightMode} from 'react-icons/md';
 import {MdModeNight} from 'react-icons/md';
 
 // Components
+import Header from '../../components/navbar/Header';
 import Edit from './Edit';
 import Paid from '../../components/status/Paid';
 import Pending from '../../components/status/Pending';
 import Draft from '../../components/status/Draft';
 
-const Invoice = () => {
+
+const Invoice = (props) => {
 
   const [invoice, setInvoice] = useState([])
   const [items, setItems] = useState([])
-  const [lightMode, setLightMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(true);
 
   const getInvoice = async () => {
     axios.get(`http://localhost:5000/api/invoice/find/` + id)
@@ -28,7 +30,6 @@ const Invoice = () => {
     const result = res.data;
     setInvoice(result);
     setItems(result.items);
-
     })
   };
 
@@ -46,6 +47,28 @@ const Invoice = () => {
     .then(navigate("/invoices"))
     .catch(error => console.log(error))
   }
+
+  function editStatus(){
+    setInvoice((invoice) => {
+      return({
+        ...invoice,
+        status:'Paid'
+      });
+    })
+  }
+  
+  function updateStatus() {
+    axios.put('http://localhost:5000/api/invoice/update/'+id, invoice)
+    .then(response => console.log(response.data))
+    .catch(error => console.log(error))
+  }
+
+  const paidInvoice =  () => {   
+    editStatus();
+    updateStatus();
+  }
+
+
 
   function backHome() {
     navigate("/invoices");
@@ -65,30 +88,28 @@ const Invoice = () => {
     return Moment(new Date(myDate)).format("DD MMM YYYY");
   }
 
+
   return (
     <>
-    { lightMode ? 
+    { darkMode ? 
     <WrapperDark>
-    <Header>
-      <Home>
-        <AiFillHome/>
-      </Home>
-      <ModeDark onClick={() => setLightMode(!lightMode)} >      
-           <MdLightMode />
-      </ModeDark>
-    </Header>
+    <Header mode={darkMode} setMode={setDarkMode}/>
     <div onClick={backHome} style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
       <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer"}} > Go Back </LabelDark> 
     </div>
     <ContainerDark>
-    
       <div style={{display:"inline-flex",gap:"2rem",marginTop:"0.6rem"}}>  
         <Dark style={{marginTop:"0.3rem"}}> Status </Dark>
-        <Status> <Li>Paid</Li> </Status>
+          {
+            invoice.status == "Paid" ? <Paid/>
+            : invoice.status == "Pending" ? <Pending/>
+            :  <Draft mode={darkMode} />
+          } 
       </div>
       <div style={{display:"inline-flex",gap:"1rem"}}> 
         <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
         <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+        <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
       </div>
     </ContainerDark>
     <Container2Dark>
@@ -106,11 +127,11 @@ const Invoice = () => {
     <div style={{display:"flex", flexDirection:"column"}}>
       <Group>
         <LabelDark> Invoice Date </LabelDark>
-        <Text2Dark> {formatDate(invoice.date)}</Text2Dark>
+        <Text2Dark> {formatDate(invoice.date)} </Text2Dark>
       </Group>
       <Group>
         <LabelDark> Payment Due </LabelDark>
-        <Text2Dark> {formatDate(invoice.term)}</Text2Dark>
+        <Text2Dark> {formatDate(invoice.term)} </Text2Dark>
       </Group>
     </div>
     <Group>
@@ -152,29 +173,25 @@ const Invoice = () => {
 
     </Container2Dark>
     </WrapperDark> 
-    
     :
-
     <WrapperLight>
-    <Header>
-      <Home>
-        <AiFillHome/>
-      </Home>
-      <ModeLight onClick={() => setLightMode(!lightMode)} >      
-           <MdModeNight />
-      </ModeLight>
-    </Header>
+    <Header mode={darkMode} setMode={setDarkMode}/>
     <div onClick={backHome} style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
       <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer"}} > Go Back </LabelLight> 
     </div>
     <ContainerLight>
       <div style={{display:"inline-flex",gap:"2rem",marginTop:"0.6rem"}}>  
         <Light style={{marginTop:"0.3rem"}}> Status </Light>
-        <StatusLight> <Li>Paid</Li> </StatusLight>
+        {
+            invoice.status == "Paid" ? <Paid/>
+            : invoice.status == "Pending" ? <Pending/>
+            :  <Draft mode={darkMode} />
+          }
       </div>
       <div style={{display:"inline-flex",gap:"1rem"}}> 
-        <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+        <Action onClick={()=>setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
         <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+        <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
       </div>
     </ContainerLight>
     <Container2Light>
@@ -268,51 +285,7 @@ const WrapperLight = styled.div`
   height: 65rem;
   font-size: 0.5rem;
 `
-const Header = styled.div`
-  background-color: #252945; 
-  width: 100%;
-  height: 4.5rem;
-  color: white;
-`
-const Home = styled.div`
-  background-color: #7c5dfa;
-  padding-left: 1rem;
-  padding-top: 0.5rem;
-  font-size: 35px;
-  width: 4.3rem;
-  height: 4.5rem;
-  float: left;
-  border-radius: 5px;
-  cursor: pointer;
-`
-const ModeDark = styled.div`
-  color: white;
-  border:none;
-  float:right;
-  font-size: 25px;
-  margin-right: 10%;
-  margin-top: 0.7rem;
-  color:white;
-  opacity: 0.6;
-  &:hover{
-    cursor: pointer;
-    opacity: 1;
-  }
-`
 
-const ModeLight = styled.div`
-  border:none;
-  float:right;
-  font-size: 25px;
-  margin-right: 10%;
-  margin-top: 0.7rem;
-  color:white;
-  opacity: 0.6;
-  &:hover{
-    cursor: pointer;
-    opacity: 1;
-  }
-`
 
 const ContainerDark = styled.div`
   margin-top: 1rem;

@@ -29,6 +29,22 @@ router.put("/update/:id", async(req,res) => {
     }
 })
 
+//UPDATE STATUS
+router.put("/status/:id", async(req,res) => {
+    try{
+        const updatedStatus  = await Invoice.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: req.body.status,
+            },
+            { new: true }
+        );
+        res.status(200).json(updatedStatus);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
 //EDIT
 router.get("/edit/:id", async (req, res) => {
     try {

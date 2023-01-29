@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Dropdown from 'react-bootstrap/Dropdown';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import { ThemeContext } from '../App';
 
 // UI Icons
 import {BsFillPlusCircleFill} from 'react-icons/bs'
@@ -11,18 +12,18 @@ import { AiFillHome } from 'react-icons/ai';
 import {MdLightMode} from 'react-icons/md';
 
 // Components
-import Header from '../components/navbar/Header';
+import Header from '../components/navigation/Header';
 import InvoicePopup from './invoice/InvoicePopup';
 import Paid from '../components/status/Paid';
 import Pending from '../components/status/Pending';
 import Draft from '../components/status/Draft';
 
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   
   const [invoiceList, setInvoiceList] = useState([])
   const [buttonPopup, setButtonPopup] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
+  const { darkMode } = useContext(ThemeContext)
 
   const getInvoices = async () => {
     axios.get(`http://localhost:5000/api/invoice/all`).then(res => {
@@ -38,11 +39,20 @@ const Dashboard = (props) => {
       sum += array[i].price*array[i].quantity;
     }
     return sum.toLocaleString('en-US',{'minimumFractionDigits':2,'maximumFractionDigits':2});
-  }
+  }   
 
   useEffect(() => {
     getInvoices()
   },[])
+
+  // Filter Invoices
+  const [filtered, setFiltered] = useState([]);
+  const handleFilter = (e) => {
+    const name = e.target.name
+    const result = invoiceList.filter(invoice => invoice.status == name)
+    setFiltered(result)
+  }
+  console.log(filtered)
 
 
   return (
@@ -50,7 +60,7 @@ const Dashboard = (props) => {
     { darkMode ? 
     <div>
     <Container>
-    <Header mode={darkMode} setMode={setDarkMode} />
+    <Header />
     <ContainerDark >
       <Head>
         <div>
@@ -64,9 +74,9 @@ const Dashboard = (props) => {
               Filter by status
             </a>
             <div className="dropdown-menu" >
-              <div> <input type="checkbox"/> <label> Draft </label> </div>
-              <div> <input type="checkbox"/> <label> Pending </label> </div>
-              <div> <input type="checkbox"/> <label> Paid </label> </div> 
+              <div> <input type="checkbox" name="Draft" onChange={handleFilter} /> <label> Draft </label> </div>
+              <div> <input type="checkbox" name="Pending" onChange={handleFilter} /> <label> Pending </label> </div>
+              <div> <input type="checkbox" name="Paid" onChange={handleFilter} /> <label> Paid </label> </div> 
             </div>
           </div>
         </FilterDark>
@@ -77,7 +87,7 @@ const Dashboard = (props) => {
       </Head>
       <Invoices>
       {invoiceList.map(invoice => (
-      <InvoiceDark> 
+      <InvoiceDark key={invoice._id}> 
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentDark>
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
@@ -88,7 +98,7 @@ const Dashboard = (props) => {
           {
             invoice.status == "Paid" ? <Paid/>
             : invoice.status == "Pending" ? <Pending/>
-            :  <Draft mode={darkMode} />
+            : <Draft mode={darkMode} />
           }
           <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
           </div>
@@ -104,14 +114,14 @@ const Dashboard = (props) => {
     <InvoicePopup 
     trigger={buttonPopup} 
     setTrigger={setButtonPopup} 
-    mode={darkMode}
+    
     /> 
     </div>
     :
     <div>
     <Container>
     
-    <Header mode={darkMode} setMode={setDarkMode} />
+    <Header/>
     <ContainerLight >
       <Head>
         <div>
@@ -139,7 +149,7 @@ const Dashboard = (props) => {
       <Invoices>
 
       {invoiceList.map(invoice => (
-      <InvoiceLight> 
+      <InvoiceLight key={invoice._id}> 
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentLight>
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
@@ -165,7 +175,7 @@ const Dashboard = (props) => {
       <InvoicePopup 
       trigger={buttonPopup} 
       setTrigger={setButtonPopup} 
-      mode={darkMode}/> 
+      /> 
       </div>
           }
     </>
@@ -214,7 +224,6 @@ const Head = styled.div`
   margin-left: auto;
   margin-right: auto;
 `
-
 // General
 const TitleDark = styled.h1`
   font-weight: 600;

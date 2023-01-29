@@ -1,8 +1,10 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Moment from 'moment';
+import { Link } from 'react-router-dom';
+import { ThemeContext } from '../../App';
 
 // UI Icons
 import { AiFillHome } from 'react-icons/ai';
@@ -11,7 +13,7 @@ import {MdLightMode} from 'react-icons/md';
 import {MdModeNight} from 'react-icons/md';
 
 // Components
-import Header from '../../components/navbar/Header';
+import Header from '../../components/navigation/Header';
 import Edit from './Edit';
 import Paid from '../../components/status/Paid';
 import Pending from '../../components/status/Pending';
@@ -22,7 +24,7 @@ const Invoice = (props) => {
 
   const [invoice, setInvoice] = useState([])
   const [items, setItems] = useState([])
-  const [darkMode, setDarkMode] = useState(true);
+  const { darkMode } = useContext(ThemeContext)
 
   const getInvoice = async () => {
     axios.get(`http://localhost:5000/api/invoice/find/` + id)
@@ -48,30 +50,27 @@ const Invoice = (props) => {
     .catch(error => console.log(error))
   }
 
-  function editStatus(){
-    setInvoice((invoice) => {
-      return({
-        ...invoice,
-        status:'Paid'
-      });
-    })
-  }
-  
   function updateStatus() {
     axios.put('http://localhost:5000/api/invoice/update/'+id, invoice)
     .then(response => console.log(response.data))
     .catch(error => console.log(error))
   }
 
-  const paidInvoice =  () => {   
-    editStatus();
-    updateStatus();
+  const editStatus = () => {
+    setInvoice((invoice) => {
+      return({
+        ...invoice,
+        status:'Paid'
+      });
+    });
   }
 
+  useEffect(() => {
+      updateStatus(); // This function will be executed when `invoice` state changes
+  }, [invoice]);
 
-
-  function backHome() {
-    navigate("/invoices");
+  const paidInvoice =  () => {   
+    editStatus();
   }
 
   // Function Amount Due
@@ -88,15 +87,14 @@ const Invoice = (props) => {
     return Moment(new Date(myDate)).format("DD MMM YYYY");
   }
 
-
   return (
     <>
     { darkMode ? 
     <WrapperDark>
-    <Header mode={darkMode} setMode={setDarkMode}/>
-    <div onClick={backHome} style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+    <Header/>
+    <Link to="/invoices" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
       <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer"}} > Go Back </LabelDark> 
-    </div>
+    </Link>
     <ContainerDark>
       <div style={{display:"inline-flex",gap:"2rem",marginTop:"0.6rem"}}>  
         <Dark style={{marginTop:"0.3rem"}}> Status </Dark>
@@ -139,7 +137,6 @@ const Invoice = (props) => {
       <Text2Dark> {invoice.client_name} </Text2Dark>
       <Dark style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Dark>
     </Group>
-    
     <Group>
       <LabelDark> Sent To </LabelDark>
       <Text2Dark> {invoice.client_email} </Text2Dark>
@@ -170,15 +167,14 @@ const Invoice = (props) => {
       </Row>
 
     </Container4Dark>
-
     </Container2Dark>
     </WrapperDark> 
     :
     <WrapperLight>
-    <Header mode={darkMode} setMode={setDarkMode}/>
-    <div onClick={backHome} style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+    <Header/>
+    <Link to="/invoices" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
       <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer"}} > Go Back </LabelLight> 
-    </div>
+    </Link>
     <ContainerLight>
       <div style={{display:"inline-flex",gap:"2rem",marginTop:"0.6rem"}}>  
         <Light style={{marginTop:"0.3rem"}}> Status </Light>
@@ -221,7 +217,6 @@ const Invoice = (props) => {
       <Text2Light> {invoice.client_name} </Text2Light>
       <Light style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Light>
     </Group>
-    
     <Group>
       <LabelLight> Sent To </LabelLight>
       <Text2Light> {invoice.client_email} </Text2Light>

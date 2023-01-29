@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import styled from 'styled-components';
 import {FaTrashAlt} from 'react-icons/fa';
 import Label from './fields/Label';
+import { ThemeContext } from '../App';
 
-const Item = ({ mode, removeItem, data, handleItemChange }) => {
 
-    console.log(mode)
+const Item = ({ removeItem, data, handleItemChange }) => {
+
+    const { darkMode } = useContext(ThemeContext)
+
     return (
     <>
     {
-        mode ?
+        darkMode ?
         <Row>
         <Group style={{gridColumn:"1/7"}}>
         <Label title="Item Name"/> 

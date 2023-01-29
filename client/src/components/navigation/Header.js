@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
+import { ThemeContext } from '../../App';
 
 // UI Icons
 import {MdLightMode} from 'react-icons/md';
@@ -7,9 +8,13 @@ import {MdModeNight} from 'react-icons/md';
 import { AiFillHome } from 'react-icons/ai';
 
 
-const Header = ({mode, setMode}) => {
+const Header = (props) => {
 
-  const [darkMode, setDarkMode] = useState(true);
+  const { darkMode, setDarkMode } = useContext(ThemeContext)
+
+  const handleThemeChange = () => {
+    setDarkMode(!darkMode)
+  }
 
   return (
     <>
@@ -17,12 +22,12 @@ const Header = ({mode, setMode}) => {
             <Home>
                 <AiFillHome/>
             </Home>
-            { mode ? 
-            <ModeDark onClick={() => setMode(!mode)} >      
+            { darkMode ? 
+            <ModeDark onClick={() => handleThemeChange()} >      
                 <MdLightMode />
             </ModeDark>
             :
-            <ModeLight onClick={() => setMode(!mode)} >      
+            <ModeLight onClick={() => handleThemeChange()} >      
                 <MdModeNight />
             </ModeLight>
             }

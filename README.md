@@ -26,8 +26,7 @@ On top of that, the application contains other sections for budget management, l
 
 - Front-End:
     React JS
-    Chart JS
-    Bootstrap 
+    Redux    
 
 - Back-End:
     Node JS,
@@ -36,19 +35,16 @@ On top of that, the application contains other sections for budget management, l
 
 ## Prerequisites
 
-- NodeJS V16
+- Node v16
 - MongoDB account
 
 ## Dependencies
 
-- Bootstrap
-- React Bootstrap
-- React-chart-JS
+- Axios
 - React Router Dom
 - Styled Components
 - React Icons
-- React-switch
-- JsonWebToken
+- Redux Toolkit
 - Mongoose
 - Nodemon
 

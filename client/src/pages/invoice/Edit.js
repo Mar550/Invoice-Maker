@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {FaTrashAlt} from 'react-icons/fa';
@@ -6,8 +6,12 @@ import axios from 'axios';
 import Item from '../../components/Item';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 import Label from '../../components/fields/Label';
+import { ThemeContext } from '../../App';
+
 
 const Edit = (props) => {
+
+    const { darkMode } = useContext(ThemeContext)
 
     // Handle Location Id
     const location = useLocation();
@@ -30,6 +34,8 @@ const Edit = (props) => {
         description:"",
         items: {name:"",quantity:"",price:""}
     })
+
+    // Get Invoice with ID
     const getInvoice = async () => {
         axios.get(`http://localhost:5000/api/invoice/edit/` + id)
         .then(res => {
@@ -95,7 +101,7 @@ const Edit = (props) => {
 
     return (props.trigger) ? (
         <> 
-        { props.mode ? 
+        { darkMode ? 
     <Wrapper >
     <Container>
         <div onClick={closePopup} style={{marginTop:"-1rem", cursor:"pointer"}}>
@@ -105,7 +111,7 @@ const Edit = (props) => {
         <Subtitle> Bill From </Subtitle>
         <form> 
         <Group>
-            <Label> Street Adress </Label>
+        <Label title="Street Address"/> 
             <Input
             name="address"
             value={data.address}  
@@ -114,7 +120,7 @@ const Edit = (props) => {
         </Group>
         <Row>
             <Group>
-                <Label> Country </Label>
+                <Label title="Country"/> 
                 <Input 
                 name="country"
                 defaultValue={data.country}  
@@ -122,7 +128,7 @@ const Edit = (props) => {
                 />
             </Group>
             <Group>
-                <Label> City </Label>
+                <Label title="City"/> 
                 <Input
                 name="city"
                 value={data.city}  
@@ -131,7 +137,7 @@ const Edit = (props) => {
             </Group>
         </Row>
         <Group>
-            <Label> Post Code </Label>
+            <Label title="Post Code"/>
             <Input
             name="postcode"
             value={data.postcode}  
@@ -141,7 +147,7 @@ const Edit = (props) => {
         <Line/>
         <Subtitle> Bill To </Subtitle>
         <Group style={{marginTop:"2rem"}}>
-            <Label> Client's Name </Label>
+            <Label title="Client's Name"/>
             <Input
             name="client_name"
             value={data.client_name}  
@@ -149,7 +155,7 @@ const Edit = (props) => {
             />
         </Group>
         <Group>
-            <Label> Client's Email </Label>
+            <Label title="Client's Email"/>
             <Input
             name="client_email"
             value={data.client_email}  
@@ -157,7 +163,7 @@ const Edit = (props) => {
             />
         </Group>
         <Group>
-            <Label> Street Address </Label>
+            <Label title="Street Address"/>
             <Input
             name="client_address"
             value={data.client_address}  
@@ -166,7 +172,7 @@ const Edit = (props) => {
         </Group>
         <Row>
             <Group>
-                <Label> Country </Label>
+                <Label title="Country"/>
                 <Input
                 name="client_country"
                 value={data.client_country}  
@@ -174,7 +180,7 @@ const Edit = (props) => {
                 />
             </Group>
             <Group>
-                <Label> City </Label>
+                <Label title="City"/>
                 <Input
                 name="client_city"
                 value={data.client_city}  
@@ -183,7 +189,7 @@ const Edit = (props) => {
             </Group>
         </Row>
         <Group>
-            <Label> Post Code </Label>
+            <Label title="Post Code"/>
             <Input
             name="client_code"
             value={data.client_code}  
@@ -191,7 +197,7 @@ const Edit = (props) => {
             />
         </Group>
         <Group>
-           <Label> Invoice Date </Label>
+            <Label title="Invoice Date"/>
             <Date 
             type="date"
             name="date"
@@ -200,7 +206,7 @@ const Edit = (props) => {
             />
         </Group> 
         <Group>
-           <Label> Payment Terms </Label>
+            <Label title="Payment Term"/>
             <Date 
             type="date"
             name="term"
@@ -209,14 +215,14 @@ const Edit = (props) => {
             />
         </Group>
         <Group>
-            <Label> Description </Label>
+            <Label title="Description"/>
             <Input 
             name="description"
             value={data.description}  
             onChange={handleChange}
             />
         </Group>
-        <Title2> Item List </Title2>
+        <Title2> Item Listz</Title2>
         
         {[...Array(itemsToAdd),].map((value, index) => (
             <Item 
@@ -248,7 +254,7 @@ const Edit = (props) => {
                 <Subtitle> Bill From </Subtitle>
                 <form> 
                 <Group>
-                    <Label> Street Adress </Label>
+                    <Label title="Street Address"/>
                     <InputLight
                     name="address"
                     value={data.address}  
@@ -257,7 +263,7 @@ const Edit = (props) => {
                 </Group>
                 <Row>
                     <Group>
-                        <Label> Country </Label>
+                        <Label title="Country"/>
                         <InputLight 
                         name="country"
                         defaultValue={data.country}  
@@ -265,7 +271,7 @@ const Edit = (props) => {
                         />
                     </Group>
                     <Group>
-                        <Label> City </Label>
+                        <Label title="City"/>
                         <InputLight
                         name="city"
                         value={data.city}  
@@ -274,7 +280,7 @@ const Edit = (props) => {
                     </Group>
                 </Row>
                 <Group>
-                    <Label> Post Code </Label>
+                    <Label title="Post Code"/>
                     <InputLight
                     name="postcode"
                     value={data.postcode}  
@@ -284,7 +290,7 @@ const Edit = (props) => {
                 <Line/>
                 <Subtitle> Bill To </Subtitle>
                 <Group style={{marginTop:"2rem"}}>
-                    <Label> Client's Name </Label>
+                    <Label title="Client's Name"/>
                     <InputLight
                     name="client_name"
                     value={data.client_name}  
@@ -292,7 +298,7 @@ const Edit = (props) => {
                     />
                 </Group>
                 <Group>
-                    <Label> Client's Email </Label>
+                    <Label title="Client's Email"/>
                     <InputLight
                     name="client_email"
                     value={data.client_email}  
@@ -300,7 +306,7 @@ const Edit = (props) => {
                     />
                 </Group>
                 <Group>
-                    <Label> Street Address </Label>
+                    <Label title="Street Address"/>
                     <InputLight
                     name="client_address"
                     value={data.client_address}  
@@ -309,7 +315,7 @@ const Edit = (props) => {
                 </Group>
                 <Row>
                     <Group>
-                        <Label> Country </Label>
+                        <Label title="Country"/>
                         <InputLight
                         name="client_country"
                         value={data.client_country}  
@@ -317,7 +323,7 @@ const Edit = (props) => {
                         />
                     </Group>
                     <Group>
-                        <Label> City </Label>
+                        <Label title="City"/>
                         <InputLight
                         name="client_city"
                         value={data.client_city}  
@@ -326,7 +332,7 @@ const Edit = (props) => {
                     </Group>
                 </Row>
                 <Group>
-                    <Label> Post Code </Label>
+                    <Label title="Post Code"/>
                     <InputLight
                     name="client_code"
                     value={data.client_code}  
@@ -334,7 +340,7 @@ const Edit = (props) => {
                     />
                 </Group>
                 <Group>
-                   <Label> Invoice Date </Label>
+                    <Label title="Invoice Date"/>
                     <InputLight 
                     type="date"
                     name="date"
@@ -343,7 +349,7 @@ const Edit = (props) => {
                     />
                 </Group> 
                 <Group>
-                   <Label> Payment Terms </Label>
+                    <Label title="Payment Term"/>
                     <InputLight 
                     type="date"
                     name="term"
@@ -352,7 +358,7 @@ const Edit = (props) => {
                     />
                 </Group>
                 <Group>
-                    <Label> Description </Label>
+                    <Label title="Description"/>
                     <InputLight 
                     name="description"
                     value={data.description}  
@@ -445,6 +451,9 @@ const InputLight = styled.input`
     padding: 0 1.125rem;
     border-radius: 0.25rem;
     color: black;
+    :focus {
+    border: 2px solid black;
+    }
 `
 
 const Close = styled.div`

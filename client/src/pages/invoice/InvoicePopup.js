@@ -1,13 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
-import {FaTrashAlt} from 'react-icons/fa';
 import axios from 'axios';
+import { ThemeContext } from '../../App';
+
 import Item from '../../components/Item';
-import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 import Label from '../../components/fields/Label';
+
+import {FaTrashAlt} from 'react-icons/fa';
+import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 
 
 const InvoicePopup = (props) => {
+
+    const { darkMode } = useContext(ThemeContext)
 
     const [data, setData] = useState({
         address: "",
@@ -39,11 +44,9 @@ const InvoicePopup = (props) => {
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }
-
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]:input.value })
     }
-    
     const handleItemChange = ({ currentTarget: input }) => {
         setData({ 
             ...data,
@@ -53,7 +56,6 @@ const InvoicePopup = (props) => {
             }
         });    
     }
-
     const createDraft = () => {
         setData((data) => {
             return({
@@ -66,27 +68,24 @@ const InvoicePopup = (props) => {
         .catch(error => console.log(error))
     }
 
-      
     const [itemsToAdd, setItemsToAdd] = useState(1);
 
     const addItem = (e) => {
         e.preventDefault();
         setItemsToAdd(itemsToAdd + 1)
     }
-
     const removeItem = () => {
         if ( itemsToAdd > 1) {
             setItemsToAdd(itemsToAdd - 1)
         } 
     }
-    
     const closePopup = () => {
         props.setTrigger(false);
     }
 
     return (props.trigger) ? (
         <>
-        { props.mode ? 
+        { darkMode ? 
         <Wrapper >
         <Container>
             <Close onClick={closePopup}>
@@ -216,7 +215,6 @@ const InvoicePopup = (props) => {
                 data={data}
                 handleItemChange={handleItemChange}
                 removeItem={removeItem}
-                mode={props.mode}
                 />
             ))}
 
@@ -359,7 +357,6 @@ const InvoicePopup = (props) => {
                 data={data}
                 handleItemChange={handleItemChange}
                 removeItem={removeItem}
-                mode={props.mode}
                 />
             ))}
 

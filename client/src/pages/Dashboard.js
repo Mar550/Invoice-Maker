@@ -53,7 +53,8 @@ const Dashboard = () => {
     setFiltered(result)
   }
   console.log(filtered)
-
+ // isChecked = true -> load filtered
+ // isChecked = false -> load invoices 
 
   return (
     <>

@@ -27,6 +27,7 @@ function App() {
             <Route path="/invoice/:id" element={<Invoice />} />
             <Route path="/edit/:id" element={<Edit />} />
             <Route path="/error" element={<Error />} />
+            <Route path="*" element={<Error />} />
           </Routes>
         </BrowserRouter>
       </div>

@@ -60,7 +60,6 @@ const Dashboard = () => {
     <>
     { darkMode ? 
     <div>
-    <Container>
     <Header />
     <ContainerDark >
       <Head>
@@ -110,7 +109,6 @@ const Dashboard = () => {
       </Invoices>
       </ContainerDark>
 
-    </Container>
 
     <InvoicePopup 
     trigger={buttonPopup} 
@@ -120,7 +118,6 @@ const Dashboard = () => {
     </div>
     :
     <div>
-    <Container>
     
     <Header/>
     <ContainerLight >
@@ -171,8 +168,6 @@ const Dashboard = () => {
       ))}
       </Invoices>
       </ContainerLight>
-
-    </Container>  
       <InvoicePopup 
       trigger={buttonPopup} 
       setTrigger={setButtonPopup} 
@@ -199,16 +194,18 @@ const ContainerDark = styled.div`
   flex-direction: column;
   padding: 2rem;
   width: 100%;
+  min-height: 45rem;
   color: white; 
   background-color: #141625; 
   margin-left: auto;
   margin-right: auto;
-  
 `
+
 const ContainerLight = styled.div`
     display: flex;
     flex-direction: column;
     padding: 2rem;
+    min-height: 45rem;
     width: 100%;
     color: black; 
     background-color: #f8f8fb; 

@@ -18,6 +18,13 @@ const Edit = (props) => {
     const id = location.pathname.split("/")[2];
 
     // Handle Form Data
+    const [itemsList, setItemsList] = useState([{        
+        id: crypto.randomUUID(),
+        name: "",
+        quantity: "",
+        price: ""
+    }]);
+
     const [data, setData] = useState({
         address: "",
         country: "",
@@ -32,7 +39,7 @@ const Edit = (props) => {
         date:"",
         term:"",
         description:"",
-        items: {name:"",quantity:"",price:""}
+        items: itemsList
     })
 
     // Get Invoice with ID
@@ -71,25 +78,40 @@ const Edit = (props) => {
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]:input.value })
     }
-    const handleItemChange = ({ currentTarget: input }) => {
-        setData({ 
-            ...data,
-            items: {
-                ...data.items,
-                [input.name]:input.value
-            }
-        });    
+    const handleChangeItemsList = (e, index) => {
+        const {name, value} = e.target;
+        const list = [...itemsList]
+        list[index][name] = value;
+        setItemsList(list)
+        setData({...data, items: list})
     }
 
     // Handle Items in Form
     const [itemsToAdd, setItemsToAdd] = useState(1);
+    
     const addItem = (e) => {
         e.preventDefault();
         setItemsToAdd(itemsToAdd + 1)
+        setItemsList([...itemsList, {
+            id: crypto.randomUUID(),
+            name: "",
+            quantity: "",
+            price: ""
+        }]) 
+        setData({...data, items: [...itemsList,{
+            id: crypto.randomUUID(),
+            name: "",
+            quantity: "",
+            price: ""
+        } ]})
     }
-    const removeItem = () => {
+
+    const removeItem = (id) => {
         if ( itemsToAdd > 1) {
             setItemsToAdd(itemsToAdd - 1)
+            const filteredItemList = itemsList.filter( element => element.id != id)
+            setItemsList(filteredItemList)
+            setData({...data, items: filteredItemList})
         } 
     }
 
@@ -224,16 +246,46 @@ const Edit = (props) => {
         </Group>
         <Title2> Item Listz</Title2>
         
-        {[...Array(itemsToAdd),].map((value, index) => (
-            <Item 
-            id={index} 
-            key={index} 
-            data={data}
-            handleItemChange={handleItemChange}
-            removeItem={removeItem}
-            />
-            ))
-        }
+        {
+                itemsList.length > 0 ?
+                itemsList.map((ite,index) => {
+                    return (
+                        <RowItem key={ite.id}>
+                        <GroupItem style={{gridColumn:"1/7"}}>
+                        <Label title="Item Name"/> 
+                            <InputItem
+                            id={ite.id}
+                            name="name"
+                            onChange = {(e) => handleChangeItemsList(e,index)}                              
+                            />
+                        </GroupItem>
+                        <GroupItem style={{gridColumn:"7/9"}}>
+                        <Label title="Qty." style={{marginLeft:"1rem"}} /> 
+                            <InputItem2
+                            type="number"
+                            name="quantity"
+                            onChange = {(e) => handleChangeItemsList(e,index)}                              
+                            />
+                        </GroupItem>
+                        <GroupItem  style={{gridColumn:"9/11"}}>
+                        <Label title="Price" style={{marginLeft:"1rem"}} /> 
+                            <InputItem2
+                            type="number"
+                            name="price"
+                            onChange = {(e) => handleChangeItemsList(e,index)}                                />
+                        </GroupItem>
+                        <GroupItem  style={{gridColumn:"11/13"}}>
+                        <Label title="Total"/> 
+                            <Space> {ite.price && ite.quantity ? ite.quantity * ite.price : '0.00' } </Space>
+                        </GroupItem>
+                        <GroupItem style={{gridColumn:"13/14",paddingTop:"1.5rem"}} >
+                            <Space > <FaTrashAlt  onClick={() => removeItem(ite.id)} style={{cursor:"pointer"}}/> </Space>
+                        </GroupItem>
+                </RowItem>
+                )
+            })
+            : null
+            }
 
         <Button onClick={addItem}> + Add New Item </Button>
         <Footer>
@@ -367,16 +419,46 @@ const Edit = (props) => {
                 </Group>
                 <Title2Light> Item List </Title2Light>
                 
-                {[...Array(itemsToAdd),].map((value, index) => (
-                    <Item 
-                    id={index} 
-                    key={index} 
-                    data={data}
-                    handleItemChange={handleItemChange}
-                    removeItem={removeItem}
-                    />
-                    ))
-                }
+                {
+                itemsList.length > 0 ?
+                itemsList.map((ite,index) => {
+                    return (
+                        <RowItem key={ite.id}>
+                        <GroupItem style={{gridColumn:"1/7"}}>
+                        <Label title="Item Name"/> 
+                            <InputItemLight
+                            id={ite.id}
+                            name="name"
+                            onChange = {(e) => handleChangeItemsList(e,index)}                              
+                            />
+                        </GroupItem>
+                        <GroupItem style={{gridColumn:"7/9"}}>
+                        <Label title="Qty." style={{marginLeft:"1rem"}} /> 
+                            <InputItemLight2
+                            type="number"
+                            name="quantity"
+                            onChange = {(e) => handleChangeItemsList(e,index)}                              
+                            />
+                        </GroupItem>
+                        <GroupItem  style={{gridColumn:"9/11"}}>
+                        <Label title="Price" style={{marginLeft:"1rem"}} /> 
+                            <InputItemLight2
+                            type="number"
+                            name="price"
+                            onChange = {(e) => handleChangeItemsList(e,index)}                                />
+                        </GroupItem>
+                        <GroupItem  style={{gridColumn:"11/13"}}>
+                        <Label title="Total"/> 
+                            <SpaceLight> {ite.price && ite.quantity ? ite.quantity * ite.price : '0.00' } </SpaceLight>
+                        </GroupItem>
+                        <GroupItem style={{gridColumn:"13/14",paddingTop:"1.5rem"}} >
+                            <SpaceLight > <FaTrashAlt  onClick={() => removeItem(ite.id)} style={{cursor:"pointer"}}/> </SpaceLight>
+                        </GroupItem>
+                </RowItem>
+                )
+            })
+            : null
+            }
     
                 <ButtonLight onClick={addItem}> + Add New Item </ButtonLight>
                 <Footer>
@@ -561,5 +643,77 @@ const Footer = styled.div`
     justify-content: space-around;
     gap: 2%;
 `
+
+const GroupItem = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+const InputItem = styled.input`
+    width: 100%;
+    background-color: #1e2139;
+    border: 1px solid #252945; 
+    height: 3rem;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+    color: white; 
+    font-size: 14px;
+`
+const InputItem2 = styled.input`
+    width: 80%;
+    background-color: #1e2139;
+    border: 1px solid #252945;
+    height: 3rem;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+    color: white; 
+    margin-left: 0.4rem;
+    font-size: 14px;
+`
+
+
+const RowItem = styled.div`
+    display:grid;
+    grid-template-columns: repeat(14,1fr) ;
+    gap: 0.5rem;
+`
+const Space = styled.div`
+    width: 60%;
+    height: 3rem;
+    padding: 0.5rem;
+    font-size: 20px;
+`
+const InputItemLight = styled.input`
+    width: 100%;
+    background-color: white;
+    border: 1px solid #dfe3fa; 
+    height: 3rem;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+    color: black;
+    font-size: 14px;
+`
+const InputItemLight2 = styled.input`
+    width: 80%;
+    background-color: white;
+    border: 1px solid #dfe3fa;
+    height: 3rem;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+    color: black; 
+    margin-left: 1rem;
+    font-size: 14px;
+`
+const SpaceLight = styled.div`
+    width: 80%;
+    height: 3rem;
+    border: 1px solid #dfe3fa; 
+    font-size: 15px;
+    left: 0.3rem;
+    color:#7c5dfa;
+    border-radius: 0.25rem;
+    padding: 0.65rem;
+    margin-left: 1rem;
+`
+
 
 export default Edit;

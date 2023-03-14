@@ -1,11 +1,13 @@
 import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../../App';
-
+import { Route } from 'react-router';
+import { Link } from 'react-router-dom';
 // UI Icons
 import {MdLightMode} from 'react-icons/md';
 import {MdModeNight} from 'react-icons/md';
 import { AiFillHome } from 'react-icons/ai';
+import { nodeModuleNameResolver } from 'typescript';
 
 
 const Header = (props) => {
@@ -20,7 +22,9 @@ const Header = (props) => {
     <>
         <Container>
             <Home>
+              <Link style={{textDecoration:"none", color:"white", backgroundColor: "#7c5dfa"}} to="/invoices">
                 <AiFillHome/>
+              </Link>
             </Home>
             { darkMode ? 
             <ModeDark onClick={() => handleThemeChange()} >      

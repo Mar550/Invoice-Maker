@@ -151,7 +151,7 @@ const Invoice = (props) => {
         <Dark> Total </Dark>
       </Row>
       {items.map(item => (
-        <Row style={{fontWeight:"bold"}}>
+        <Row style={{fontWeight:"bold"}} key={item.id}>
           <Dark> {item.name}</Dark>
           <Dark> {item.quantity} </Dark>
           <Dark> {item.price} $ </Dark>

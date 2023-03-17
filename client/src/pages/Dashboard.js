@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components';
-import Dropdown from 'react-bootstrap/Dropdown';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import { ThemeContext } from '../App';
@@ -8,8 +7,6 @@ import { ThemeContext } from '../App';
 // UI Icons
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import {BsChevronRight} from 'react-icons/bs';
-import { AiFillHome } from 'react-icons/ai';
-import {MdLightMode} from 'react-icons/md';
 
 // Components
 import Header from '../components/navigation/Header';
@@ -17,11 +14,12 @@ import InvoicePopup from './invoice/InvoicePopup';
 import Paid from '../components/status/Paid';
 import Pending from '../components/status/Pending';
 import Draft from '../components/status/Draft';
-
+import CheckboxList from '../components/checkbox/CheckboxInput';
 
 const Dashboard = () => {
   
   const [invoiceList, setInvoiceList] = useState([])
+  const [checked, setChecked] = useState([])
   const [buttonPopup, setButtonPopup] = useState(false);
   const { darkMode } = useContext(ThemeContext)
 
@@ -32,7 +30,6 @@ const Dashboard = () => {
     });
   }
 
-  // Amount Due
   function dueAmount(array){
     let sum = 0
     for (let i = 0; i < array.length; i++) {
@@ -45,17 +42,7 @@ const Dashboard = () => {
     getInvoices()
   },[])
 
-  // Filter Invoices
-  const [filtered, setFiltered] = useState([]);
-  const handleFilter = (e) => {
-    const name = e.target.name
-    const result = invoiceList.filter(invoice => invoice.status == name)
-    setFiltered(result)
-  }
-  console.log(filtered)
- // isChecked = true -> load filtered
- // isChecked = false -> load invoices 
-
+   
   return (
     <>
     { darkMode ? 
@@ -65,7 +52,7 @@ const Dashboard = () => {
       <Head>
         <div>
           <TitleDark > Invoices </TitleDark>
-          <TextDark  > There are 8 total invoices </TextDark>
+          <TextDark  > There are {invoiceList.length} total invoices </TextDark>
         </div>
         <Actions>
         <FilterDark>
@@ -74,9 +61,11 @@ const Dashboard = () => {
               Filter by status
             </a>
             <div className="dropdown-menu" >
-              <div> <input type="checkbox" name="Draft" onChange={handleFilter} /> <label> Draft </label> </div>
-              <div> <input type="checkbox" name="Pending" onChange={handleFilter} /> <label> Pending </label> </div>
-              <div> <input type="checkbox" name="Paid" onChange={handleFilter} /> <label> Paid </label> </div> 
+              <CheckboxList 
+                invoiceList = {invoiceList}
+                checked = {checked}
+                setChecked = {setChecked}
+                />
             </div>
           </div>
         </FilterDark>
@@ -85,9 +74,12 @@ const Dashboard = () => {
           </Button>
         </Actions>
       </Head>
-      <Invoices>
-      {invoiceList.map(invoice => (
-      <InvoiceDark key={invoice._id}> 
+
+      <Invoices> 
+      { checked.length > 0 ?
+      
+      checked.map((invoice, index) => (
+      <InvoiceDark key={index}> 
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentDark>
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
@@ -105,15 +97,35 @@ const Dashboard = () => {
         </ContentDark>
         </Link>
       </InvoiceDark>
-        ))}
+      ))
+      :
+      invoiceList.map((invoice, index) => (
+        <InvoiceDark key={index}> 
+          <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
+          <ContentDark>
+            <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
+            <TextDark> Due {Date(invoice.term).toString().slice(4,15)} </TextDark>
+            <TextDark> {invoice.client_name} </TextDark>
+              <Number> € {dueAmount(invoice.items)} </Number>
+            <div style={{ display:"flex", flexDirection:"row", gap:"1.5rem"}}>
+            {
+              invoice.status == "Paid" ? <Paid/>
+              : invoice.status == "Pending" ? <Pending/>
+              : <Draft mode={darkMode} />
+            }
+            <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
+            </div>
+          </ContentDark>
+          </Link>
+        </InvoiceDark>
+      )) 
+      }
       </Invoices>
-      </ContainerDark>
-
+    </ContainerDark>
 
     <InvoicePopup 
     trigger={buttonPopup} 
-    setTrigger={setButtonPopup} 
-    
+    setTrigger={setButtonPopup}   
     /> 
     </div>
     :
@@ -124,7 +136,7 @@ const Dashboard = () => {
       <Head>
         <div>
           <TitleLight > Invoices </TitleLight>
-          <TextLight  > There are 8 total invoices </TextLight>
+          <TextLight  > There are {invoiceList.length} total invoices </TextLight>
         </div>
         <Actions>
         <FilterLight>
@@ -133,9 +145,11 @@ const Dashboard = () => {
               Filter by status
             </a>
             <div class="dropdown-menu">
-              <div> <input type="checkbox"/> <label> Draft </label> </div>
-              <div> <input type="checkbox"/> <label> Pending </label> </div>
-              <div> <input type="checkbox"/> <label> Paid </label> </div> 
+              <CheckboxList 
+                invoiceList = {invoiceList}
+                checked = {checked}
+                setChecked = {setChecked}
+                />
             </div>
           </div>
         </FilterLight>
@@ -145,8 +159,10 @@ const Dashboard = () => {
         </Actions>
       </Head>
       <Invoices>
+      {
+        checked.length > 1 ?
 
-      {invoiceList.map(invoice => (
+      checked.map(invoice => (
       <InvoiceLight key={invoice._id}> 
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentLight>
@@ -165,7 +181,29 @@ const Dashboard = () => {
         </ContentLight>
         </Link>
       </InvoiceLight>
-      ))}
+      ))  
+    :
+      invoiceList.map(invoice => (
+      <InvoiceLight key={invoice._id}> 
+        <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
+        <ContentLight>
+          <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
+          <TextLight> Due {Date(invoice.term).toString().slice(4,15)} </TextLight>
+          <TextLight> {invoice.client_name} </TextLight>     
+            <Number> € {dueAmount(invoice.items)} </Number>
+          <div style={{ display:"inline-flex", gap:"1.4rem"}}>
+            {
+              invoice.status == "Paid" ? <Paid/>
+              : invoice.status == "Pending" ? <Pending/>
+              :  <Draft mode={darkMode} />
+            } 
+          <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
+          </div>
+        </ContentLight>
+        </Link>
+      </InvoiceLight>
+      ))
+      }
       </Invoices>
       </ContainerLight>
       <InvoicePopup 
@@ -223,6 +261,8 @@ const Head = styled.div`
   margin-right: auto;
 `
 // General
+
+
 const TitleDark = styled.h1`
   font-weight: 600;
   color: white;
@@ -347,15 +387,8 @@ const Invoices = styled.div `
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  margin-top: 1rem;
 `
-
-// header #252945
-// container #141625
-// invoice #1E2139
-// button #9277ff
-// diese #758573
-// green #33d69f
-// orange #ff8f00
 
 const FilterDark = styled.div`
   background-color: #141625 !important;

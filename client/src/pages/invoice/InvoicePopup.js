@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { ThemeContext } from '../../App';
 
-import Item from '../../components/Item';
 import Label from '../../components/fields/Label';
 import { v4 as uuidv4} from "uuid";
 
@@ -36,7 +35,7 @@ const InvoicePopup = (props) => {
         date:"",
         term:"",
         description:"",
-        items: itemsList
+        items: itemsList,
     })
 
     const [itemsToAdd, setItemsToAdd] = useState(1);
@@ -75,7 +74,7 @@ const InvoicePopup = (props) => {
               ...data,
               status:'Pending'
             });
-          });
+        });
         await axios.post('http://localhost:5000/api/invoice/create',data)
         .then(response => console.log(response))
         .catch(error => console.log(error))

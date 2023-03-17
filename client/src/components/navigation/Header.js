@@ -43,16 +43,16 @@ const Header = (props) => {
 const Container = styled.div`
   background-color: #252945; 
   width: 100%;
-  height: 4.5rem;
+  height: 5rem;
   color: white;
 `
 const Home = styled.div`
   background-color: #7c5dfa;
-  padding-left: 1rem;
+  padding-left: 1.2rem;
   padding-top: 0.5rem;
   font-size: 35px;
-  width: 4.3rem;
-  height: 4.5rem;
+  width: 5rem;
+  height: 100%;
   float: left;
   border-radius: 5px;
   cursor: pointer;
@@ -63,7 +63,7 @@ const ModeDark = styled.div`
   float:right;
   font-size: 25px;
   margin-right: 10%;
-  margin-top: 0.7rem;
+  margin-top: 1rem;
   color:white;
   opacity: 0.6;
   &:hover{
@@ -77,7 +77,7 @@ const ModeLight = styled.div`
   float:right;
   font-size: 25px;
   margin-right: 10%;
-  margin-top: 0.7rem;
+  margin-top: 1rem;
   color:white;
   opacity: 0.6;
   &:hover{

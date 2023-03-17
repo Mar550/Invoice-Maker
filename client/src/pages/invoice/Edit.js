@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {FaTrashAlt} from 'react-icons/fa';
 import axios from 'axios';
-import Item from '../../components/Item';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 import Label from '../../components/fields/Label';
 import { ThemeContext } from '../../App';

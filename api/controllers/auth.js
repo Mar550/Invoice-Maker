@@ -1,6 +1,6 @@
 const router = require("express").Router();
 var mongoose = require('mongoose');
-const User = require("../models/User");
+const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const { restart } = require("nodemon");
 const jwt = require("jsonwebtoken"); 

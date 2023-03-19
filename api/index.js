@@ -7,7 +7,7 @@ const authController = require("./controllers/auth");
 const invoiceController = require("./controllers/invoice");
 const jwt = require("jsonwebtoken");
 
-dotenv.config();
+dotenv.config({path:__dirname+'/.env'});
 
 const connectDB = async() => {
     try {
@@ -34,3 +34,5 @@ app.use("/api/invoice", invoiceController);
 app.listen(process.env.PORT || 5000, ()=>{
     console.log("Backend server is running")
 })
+
+

@@ -14,11 +14,21 @@ const Error = () => {
     {
     darkMode ?
     <Container>
-        <Image src={error}/>
+        <Line>
+            <Text> 
+                <Number> 404 | </Number> 
+                This page could not be found 
+            </Text> 
+        </Line>
     </Container>
     : 
     <ContainerLight>
-        <Image src={error}/>
+        <Line>
+            <TextLight> 
+                <NumberLight> 404 | </NumberLight> 
+                This page could not be found 
+            </TextLight> 
+        </Line>
     </ContainerLight>
     } 
     </>
@@ -27,19 +37,43 @@ const Error = () => {
 
 const Container = styled.div`
     background: #141625;
-    height: 35rem;
-    padding: 4rem;
+    height: 100vh;
 `
-const Image = styled.img`
-    width: 45%;
-    display: block;
+const Line = styled.div`
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    justify-content: center;
+`
+const Number = styled.p`
+    font-size: 45px;
+    margin-top: -4%;
+`
+const Text = styled.div`
+    margin-top: 18%;
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    color:white;
+    font-size: 28px;
 `
 const ContainerLight = styled.div`
-    background: white;
-    height: 35rem;
-    padding: 4rem;
+background: white;
+height: 100vh;
+`
+const NumberLight = styled.p`
+    font-size: 45px;
+    margin-top: -4%;
+    color: black;
+`
+const TextLight = styled.div`
+    margin-top: 18%;
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    font-size: 28px;
+    color: black;
 `
 
 

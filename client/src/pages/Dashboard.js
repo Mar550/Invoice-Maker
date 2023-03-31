@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import { ThemeContext } from '../App';
+import { publicRequest } from '../request';
 
 // UI Icons
 import {BsFillPlusCircleFill} from 'react-icons/bs'
@@ -24,7 +25,7 @@ const Dashboard = () => {
   const { darkMode } = useContext(ThemeContext)
 
   const getInvoices = async () => {
-    axios.get(`http://localhost:5000/api/invoice/all`).then(res => {
+    await publicRequest.get(`/invoice/all`).then(res => {
       const result = res.data
       setInvoiceList(result)
     });

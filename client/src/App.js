@@ -20,13 +20,13 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/invoices" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
             <Route path="/invoice/:id" element={<Invoice />} />
             <Route path="/edit/:id" element={<Edit />} />
             <Route path="*" element={<Error />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
       </div>

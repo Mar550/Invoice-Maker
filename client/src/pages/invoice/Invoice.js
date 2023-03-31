@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Moment from 'moment';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from '../../App';
+import { publicRequest } from '../../request';
 
 // UI Icons
 import { AiFillHome } from 'react-icons/ai';
@@ -27,7 +28,7 @@ const Invoice = (props) => {
   const { darkMode } = useContext(ThemeContext)
 
   const getInvoice = async () => {
-    axios.get(`http://localhost:5000/api/invoice/find/` + id)
+    await axios.get(`http://invoice-maker-api-one.vercel.app/api/invoice/find/` + id)
       .then(res => {
     const result = res.data;
     setInvoice(result);
@@ -45,13 +46,13 @@ const Invoice = (props) => {
   const [buttonEdit, setButtonEdit] = useState(false);
 
   const deleteInvoice = async () => {
-    await axios.delete('http://localhost:5000/api/invoice/delete/' + id)
-    .then(navigate("/invoices"))
+    await axios.delete('http://invoice-maker-api-one.vercel.app/api/invoice/delete/' + id)
+    .then(navigate("/"))
     .catch(error => console.log(error))
   }
-
-  function updateStatus() {
-    axios.put('http://localhost:5000/api/invoice/update/'+id, invoice)
+  
+  const updateStatus = async () => {
+    await axios.put('http://invoice-maker-api-one.vercel.app/api/invoice/update/'+id, invoice)
     .then(response => console.log(response.data))
     .catch(error => console.log(error))
   }
@@ -66,7 +67,7 @@ const Invoice = (props) => {
   }
 
   useEffect(() => {
-      updateStatus(); // This function will be executed when `invoice` state changes
+    updateStatus(); // This function will be executed when `invoice` state changes
   }, [invoice]);
 
   const paidInvoice =  () => {   
@@ -92,7 +93,7 @@ const Invoice = (props) => {
     { darkMode ? 
     <WrapperDark>
     <Header/>
-    <Link to="/invoices" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+    <Link to="/" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
       <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer"}} > Go Back </LabelDark> 
     </Link>
     <ContainerDark>
@@ -172,7 +173,7 @@ const Invoice = (props) => {
     :
     <WrapperLight>
     <Header/>
-    <Link to="/invoices" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+    <Link to="/" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
       <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer"}} > Go Back </LabelLight> 
     </Link>
     <ContainerLight>
@@ -231,7 +232,7 @@ const Invoice = (props) => {
         <Light> Total </Light>
       </Row>
       {items.map(item => (
-        <Row style={{fontWeight:"bold"}}>
+        <Row style={{fontWeight:"bold"}} key={item.id}>
           <Light> {item.name}</Light>
           <Light> {item.quantity} </Light>
           <Light> {item.price} $ </Light>

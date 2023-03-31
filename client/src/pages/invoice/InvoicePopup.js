@@ -2,10 +2,10 @@ import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { ThemeContext } from '../../App';
+import { publicRequest } from '../../request';
 
 import Label from '../../components/fields/Label';
 import { v4 as uuidv4} from "uuid";
-
 import {FaTrashAlt} from 'react-icons/fa';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 
@@ -75,7 +75,7 @@ const InvoicePopup = (props) => {
               status:'Pending'
             });
         });
-        await axios.post('http://localhost:5000/api/invoice/create',data)
+        await publicRequest.post('/invoice/create',data)
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }
@@ -92,14 +92,14 @@ const InvoicePopup = (props) => {
         setData({...data, items: list})
     }
 
-    const createDraft = () => {
+    const createDraft = async () => {
         setData((data) => {
             return({
-              ...data,
-              status:'Draft'
+                ...data,
+                status:'Draft'
             });
-          });
-        axios.post('http://localhost:5000/api/invoice/create',data)
+        });
+        await publicRequest.post('/invoice/create',data)
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }

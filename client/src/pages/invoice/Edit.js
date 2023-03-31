@@ -6,7 +6,7 @@ import axios from 'axios';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 import Label from '../../components/fields/Label';
 import { ThemeContext } from '../../App';
-
+import { publicRequest } from '../../request';
 
 const Edit = (props) => {
 
@@ -43,7 +43,7 @@ const Edit = (props) => {
 
     // Get Invoice with ID
     const getInvoice = async () => {
-        axios.get(`http://localhost:5000/api/invoice/edit/` + id)
+        await publicRequest.get(`/invoice/edit/` + id)
         .then(res => {
         const result = res.data
         setData(result)
@@ -55,20 +55,20 @@ const Edit = (props) => {
 
     // Update Function
     const updateInvoice = async () => {
-        await axios.put('http://localhost:5000/api/invoice/update/' + id, data)
+        await publicRequest.put('/invoice/update/' + id, data)
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }
 
     // Update as a draft Function
-    const updateDraft =  () => {
+    const updateDraft = () => {
         setData((data) => {
             return({
               ...data,
               status:'Draft'
             });
           });
-        axios.put('http://localhost:5000/api/invoice/update/'+id, data)
+        publicRequest.put('/invoice/update/'+id, data)
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }

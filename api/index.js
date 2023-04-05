@@ -6,6 +6,8 @@ const userController = require("./controllers/user");
 const authController = require("./controllers/auth");
 const invoiceController = require("./controllers/invoice");
 const jwt = require("jsonwebtoken");
+const cors = require('cors');
+
 
 dotenv.config({path:__dirname+'/.env'});
 
@@ -21,7 +23,6 @@ const connectDB = async() => {
 
 connectDB();
 
-var cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
@@ -34,5 +35,6 @@ app.use("/api/invoice", invoiceController);
 app.listen(process.env.PORT || 5000, ()=>{
     console.log("Backend server is running")
 })
+
 
 

@@ -8,6 +8,7 @@ import Label from '../../components/fields/Label';
 import { v4 as uuidv4} from "uuid";
 import {FaTrashAlt} from 'react-icons/fa';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
+import {tablet} from "../../responsive";
 
 
 const InvoicePopup = (props) => {
@@ -117,8 +118,8 @@ const InvoicePopup = (props) => {
                 <MdOutlineArrowBackIosNew  style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label > Go Back </Label> 
             </Close>
             <Title> New Invoice </Title>
-            <Subtitle> Bill From </Subtitle>
             <form> 
+            <Subtitle> Bill From </Subtitle>
             <Group>
                 <Label title="Street Address"/> 
                 <Input
@@ -482,6 +483,8 @@ const Container = styled.div`
     flex-direction: column;
     gap: 1rem;
     padding: 4%;
+    ${tablet({width:"100%", paddingLeft: "2rem", paddingRight: "6rem"})}
+
 `
 const ContainerLight = styled.div`
     position:relative;
@@ -557,7 +560,7 @@ const Subtitle = styled.h4`
 const Group = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 0.5rem;
+    padding-top: 1rem;
 `
 
 const Date = styled.input`
@@ -573,7 +576,6 @@ const Row = styled.div`
     color: white;
     display:inline-flex;
     gap: 2rem;
-
 `
 const Button = styled.button`
     margin-top: 1rem;
@@ -598,19 +600,20 @@ const ButtonLight = styled.button`
     border-radius: 10px;
 `
 const Action = styled.button`
-    width: 28%;
+    width: 25%;
     height: 3rem;
-    padding: 0 1.5rem;
     border-radius: 1.5rem;
     border: none;
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
     white-space: nowrap;
-    font-size: .9rem;
+    font-size: 13px;
     line-height: .9375rem;
     letter-spacing: -.25px;
-    font-weight: 700;
+    font-weight: 600;
     color: white;
+    text-align:center;
+    ${tablet({maxWidth: "19%", padding: "0", fontSize:"11px"})}
 `
 
 const Footer = styled.div`
@@ -649,7 +652,6 @@ const InputItem2 = styled.input`
     margin-left: 0.4rem;
     font-size: 14px;
 `
-
 
 const RowItem = styled.div`
     display:grid;
@@ -693,6 +695,7 @@ const SpaceLight = styled.div`
     border-radius: 0.25rem;
     padding: 0.65rem;
     margin-left: 1rem;
+    
 `
 
 

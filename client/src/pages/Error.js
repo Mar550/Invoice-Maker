@@ -4,6 +4,8 @@ import Header from '../components/navigation/Header'
 import error from '../assets/404.svg'
 import { ThemeContext } from '../App';
 
+import {tablet} from "../responsive";
+
 const Error = () => {
 
     const { darkMode } = useContext(ThemeContext)
@@ -37,26 +39,31 @@ const Error = () => {
 
 const Container = styled.div`
     background: #141625;
-    height: 100vh;
+    position:absolute; 
+height:100%; 
+width:100%; 
+
 `
 const Line = styled.div`
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    width:  100%;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
+
 `
 const Number = styled.p`
     font-size: 45px;
-    margin-top: -4%;
+    margin-top: -1rem;
+    ${tablet({ fontSize: "30px",marginTop:"-0.7rem" })}
 `
 const Text = styled.div`
-    margin-top: 18%;
+    margin-top: 19%;
     display: flex;
     gap: 20px;
     flex-direction: row;
     color:white;
     font-size: 28px;
+    ${tablet({ fontSize: "20px", marginTop:"40%" })}
 `
 const ContainerLight = styled.div`
 background: white;
@@ -64,16 +71,19 @@ height: 100vh;
 `
 const NumberLight = styled.p`
     font-size: 45px;
-    margin-top: -4%;
+    margin-top: -1rem;
     color: black;
+    ${tablet({ fontSize: "30px", marginTop:"-0.7rem" })}
+
 `
 const TextLight = styled.div`
-    margin-top: 18%;
+    margin-top: 19%;
     display: flex;
     gap: 20px;
     flex-direction: row;
     font-size: 28px;
     color: black;
+    ${tablet({ fontSize: "20px", marginTop:"40%" })}
 `
 
 

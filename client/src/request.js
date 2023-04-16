@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const BASE_URL = "http://invoice-maker-api-one.vercel.app/api";
+const BASE_URL = "https://invoice-maker-ten.vercel.app/api";
 
 
 export const publicRequest = axios.create({

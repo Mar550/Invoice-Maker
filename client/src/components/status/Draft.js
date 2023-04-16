@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {tablet} from '../../responsive'
 
 const Draft = ({mode}) => {
   
@@ -42,6 +43,7 @@ const Status = styled.div`
   -webkit-transition: .3s ease;
   transition: .3s ease;
   border: 1px solid transparent;
+  ${tablet({gridColumnStart:"2", gridColumnEnd:"2", gridRowStart:"2", gridRowEnd:"3" })}
 `
 
 const Li = styled.li`
@@ -71,6 +73,7 @@ const Status2 = styled.div`
   -webkit-transition: .3s ease;
   transition: .3s ease;
   border: 1px solid transparent;
+
 `
 
 const Li2 = styled.li`

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {tablet} from '../../responsive'
 
 const Pending = (props) => {
   return (

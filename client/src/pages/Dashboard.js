@@ -4,6 +4,8 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import { ThemeContext } from '../App';
 import { publicRequest } from '../request';
+import {tablet} from "../responsive";
+import Moment from 'moment';
 
 // UI Icons
 import {BsFillPlusCircleFill} from 'react-icons/bs'
@@ -31,6 +33,7 @@ const Dashboard = () => {
     });
   }
 
+  // Function Total Amoutn
   function dueAmount(array){
     let sum = 0
     for (let i = 0; i < array.length; i++) {
@@ -38,6 +41,12 @@ const Dashboard = () => {
     }
     return sum.toLocaleString('en-US',{'minimumFractionDigits':2,'maximumFractionDigits':2});
   }   
+
+  // Function Format Dates
+  function formatDate(myDate) {
+    return Moment(new Date(myDate)).format("DD MMM YYYY");
+  }
+
 
   useEffect(() => {
     getInvoices()
@@ -61,12 +70,12 @@ const Dashboard = () => {
             <a className="btn dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Filter by status
             </a>
-            <div className="dropdown-menu" >
+            <div className="dropdown-menu" style={{marginTop: "3px", border:"none"}} >
               <CheckboxList 
                 invoiceList = {invoiceList}
                 checked = {checked}
                 setChecked = {setChecked}
-                />
+              />
             </div>
           </div>
         </FilterDark>
@@ -84,17 +93,17 @@ const Dashboard = () => {
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentDark>
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
-          <TextDark> Due {Date(invoice.term).toString().slice(4,15)} </TextDark>
+          <DateDark> Due {formatDate(invoice.term)} </DateDark>
           <TextDark> {invoice.client_name} </TextDark>
-            <Number> € {dueAmount(invoice.items)} </Number>
-          <div style={{ display:"flex", flexDirection:"row", gap:"1.5rem"}}>
+          <Number> € {dueAmount(invoice.items)} </Number>
+          <StatusContainer>
           {
             invoice.status == "Paid" ? <Paid/>
             : invoice.status == "Pending" ? <Pending/>
             : <Draft mode={darkMode} />
           }
-          <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
-          </div>
+          <Icon> <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem" }}/> </Icon>
+          </StatusContainer>
         </ContentDark>
         </Link>
       </InvoiceDark>
@@ -105,17 +114,17 @@ const Dashboard = () => {
           <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
           <ContentDark>
             <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
-            <TextDark> Due {Date(invoice.term).toString().slice(4,15)} </TextDark>
+            <DateDark> Due {formatDate(invoice.term)} </DateDark>
             <TextDark> {invoice.client_name} </TextDark>
               <Number> € {dueAmount(invoice.items)} </Number>
-            <div style={{ display:"flex", flexDirection:"row", gap:"1.5rem"}}>
+            <StatusContainer >
             {
               invoice.status == "Paid" ? <Paid/>
               : invoice.status == "Pending" ? <Pending/>
               : <Draft mode={darkMode} />
             }
-            <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
-            </div>
+            <Icon> <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/> </Icon>
+            </StatusContainer>
           </ContentDark>
           </Link>
         </InvoiceDark>
@@ -145,7 +154,7 @@ const Dashboard = () => {
             <a class="btn dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Filter by status
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" style={{marginTop: "3px", border:"none", backgroundColor:"#f8f8fb"}}>
               <CheckboxList 
                 invoiceList = {invoiceList}
                 checked = {checked}
@@ -168,17 +177,17 @@ const Dashboard = () => {
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentLight>
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
-          <TextLight> Due {Date(invoice.term).toString().slice(4,15)} </TextLight>
+          <DateLight> Due {Date(invoice.term).toString().slice(4,15)} </DateLight>
           <TextLight> {invoice.client_name} </TextLight>     
             <Number> € {dueAmount(invoice.items)} </Number>
-          <div style={{ display:"inline-flex", gap:"1.4rem"}}>
+          <StatusContainer >
             {
               invoice.status == "Paid" ? <Paid/>
               : invoice.status == "Pending" ? <Pending/>
               :  <Draft mode={darkMode} />
             } 
           <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
-          </div>
+          </StatusContainer>
         </ContentLight>
         </Link>
       </InvoiceLight>
@@ -189,17 +198,17 @@ const Dashboard = () => {
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentLight>
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
-          <TextLight> Due {Date(invoice.term).toString().slice(4,15)} </TextLight>
+          <DateLight> Due {Date(invoice.term).toString().slice(4,15)} </DateLight>
           <TextLight> {invoice.client_name} </TextLight>     
             <Number> € {dueAmount(invoice.items)} </Number>
-          <div style={{ display:"inline-flex", gap:"1.4rem"}}>
+          <StatusContainer>
             {
               invoice.status == "Paid" ? <Paid/>
               : invoice.status == "Pending" ? <Pending/>
               :  <Draft mode={darkMode} />
             } 
           <BsChevronRight style={{color:"#6b52d6", marginTop:"0.5rem", fontSize:"1.2rem"}}/>
-          </div>
+          </StatusContainer>
         </ContentLight>
         </Link>
       </InvoiceLight>
@@ -260,6 +269,8 @@ const Head = styled.div`
   justify-content: space-between;
   margin-left: auto;
   margin-right: auto;
+  ${tablet({ width:"85%" })}
+
 `
 // General
 
@@ -267,24 +278,46 @@ const Head = styled.div`
 const TitleDark = styled.h1`
   font-weight: 600;
   color: white;
+  ${tablet({fontSize:"27px"})}
 `
 const TitleLight = styled.h1`
   font-weight: 600;
   color: black;
+  ${tablet({fontSize:"27px"})}
 `
 const Number = styled.p`
+  display:flex;
   font-weight: 600;
   font-size: 1.2rem;
+  ${tablet({ fontSize:"1rem", gridColumnEnd:"1", gridRowStart:"3", gridRowEnd:"3" })}
+
 `
 const TextDark = styled.p`
+  font-size: 14px;
+  color: white;
+  ${tablet({justifySelf:"end", paddingTop:"-1rem", gridColumnStart:"3", gridColumnEnd:"3", gridRowStart:"1", gridRowEnd:"1" })}
+
+`;
+const DateDark = styled.p`
+display: grid;
   font-size: 13px;
   color: white;
+  ${tablet({gridColumnEnd:"1", gridRowStart:"2", gridRowEnd:"2", justifyContent:"center" })}
+
 `
+
 const TextLight = styled.p`
   font-size: 13px;
   color: grey;
+  ${tablet({justifySelf:"end", paddingTop:"-1rem", gridColumnStart:"3", gridColumnEnd:"3", gridRowStart:"1", gridRowEnd:"1" })}
 
 `
+const DateLight = styled.p`
+  font-size: 13px;
+  color: grey;
+  ${tablet({gridColumnEnd:"1", gridRowStart:"2", gridRowEnd:"2", justifyContent:"center" })}
+`
+
 const Button = styled.button`
     border: none;
     border-radius: 5px;
@@ -307,6 +340,7 @@ const Button = styled.button`
     font-size: 1rem;
     letter-spacing: -.25px;
     color: white;
+
 `
 const Span = styled.span`
   color:#6b52d6;
@@ -331,6 +365,8 @@ const InvoiceDark = styled.div`
     border: 1px solid #6b52d6;
     cursor: pointer;
   }
+  ${tablet({ width:"85%" })}
+
 `
 const InvoiceLight = styled.div`
   padding: 1rem;
@@ -346,22 +382,14 @@ const InvoiceLight = styled.div`
     border: 1px solid #6b52d6;
     cursor: pointer;
   }
+  ${tablet({ width:"85%" })}
 `
 const Id = styled.p`
   font-weight: bold;
-  font-size: 15px;
+  font-size: 16px;
+  ${tablet({ gridColumnStar:"1", gridColumnEnd:"1", gridRowStart:"1", gridRowEnd:"1" })}
 `
-const Amount = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-`
-const Heading = styled.div`
-  padding: 10px;
-  display:flex;
-  flex-direction:row;
-  justify-content: space-between;
-`
+
 const ContentDark = styled.div`
   padding: 10px;
   display: flex;
@@ -369,6 +397,7 @@ const ContentDark = styled.div`
   justify-content: space-between;
   margin-top: 0.7rem;
   color:white;
+  ${tablet({display: "grid", justifyContent: "space-between"})}
 `
 const ContentLight = styled.div`
   padding: 10px;
@@ -377,6 +406,7 @@ const ContentLight = styled.div`
   justify-content: space-between;
   margin-top: 0.7rem;
   color:black;
+  ${tablet({display: "grid", justifyContent: "space-between"})}
 `
 
 const Actions = styled.div`
@@ -389,6 +419,15 @@ const Invoices = styled.div `
   flex-direction: column;
   gap: 1.2rem;
   margin-top: 1rem;
+`
+const Icon = styled.div`
+  ${tablet({ display:"none" })}
+`
+
+const StatusContainer = styled.div`
+  gap:0.4rem;
+  display:inline-flex;
+  ${tablet({ marginTop:"-0.8rem",gridColumnStart:"3", gridColumnEnd:"3", gridRowStart:"3",gridRowEnd:"3", justifySelf:"end"})}
 `
 
 const FilterDark = styled.div`

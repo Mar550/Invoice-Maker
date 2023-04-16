@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { ThemeContext } from '../../App';
 import { Link } from 'react-router-dom';
 // UI Icons
-import {MdLightMode} from 'react-icons/md';
-import {MdModeNight} from 'react-icons/md';
+import { MdLightMode } from 'react-icons/md';
+import { MdModeNight } from 'react-icons/md';
 import { AiFillHome } from 'react-icons/ai';
-
+import { GoMarkGithub } from 'react-icons/go';
+import { tablet } from '../../responsive';
 
 const Header = (props) => {
 
@@ -33,6 +34,11 @@ const Header = (props) => {
                 <MdModeNight />
             </ModeLight>
             }
+            <Icon>
+              <Page target="_blank" href="https://github.com/Mar550/Invoice-Maker">
+                <GoMarkGithub style={{color:"white", marginTop:"1rem"}}/>
+              </Page>
+            </Icon>
         </Container>
     </>
   )
@@ -43,6 +49,7 @@ const Container = styled.div`
   width: 100%;
   height: 5rem;
   color: white;
+  display:grid;
 `
 const Home = styled.div`
   background-color: #7c5dfa;
@@ -54,13 +61,13 @@ const Home = styled.div`
   float: left;
   border-radius: 5px;
   cursor: pointer;
+  grid-column-start: 1;
+  grid-column-end: 1;
 `
 const ModeDark = styled.div`
   color: white;
   border:none;
-  float:right;
   font-size: 25px;
-  margin-right: 10%;
   margin-top: 1rem;
   color:white;
   opacity: 0.6;
@@ -68,13 +75,15 @@ const ModeDark = styled.div`
     cursor: pointer;
     opacity: 1;
   }
-`
+  grid-column-start: 11;
+  grid-column-end: 11;
+  justify-self: end;
 
+`
 const ModeLight = styled.div`
   border:none;
   float:right;
   font-size: 25px;
-  margin-right: 10%;
   margin-top: 1rem;
   color:white;
   opacity: 0.6;
@@ -82,6 +91,30 @@ const ModeLight = styled.div`
     cursor: pointer;
     opacity: 1;
   }
+  grid-column-start: 11;
+  grid-column-end: 11;
+  justify-self: end;
+`
+const Icon = styled.div`
+  grid-column-start: 12;
+  grid-column-end: 12;
+  justify-self: end;
+  font-size: 38px;
+  &:hover{
+    cursor: pointer;
+  }
+  border-left: 2px solid #494e6e;
+  display:flex;
+  justify-content:center;
+  width: 7rem;
+  ${tablet({ width:"5rem"})}
+`
+
+const Page = styled.a`
+&:hover{
+  cursor: pointer;
+  opacity: 1;
+}
 `
 
 export default Header;

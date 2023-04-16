@@ -35,7 +35,7 @@ const Header = (props) => {
             </ModeLight>
             }
             <Icon>
-              <Page target="_blank" href="https://github.com/Mar550/Invoice-Maker">
+              <Page title="View on Github " target="_blank" href="https://github.com/Mar550/Invoice-Maker">
                 <GoMarkGithub style={{color:"white", marginTop:"1rem"}}/>
               </Page>
             </Icon>

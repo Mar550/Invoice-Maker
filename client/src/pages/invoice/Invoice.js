@@ -196,11 +196,11 @@ const Invoice = (props) => {
             :  <Draft mode={darkMode} />
           }
       </Status2>
-      <div style={{display:"inline-flex",gap:"1rem"}}> 
+      <ButtonsLight> 
         <Action onClick={()=>setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
         <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
         <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
-      </div>
+      </ButtonsLight>
     </ContainerLight>
     <Container2Light>
       <div>
@@ -525,6 +525,13 @@ const Buttons = styled.div`
   gap: 1rem;
   justify-content:center;
   ${tablet({position:"fixed", left:"0rem", bottom:"0.1rem", padding:"1rem", width:"100%", backgroundColor:"#1e2139"})}  
+`
+
+const ButtonsLight = styled.div`
+  display: inline-flex;
+  gap: 1rem;
+  justify-content:center;
+  ${tablet({position:"fixed", left:"0rem", bottom:"0.1rem", padding:"1rem", width:"100%", backgroundColor:"white"})}  
 `
 
 export default Invoice;

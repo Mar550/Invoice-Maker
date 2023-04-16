@@ -320,7 +320,6 @@ const DateLight = styled.p`
 
 const Button = styled.button`
     border: none;
-    border-radius: 5px;
     display: inline-flex;
     justify-content: space-between;
     padding: 5px;
@@ -340,6 +339,7 @@ const Button = styled.button`
     font-size: 1rem;
     letter-spacing: -.25px;
     color: white;
+    ${tablet({width:"9rem", height:"3rem",fontSize:"0.8rem", paddingRight:"0.6rem"})}  
 
 `
 const Span = styled.span`

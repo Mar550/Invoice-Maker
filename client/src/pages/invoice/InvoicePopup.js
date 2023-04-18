@@ -115,7 +115,7 @@ const InvoicePopup = (props) => {
         <Wrapper >
         <Container>
             <Close onClick={closePopup}>
-                <MdOutlineArrowBackIosNew  style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label > Go Back </Label> 
+                <MdOutlineArrowBackIosNew  style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label title="Go back"/>
             </Close>
             <Title> New Invoice </Title>
             <form> 
@@ -287,7 +287,7 @@ const InvoicePopup = (props) => {
         <Wrapper> 
         <ContainerLight>
             <Close onClick={closePopup}>
-                <MdOutlineArrowBackIosNew  style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label > Go Back </Label> 
+                <MdOutlineArrowBackIosNew  style={{color:"#7c5dfa",fontSize:"1.5rem"}}/> <Label title="Go back"/>
             </Close>
             <TitleLight> New Invoice </TitleLight>
             <Subtitle> Bill From </Subtitle>
@@ -688,14 +688,13 @@ const InputItemLight2 = styled.input`
 const SpaceLight = styled.div`
     width: 80%;
     height: 3rem;
-    border: 1px solid #dfe3fa; 
     font-size: 15px;
     left: 0.3rem;
     color:#7c5dfa;
     border-radius: 0.25rem;
     padding: 0.65rem;
     margin-left: 1rem;
-    
+    border:none;
 `
 
 

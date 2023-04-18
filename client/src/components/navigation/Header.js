@@ -21,7 +21,7 @@ const Header = (props) => {
     <>
         <Container>
             <Home>
-              <Link style={{textDecoration:"none", color:"white", backgroundColor: "#7c5dfa"}} to="/invoices">
+              <Link style={{textDecoration:"none", color:"white", backgroundColor: "#7c5dfa"}} to="/">
                 <AiFillHome/>
               </Link>
             </Home>

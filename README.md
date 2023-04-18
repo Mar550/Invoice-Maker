@@ -6,7 +6,6 @@ On top of that, the application contains other sections for budget management, l
 ## What the website looks like 
 
 <img src="https://i.ibb.co/h1c8zmk/screen1.png" alt="screen1">
-<img src="https://i.ibb.co/dr47v74/screen-2.png" alt="screen-2">
 <img src="https://i.ibb.co/RCjHytd/screen3.png" alt="screen3">
 <img src="https://i.ibb.co/bdd4FCb/screenshot21.png" alt="screenshot21">
 <img src="https://i.ibb.co/HgjJpRY/screenshot-20.png" alt="screenshot-20">

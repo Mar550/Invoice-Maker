@@ -108,11 +108,18 @@ const Invoice = (props) => {
             : <Draft mode={darkMode} />
           } 
       </Status2>
-      <Buttons> 
-        <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
-        <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
-        <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
-      </Buttons>
+        { invoice.status !== "Paid" ? 
+          <Buttons> 
+            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+          </Buttons>
+          : 
+          <Buttons> 
+            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+            <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
+          </Buttons>
+        }
     </ContainerDark>
     <Container2Dark>
       <div>
@@ -165,9 +172,9 @@ const Invoice = (props) => {
           <Dark> {item.name}</Dark>
           <Dark> {item.quantity} </Dark>
           <Wrapper5>
-          <Dark> {item.price} $ </Dark>
+          <Dark> {item.price} £ </Dark>
           </Wrapper5>
-          <Dark> $ {item.quantity*item.price} </Dark>
+          <Dark> £ {item.quantity*item.price} </Dark>
         </Row>
         //toFixed(2)
       ))}
@@ -175,7 +182,7 @@ const Invoice = (props) => {
     <Container4Dark>
       <Row>
         <Text2Dark> Amount Due </Text2Dark>
-        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> $ {dueAmount(items)} </Dark>
+        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> £ {dueAmount(items)} </Dark>
       </Row>
 
     </Container4Dark>
@@ -196,11 +203,18 @@ const Invoice = (props) => {
             :  <Draft mode={darkMode} />
           }
       </Status2>
-      <ButtonsLight> 
-        <Action onClick={()=>setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
-        <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
-        <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
-      </ButtonsLight>
+      { invoice.status !== "Paid" ? 
+          <ButtonsLight> 
+            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+          </ButtonsLight>
+          : 
+          <ButtonsLight> 
+            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+            <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
+          </ButtonsLight>
+        }
     </ContainerLight>
     <Container2Light>
       <div>
@@ -250,8 +264,8 @@ const Invoice = (props) => {
         <Row style={{fontWeight:"bold"}} key={item.id}>
           <Light> {item.name}</Light>
           <Light> {item.quantity} </Light>
-          <Light> {item.price} $ </Light>
-          <Light> $ {item.quantity*item.price} </Light>
+          <Light> {item.price} £ </Light>
+          <Light> £ {item.quantity*item.price} </Light>
         </Row>
         //toFixed(2)
       ))}
@@ -259,7 +273,7 @@ const Invoice = (props) => {
     <Container4Light>
       <Row>
         <Text2Dark> Amount Due </Text2Dark>
-        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> $ {dueAmount(items)} </Dark>
+        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> £ {dueAmount(items)} </Dark>
       </Row>
 
     </Container4Light>

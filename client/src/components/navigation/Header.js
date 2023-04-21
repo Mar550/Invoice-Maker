@@ -100,13 +100,16 @@ const Icon = styled.div`
   grid-column-end: 12;
   justify-self: end;
   font-size: 38px;
+  opacity: 0.6;
   &:hover{
     cursor: pointer;
+    opacity: 1;
   }
   border-left: 2px solid #494e6e;
   display:flex;
   justify-content:center;
   width: 7rem;
+
   ${tablet({ width:"5rem"})}
 `
 

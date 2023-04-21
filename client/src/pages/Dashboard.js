@@ -95,7 +95,7 @@ const Dashboard = () => {
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
           <DateDark> Due {formatDate(invoice.term)} </DateDark>
           <TextDark> {invoice.client_name} </TextDark>
-          <Number> € {dueAmount(invoice.items)} </Number>
+          <Number> £ {dueAmount(invoice.items)} </Number>
           <StatusContainer>
           {
             invoice.status == "Paid" ? <Paid/>
@@ -116,7 +116,7 @@ const Dashboard = () => {
             <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
             <DateDark> Due {formatDate(invoice.term)} </DateDark>
             <TextDark> {invoice.client_name} </TextDark>
-              <Number> € {dueAmount(invoice.items)} </Number>
+              <Number> £ {dueAmount(invoice.items)} </Number>
             <StatusContainer >
             {
               invoice.status == "Paid" ? <Paid/>
@@ -170,7 +170,7 @@ const Dashboard = () => {
       </Head>
       <Invoices>
       {
-        checked.length > 1 ?
+        checked.length > 0 ?
 
       checked.map(invoice => (
       <InvoiceLight key={invoice._id}> 
@@ -179,7 +179,7 @@ const Dashboard = () => {
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
           <DateLight> Due {Date(invoice.term).toString().slice(4,15)} </DateLight>
           <TextLight> {invoice.client_name} </TextLight>     
-            <Number> € {dueAmount(invoice.items)} </Number>
+            <Number> £ {dueAmount(invoice.items)} </Number>
           <StatusContainer >
             {
               invoice.status == "Paid" ? <Paid/>
@@ -200,7 +200,7 @@ const Dashboard = () => {
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
           <DateLight> Due {Date(invoice.term).toString().slice(4,15)} </DateLight>
           <TextLight> {invoice.client_name} </TextLight>     
-            <Number> € {dueAmount(invoice.items)} </Number>
+            <Number> £ {dueAmount(invoice.items)} </Number>
           <StatusContainer>
             {
               invoice.status == "Paid" ? <Paid/>

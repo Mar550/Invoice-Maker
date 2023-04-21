@@ -96,7 +96,7 @@ const Invoice = (props) => {
     <Header/>
     <Head>
       <Link to="/">
-        <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.8rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer", fontSize:"0.8rem"}} > Go Back </LabelDark> 
+        <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.8rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelDark> 
       </Link>
     </Head>
     <ContainerDark>
@@ -108,7 +108,7 @@ const Invoice = (props) => {
             : <Draft mode={darkMode} />
           } 
       </Status2>
-        { invoice.status !== "Paid" ? 
+        { invoice.status == "Paid" ? 
           <Buttons> 
             <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
             <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
@@ -192,7 +192,7 @@ const Invoice = (props) => {
     <WrapperLight>
     <Header/>
     <Link to="/" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
-      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer"}} > Go Back </LabelLight> 
+      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelLight> 
     </Link>
     <ContainerLight>
       <Status2>  
@@ -203,7 +203,7 @@ const Invoice = (props) => {
             :  <Draft mode={darkMode} />
           }
       </Status2>
-      { invoice.status !== "Paid" ? 
+      { invoice.status == "Paid" ? 
           <ButtonsLight> 
             <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
             <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>

@@ -14,7 +14,7 @@ import {tablet} from "../../responsive";
 const InvoicePopup = (props) => {
 
     const { darkMode } = useContext(ThemeContext)
-
+    
     const [itemsList, setItemsList] = useState([{        
         id: crypto.randomUUID(),
         name: "",
@@ -273,7 +273,6 @@ const InvoicePopup = (props) => {
             })
             : null
             }
-
             <Button onClick={addItem}> + Add New Item </Button>
                 <Footer>
                     <Action onClick={closePopup} style={{backgroundColor:"#252945"}} > Discard </Action>

@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
 import { ThemeContext } from '../App';
 import { publicRequest } from '../request';
@@ -18,13 +17,16 @@ import Paid from '../components/status/Paid';
 import Pending from '../components/status/Pending';
 import Draft from '../components/status/Draft';
 import CheckboxList from '../components/checkbox/CheckboxInput';
+import Loading from '../components/navigation/Loading';
+
 
 const Dashboard = () => {
   
   const [invoiceList, setInvoiceList] = useState([])
   const [checked, setChecked] = useState([])
-  const [buttonPopup, setButtonPopup] = useState(false);
+  const [buttonPopup, setButtonPopup] = useState(false)
   const { darkMode } = useContext(ThemeContext)
+  const [loading, setLoading] = useState(false)
 
   const getInvoices = async () => {
     await publicRequest.get(`/invoice/all`).then(res => {
@@ -33,7 +35,7 @@ const Dashboard = () => {
     });
   }
 
-  // Function Total Amoutn
+  // Function Total Amount
   function dueAmount(array){
     let sum = 0
     for (let i = 0; i < array.length; i++) {
@@ -47,14 +49,16 @@ const Dashboard = () => {
     return Moment(new Date(myDate)).format("DD MMM YYYY");
   }
 
-
   useEffect(() => {
     getInvoices()
+    setLoading(true)
   },[])
 
    
   return (
     <>
+    { invoiceList.length > 0 ? 
+    <div>
     { darkMode ? 
     <div>
     <Header />
@@ -177,7 +181,7 @@ const Dashboard = () => {
         <Link to={`/invoice/${invoice._id}`} style={{ textDecoration: 'none', color:"white", height:"100%" }}>
         <ContentLight>
           <Id> <Span>#</Span>{invoice._id.slice(0,6).toUpperCase()}</Id>
-          <DateLight> Due {Date(invoice.term).toString().slice(4,15)} </DateLight>
+          <DateLight> Due {formatDate(invoice.term)} </DateLight>
           <TextLight> {invoice.client_name} </TextLight>     
             <Number> £ {dueAmount(invoice.items)} </Number>
           <StatusContainer >
@@ -220,8 +224,12 @@ const Dashboard = () => {
       trigger={buttonPopup} 
       setTrigger={setButtonPopup} 
       /> 
-      </div>
-          }
+      </div>   
+      }
+    </div>
+    :
+    <Loading/>
+    }
     </>
   )
 }
@@ -229,14 +237,7 @@ const Dashboard = () => {
 // STYLES
 
 // Container
-const Container = styled.div`
-  display:flex;
-  flex-direction: column; 
-  background-color: #141625; 
-  width: 100%;
-  height: 45rem;
 
-`
 const ContainerDark = styled.div`
   display: flex;
   flex-direction: column;

@@ -20,6 +20,7 @@ import Edit from './Edit';
 import Paid from '../../components/status/Paid';
 import Pending from '../../components/status/Pending';
 import Draft from '../../components/status/Draft';
+import Loading from '../../components/navigation/Loading';
 
 
 const Invoice = (props) => {
@@ -27,6 +28,7 @@ const Invoice = (props) => {
   const [invoice, setInvoice] = useState([])
   const [items, setItems] = useState([])
   const { darkMode } = useContext(ThemeContext)
+  const [loading, setLoading] = useState(false)
 
   const getInvoice = async () => {
     await publicRequest.get(`/invoice/find/` + id)
@@ -54,7 +56,6 @@ const Invoice = (props) => {
   
   const updateStatus = async () => {
     await publicRequest.put('/invoice/update/'+id, invoice)
-    .then(response => console.log(response.data))
     .catch(error => console.log(error))
   }
 
@@ -91,201 +92,207 @@ const Invoice = (props) => {
 
   return (
     <>
-    { darkMode ? 
-    <WrapperDark>
-    <Header/>
-    <Head>
-      <Link to="/">
-        <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.8rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelDark> 
-      </Link>
-    </Head>
-    <ContainerDark>
-      <Status2>  
-        <Dark style={{marginTop:"0.3rem"}}> Status </Dark>
-          {
-            invoice.status == "Paid" ? <Paid/>
-            : invoice.status == "Pending" ? <Pending/>
-            : <Draft mode={darkMode} />
-          } 
-      </Status2>
-        { invoice.status == "Paid" ? 
-          <Buttons> 
-            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
-            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
-          </Buttons>
-          : 
-          <Buttons> 
-            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
-            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
-            <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
-          </Buttons>
-        }
-    </ContainerDark>
-    <Container2Dark>
+      { Object.keys(invoice).length > 0 ?  
       <div>
-        <Wrapper1>
+      { darkMode ? 
+      <WrapperDark>
+      <Header/>
+      <Head>
+        <Link to="/">
+          <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.8rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelDark> 
+        </Link>
+      </Head>
+      <ContainerDark>
+        <Status2>  
+          <Dark style={{marginTop:"0.3rem"}}> Status </Dark>
+            {
+              invoice.status == "Paid" ? <Paid/>
+              : invoice.status == "Pending" ? <Pending/>
+              : <Draft mode={darkMode} />
+            } 
+        </Status2>
+          { invoice.status == "Paid" ? 
+            <Buttons> 
+              <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+              <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+            </Buttons>
+            : 
+            <Buttons> 
+              <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+              <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+              <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
+            </Buttons>
+          }
+      </ContainerDark>
+      <Container2Dark>
+        <div>
+          <Wrapper1>
+              <div>
+              <Id> <Span>#</Span> {id.slice(0,8).toUpperCase()} </Id>
+                <Dark> {invoice.description} </Dark>
+              </div>
+              <div style={{width:"7rem"}}>
+                <Dark> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Dark>
+              </div>
+          </Wrapper1>
+      <Wrapper6> 
+      <Wrapper2>
+        <Group>
+          <LabelDark> Invoice Date </LabelDark>
+          <Text2Dark> {formatDate(invoice.date)} </Text2Dark>
+        </Group>
+        <Group>
+          <LabelDark> Payment Due </LabelDark>
+          <Text2Dark> {formatDate(invoice.term)} </Text2Dark>
+        </Group>
+      </Wrapper2>
+      <Wrapper3>
+      <Group>
+        <LabelDark> Bill To </LabelDark>
+        <Text2Dark> {invoice.client_name} </Text2Dark>
+        <Dark style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Dark>
+      </Group>
+      </Wrapper3>
+      <Wrapper4>
+      <Group>
+        <LabelDark> Sent To </LabelDark>
+        <Text2Dark> {invoice.client_email} </Text2Dark>
+      </Group>
+      </Wrapper4>
+      </Wrapper6>
+      </div>
+      <Container3Dark>
+        <Row>
+          <Dark> Item Name </Dark>
+          <Dark> QTY. </Dark>
+          <Wrapper5>
+          <Dark> Price </Dark>
+          </Wrapper5>
+          <Dark> Total </Dark>
+        </Row>
+        {items.map(item => (
+          <Row style={{fontWeight:"bold"}} key={item.id}>
+            <Dark> {item.name}</Dark>
+            <Dark> {item.quantity} </Dark>
+            <Wrapper5>
+            <Dark> {item.price} £ </Dark>
+            </Wrapper5>
+            <Dark> £ {item.quantity*item.price} </Dark>
+          </Row>
+          //toFixed(2)
+        ))}
+      </Container3Dark>
+      <Container4Dark>
+        <Row>
+          <Text2Dark> Amount Due </Text2Dark>
+          <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> £ {dueAmount(items)} </Dark>
+        </Row>
+
+      </Container4Dark>
+      </Container2Dark>
+      </WrapperDark> 
+      :
+      <WrapperLight>
+      <Header/>
+      <Link to="/" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+        <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelLight> 
+      </Link>
+      <ContainerLight>
+        <Status2>  
+          <Light style={{marginTop:"0.3rem"}}> Status </Light>
+          {
+              invoice.status == "Paid" ? <Paid/>
+              : invoice.status == "Pending" ? <Pending/>
+              :  <Draft mode={darkMode} />
+            }
+        </Status2>
+        { invoice.status == "Paid" ? 
+            <ButtonsLight> 
+              <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+              <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+            </ButtonsLight>
+            : 
+            <ButtonsLight> 
+              <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
+              <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
+              <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
+            </ButtonsLight>
+          }
+      </ContainerLight>
+      <Container2Light>
+        <div>
+          <Wrapper1>
             <div>
-            <Id> <Span>#</Span> {id.slice(0,8).toUpperCase()} </Id>
-              <Dark> {invoice.description} </Dark>
+              <Id> <Span>#</Span> {id.slice(0,8).toUpperCase()} </Id>
+              <Light> Re-branding </Light>
             </div>
             <div style={{width:"7rem"}}>
-              <Dark> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Dark>
+              <Light> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Light>
             </div>
-        </Wrapper1>
-    <Wrapper6> 
-    <Wrapper2>
-      <Group>
-        <LabelDark> Invoice Date </LabelDark>
-        <Text2Dark> {formatDate(invoice.date)} </Text2Dark>
-      </Group>
-      <Group>
-        <LabelDark> Payment Due </LabelDark>
-        <Text2Dark> {formatDate(invoice.term)} </Text2Dark>
-      </Group>
-    </Wrapper2>
-    <Wrapper3>
-    <Group>
-      <LabelDark> Bill To </LabelDark>
-      <Text2Dark> {invoice.client_name} </Text2Dark>
-      <Dark style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Dark>
-    </Group>
-    </Wrapper3>
-    <Wrapper4>
-    <Group>
-      <LabelDark> Sent To </LabelDark>
-      <Text2Dark> {invoice.client_email} </Text2Dark>
-    </Group>
-    </Wrapper4>
-    </Wrapper6>
-    </div>
-    <Container3Dark>
-      <Row>
-        <Dark> Item Name </Dark>
-        <Dark> QTY. </Dark>
-        <Wrapper5>
-        <Dark> Price </Dark>
-        </Wrapper5>
-        <Dark> Total </Dark>
-      </Row>
-      {items.map(item => (
-        <Row style={{fontWeight:"bold"}} key={item.id}>
-          <Dark> {item.name}</Dark>
-          <Dark> {item.quantity} </Dark>
-          <Wrapper5>
-          <Dark> {item.price} £ </Dark>
-          </Wrapper5>
-          <Dark> £ {item.quantity*item.price} </Dark>
-        </Row>
-        //toFixed(2)
-      ))}
-    </Container3Dark>
-    <Container4Dark>
-      <Row>
-        <Text2Dark> Amount Due </Text2Dark>
-        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> £ {dueAmount(items)} </Dark>
-      </Row>
-
-    </Container4Dark>
-    </Container2Dark>
-    </WrapperDark> 
-    :
-    <WrapperLight>
-    <Header/>
-    <Link to="/" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
-      <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelLight> 
-    </Link>
-    <ContainerLight>
-      <Status2>  
-        <Light style={{marginTop:"0.3rem"}}> Status </Light>
-        {
-            invoice.status == "Paid" ? <Paid/>
-            : invoice.status == "Pending" ? <Pending/>
-            :  <Draft mode={darkMode} />
-          }
-      </Status2>
-      { invoice.status == "Paid" ? 
-          <ButtonsLight> 
-            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
-            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
-          </ButtonsLight>
-          : 
-          <ButtonsLight> 
-            <Action onClick={() => setButtonEdit(true)} style={{backgroundColor:"#252945"}}> Edit </Action>
-            <Action onClick={deleteInvoice} style={{backgroundColor:"#ec5757"}}> Delete </Action>
-            <Action onClick={paidInvoice} style={{backgroundColor:"#7c5dfa", width:"8rem"}}> Mark as Paid </Action>
-          </ButtonsLight>
-        }
-    </ContainerLight>
-    <Container2Light>
-      <div>
-        <Wrapper1>
-          <div>
-            <Id> <Span>#</Span> {id.slice(0,8).toUpperCase()} </Id>
-            <Light> Re-branding </Light>
-          </div>
-          <div style={{width:"7rem"}}>
-            <Light> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Light>
-          </div>
-        </Wrapper1>
-        <Wrapper6> 
-    <Wrapper2>
-      <Group>
-        <LabelLight> Invoice Date </LabelLight>
-        <Text2Light> {formatDate(invoice.date)}</Text2Light>
-      </Group>
-      <Group>
-        <LabelLight> Payment Due </LabelLight>
-        <Text2Light> {formatDate(invoice.term)}</Text2Light>
-      </Group>
-    </Wrapper2>
-      <Wrapper3>
+          </Wrapper1>
+          <Wrapper6> 
+      <Wrapper2>
         <Group>
-          <LabelLight> Bill To </LabelLight>
-          <Text2Light> {invoice.client_name} </Text2Light>
-          <Light style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Light>
+          <LabelLight> Invoice Date </LabelLight>
+          <Text2Light> {formatDate(invoice.date)}</Text2Light>
         </Group>
-      </Wrapper3>
-    <Wrapper4>
-      <Group>
-        <LabelLight> Sent To </LabelLight>
-        <Text2Light> {invoice.client_email} </Text2Light>
-      </Group>
-    </Wrapper4>
-    </Wrapper6> 
-    </div>
-    <Container3Light>
-      <Row>
-        <Light> Item Name </Light>
-        <Light> QTY. </Light>
-        <Light> Price </Light>
-        <Light> Total </Light>
-      </Row>
-      {items.map(item => (
-        <Row style={{fontWeight:"bold"}} key={item.id}>
-          <Light> {item.name}</Light>
-          <Light> {item.quantity} </Light>
-          <Light> {item.price} £ </Light>
-          <Light> £ {item.quantity*item.price} </Light>
+        <Group>
+          <LabelLight> Payment Due </LabelLight>
+          <Text2Light> {formatDate(invoice.term)}</Text2Light>
+        </Group>
+      </Wrapper2>
+        <Wrapper3>
+          <Group>
+            <LabelLight> Bill To </LabelLight>
+            <Text2Light> {invoice.client_name} </Text2Light>
+            <Light style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Light>
+          </Group>
+        </Wrapper3>
+      <Wrapper4>
+        <Group>
+          <LabelLight> Sent To </LabelLight>
+          <Text2Light> {invoice.client_email} </Text2Light>
+        </Group>
+      </Wrapper4>
+      </Wrapper6> 
+      </div>
+      <Container3Light>
+        <Row>
+          <Light> Item Name </Light>
+          <Light> QTY. </Light>
+          <Light> Price </Light>
+          <Light> Total </Light>
         </Row>
-        //toFixed(2)
-      ))}
-    </Container3Light>
-    <Container4Light>
-      <Row>
-        <Text2Dark> Amount Due </Text2Dark>
-        <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> £ {dueAmount(items)} </Dark>
-      </Row>
+        {items.map(item => (
+          <Row style={{fontWeight:"bold"}} key={item.id}>
+            <Light> {item.name}</Light>
+            <Light> {item.quantity} </Light>
+            <Light> {item.price} £ </Light>
+            <Light> £ {item.quantity*item.price} </Light>
+          </Row>
+          //toFixed(2)
+        ))}
+      </Container3Light>
+      <Container4Light>
+        <Row>
+          <Text2Dark> Amount Due </Text2Dark>
+          <Dark style={{fontSize:"1.2rem",fontWeight:"bold"}}> £ {dueAmount(items)} </Dark>
+        </Row>
 
-    </Container4Light>
+      </Container4Light>
 
-    </Container2Light>
-    </WrapperLight>
+      </Container2Light>
+      </WrapperLight>
+      }
+      
+      <Edit 
+        trigger={buttonEdit} 
+        setTrigger={setButtonEdit} 
+        />
+      </div>
+      :
+      <Loading/>
     }
-    
-    <Edit 
-      trigger={buttonEdit} 
-      setTrigger={setButtonEdit} 
-      />
     </>
   )
 }

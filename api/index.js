@@ -7,6 +7,7 @@ const authController = require("./controllers/auth");
 const invoiceController = require("./controllers/invoice");
 const jwt = require("jsonwebtoken");
 const cors = require('cors');
+const uuid = require('uuid')
 
 
 dotenv.config({path:__dirname+'/.env'});
@@ -15,7 +16,7 @@ const connectDB = async() => {
     try {
         const con = await mongoose.connect(process.env.MONGO_URL)
         console.log(`MongoDB connected:$(con.connection.host)`)
-    }catch(err){
+    } catch(err){
         console.log(err);
         process.exit(1)
     }
@@ -26,11 +27,11 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+
 //Routes
 app.use("/api/auth", authController);
 app.use("/api/user", userController);
 app.use("/api/invoice", invoiceController);
-
 
 app.listen(process.env.PORT || 5000, ()=>{
     console.log("Backend server is running")

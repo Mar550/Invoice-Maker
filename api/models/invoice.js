@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const invoiceSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'User',
+    },
     address: {type: String, required: true},
     country: {type: String, required: true},
     city: {type: String, required: true},
@@ -23,7 +26,7 @@ const invoiceSchema = new mongoose.Schema({
         type: String,
         default: 'Pending',
         enum: ['Paid', 'Pending', 'Draft']
-    }  
+    } 
 },  
 { timestamp: true }
 )

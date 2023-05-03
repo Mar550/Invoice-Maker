@@ -65,8 +65,18 @@ router.get("/find/:id", async (req, res) => {
     }
 })
 
-//FIND ALL
 
+//FIND Invoices of User 
+router.get("/userinvoices/:id", async (req, res) => {
+    try {
+        const userInvoices = await Invoice.find({ userId: req.params.id });
+        res.status(200).json(userInvoices);
+    }   catch(err) {
+        res.status(500).json(err);
+    }
+})
+
+//FIND ALL
 router.get("/all", async (req, res) => {
     try {
         let invoices;
@@ -78,7 +88,6 @@ router.get("/all", async (req, res) => {
 })
 
 //DELETE
-
 router.delete("/delete/:id", async (req,res) => {
     try{
         await Invoice.findByIdAndDelete(req.params.id) ;

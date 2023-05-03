@@ -2,7 +2,9 @@ import React, {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { ThemeContext } from '../App';
+import { UserContext } from '../App';
 import { publicRequest } from '../request';
+import { store } from '../store';
 import {tablet} from "../responsive";
 import Moment from 'moment';
 
@@ -24,17 +26,22 @@ const Dashboard = () => {
   
   const [invoiceList, setInvoiceList] = useState([])
   const [checked, setChecked] = useState([])
+
   const [buttonPopup, setButtonPopup] = useState(false)
   const { darkMode } = useContext(ThemeContext)
+  const { user, setUser } = useContext(UserContext)
+
   const [loading, setLoading] = useState(false)
 
+  //const id = String(store.getState().auth.user._doc._id)
+  
   const getInvoices = async () => {
     await publicRequest.get(`/invoice/all`).then(res => {
-      const result = res.data
+      const result = res.data.filter(inv => inv.userId == user )       
       setInvoiceList(result)
     });
   }
-
+  
   // Function Total Amount
   function dueAmount(array){
     let sum = 0
@@ -54,7 +61,8 @@ const Dashboard = () => {
     setLoading(true)
   },[])
 
-   
+  console.log(user)
+
   return (
     <>
     { invoiceList.length > 0 ? 

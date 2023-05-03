@@ -37,6 +37,7 @@ const InvoicePopup = (props) => {
         term:"",
         description:"",
         items: itemsList,
+        status:""
     })
 
     const [itemsToAdd, setItemsToAdd] = useState(1);

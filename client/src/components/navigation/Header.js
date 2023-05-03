@@ -1,13 +1,18 @@
-import React, { useContext} from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../../App';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { tablet } from '../../responsive';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../features/authSlice';
+
 // UI Icons
 import { MdLightMode } from 'react-icons/md';
 import { MdModeNight } from 'react-icons/md';
 import { AiFillHome } from 'react-icons/ai';
 import { GoMarkGithub } from 'react-icons/go';
-import { tablet } from '../../responsive';
+import { ImExit } from 'react-icons/im';
 
 const Header = (props) => {
 
@@ -16,6 +21,17 @@ const Header = (props) => {
   const handleThemeChange = () => {
     setDarkMode(!darkMode)
   }
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  
+  const handleLogout = (e) => {
+    e.preventDefault()
+    dispatch(logout())
+    window.location.replace('/')
+  }
+  
 
   return (
     <>
@@ -34,10 +50,8 @@ const Header = (props) => {
                 <MdModeNight />
             </ModeLight>
             }
-            <Icon>
-              <Page title="View on Github " target="_blank" href="https://github.com/Mar550/Invoice-Maker">
-                <GoMarkGithub style={{color:"white", marginTop:"1rem"}}/>
-              </Page>
+            <Icon title="Logout" onClick={(e) => handleLogout(e)}>
+              <ImExit title="Logout"  style={{color:"white", marginTop:"25%"}}/>
             </Icon>
         </Container>
     </>
@@ -99,7 +113,7 @@ const Icon = styled.div`
   grid-column-start: 12;
   grid-column-end: 12;
   justify-self: end;
-  font-size: 38px;
+  font-size: 28px;
   opacity: 0.6;
   &:hover{
     cursor: pointer;
@@ -108,7 +122,7 @@ const Icon = styled.div`
   border-left: 2px solid #494e6e;
   display:flex;
   justify-content:center;
-  width: 7rem;
+  width: 6.5rem;
 
   ${tablet({ width:"5rem"})}
 `
@@ -118,6 +132,15 @@ const Page = styled.a`
   cursor: pointer;
   opacity: 1;
 }
+`
+
+const Button = styled.button`
+  color: white;
+  background: green;
+  &:hover{
+    cursor: pointer;
+    opacity: 0.6;
+  }
 `
 
 export default Header;

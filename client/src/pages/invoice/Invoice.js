@@ -5,12 +5,13 @@ import styled from 'styled-components';
 import Moment from 'moment';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from '../../App';
+import { UserContext } from '../../App';
 import { publicRequest } from '../../request';
 import { tablet } from '../../responsive';
 
 // UI Icons
 import { AiFillHome } from 'react-icons/ai';
-import { MdOutlineArrowBackIosNew } from 'react-icons/md';
+import { MdOutlineArrowBackIosNew, MdSettingsBackupRestore } from 'react-icons/md';
 import {MdLightMode} from 'react-icons/md';
 import {MdModeNight} from 'react-icons/md';
 
@@ -28,6 +29,8 @@ const Invoice = (props) => {
   const [invoice, setInvoice] = useState([])
   const [items, setItems] = useState([])
   const { darkMode } = useContext(ThemeContext)
+  const { user, setUser } = useContext(UserContext)
+
   const [loading, setLoading] = useState(false)
 
   const getInvoice = async () => {
@@ -90,6 +93,11 @@ const Invoice = (props) => {
     return Moment(new Date(myDate)).format("DD MMM YYYY");
   }
 
+  // Function format numbers
+  function numberFormat(number){
+    return number.toLocaleString('en-US',{'minimumFractionDigits':2,'maximumFractionDigits':2});
+  }  
+  
   return (
     <>
       { Object.keys(invoice).length > 0 ?  
@@ -98,7 +106,7 @@ const Invoice = (props) => {
       <WrapperDark>
       <Header/>
       <Head>
-        <Link to="/">
+        <Link to="/home">
           <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.8rem", fontWeight:"700"}}/> <LabelDark style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelDark> 
         </Link>
       </Head>
@@ -175,9 +183,9 @@ const Invoice = (props) => {
             <Dark> {item.name}</Dark>
             <Dark> {item.quantity} </Dark>
             <Wrapper5>
-            <Dark> {item.price} £ </Dark>
+            <Dark> {numberFormat(item.price)} £ </Dark>
             </Wrapper5>
-            <Dark> £ {item.quantity*item.price} </Dark>
+            <Dark> £ {numberFormat(item.quantity*item.price)} </Dark>
           </Row>
           //toFixed(2)
         ))}
@@ -194,16 +202,16 @@ const Invoice = (props) => {
       :
       <WrapperLight>
       <Header/>
-      <Link to="/" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
+      <Link to="/home" style={{marginTop:"4rem", cursor:"pointer",paddingLeft:"6rem", color:"white", marginLeft:"12.5%"}}>
         <MdOutlineArrowBackIosNew style={{color:"#7c5dfa",fontSize:"1.5rem", fontWeight:"700"}}/> <LabelLight style={{cursor:"pointer", fontSize:"0.9rem"}} > Go Back </LabelLight> 
       </Link>
       <ContainerLight>
         <Status2>  
           <Light style={{marginTop:"0.3rem"}}> Status </Light>
-          {
+            {
               invoice.status == "Paid" ? <Paid/>
               : invoice.status == "Pending" ? <Pending/>
-              :  <Draft mode={darkMode} />
+              : <Draft mode={darkMode} />
             }
         </Status2>
         { invoice.status == "Paid" ? 
@@ -266,8 +274,8 @@ const Invoice = (props) => {
         {items.map(item => (
           <Row style={{fontWeight:"bold"}} key={item.id}>
             <Light> {item.name}</Light>
-            <Light> {item.quantity} </Light>
-            <Light> {item.price} £ </Light>
+            <Light> {numberFormat(item.quantity)} </Light>
+            <Light> {numberFormat(item.price)} £ </Light>
             <Light> £ {item.quantity*item.price} </Light>
           </Row>
           //toFixed(2)
@@ -283,12 +291,8 @@ const Invoice = (props) => {
 
       </Container2Light>
       </WrapperLight>
-      }
-      
-      <Edit 
-        trigger={buttonEdit} 
-        setTrigger={setButtonEdit} 
-        />
+      }  
+      <Edit trigger={buttonEdit} setTrigger={setButtonEdit} />
       </div>
       :
       <Loading/>

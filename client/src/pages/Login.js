@@ -1,14 +1,19 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, useContext} from "react";
+import Header from "../components/navigation/Header";
 import styled from 'styled-components'
 import google from '../assets/google-svg.svg'
 import twitter from '../assets/twitter-svg.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios";
 import { login, reset } from '../features/authSlice';
-
+import { ThemeContext } from '../App';
+import { store } from "../store";
+import { Link } from 'react-router-dom'
 
 const Login = () => {
+
+  const { darkMode } = useContext(ThemeContext)
 
   const [data, setData] = useState({
     email:"",
@@ -17,7 +22,6 @@ const Login = () => {
 
   const { email, password } = data
 
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,18 +33,12 @@ const Login = () => {
     if (isError) {
       alert(message)
     }
-
-    if (isSuccess || user) {
-      navigate('/')
-    }
-
     dispatch(reset())
   }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]:input.value })
   }
-
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -49,22 +47,19 @@ const Login = () => {
       password
     }
     dispatch(login(userData))
-    navigate('/invoices')
+    window.location.replace('/home')
   }
 
-  
   return (
-    <Container>
-    <FormContainer>
+    <>  
+    <Header/>
+    { darkMode ? 
+    <Wrapper>
+      <Container>
           <Title>
-            LOGIN NOW
+            Login 
           </Title>
-          <Social>
-            <Button> <Icon src={google}/> Login With Google </Button>
-            <Button> <Icon src={twitter}/> Login With Twitter </Button>
-          </Social>
-          <Subtitle> <Line></Line> <Span> Or your can enter using your credentials </Span> <Line></Line> </Subtitle>
-          <Form onSubmit={handleSubmit}> 
+            <Form onSubmit={handleSubmit}> 
             <Input 
             placeholder="Email"
             name="email"
@@ -77,47 +72,93 @@ const Login = () => {
             name="password"
             onChange={handleChange}/>
             <Submit type="submit"> 
-              SUBMIT
+              Submit
             </Submit>
           </Form>
-          <Linked> Still not registered ? Sign Up Here</Linked>
-      </FormContainer>
-   
-    </Container>
+          <Link to="/register" style={{textDecoration:"none"}}> <Linked> Still not registered ? Sign Up Here</Linked> </Link>
+      </Container>
+    </Wrapper>
+    :
+    <WrapperLight>
+      <ContainerLight>
+          <Title>
+            Login 
+          </Title>
+            <Form onSubmit={handleSubmit}> 
+            <Input 
+            placeholder="Email"
+            name="email"
+            value={data.email} 
+            onChange={handleChange} />            
+            <Input 
+            placeholder="Password"
+            type="password"
+            value={data.password}
+            name="password"
+            onChange={handleChange}/>
+            <Submit type="submit"> 
+              Submit
+            </Submit>
+          </Form>
+          <Link to="/register" style={{textDecoration:"none"}}> <LinkedLight> Still not registered ? Sign Up Here</LinkedLight> </Link>
+      </ContainerLight>
+    </WrapperLight>
+    }
+    </>
   )
 }
 
-// STYLES
+// STYLE
+const Wrapper = styled.div `
+background-color: #141625;
+  width: 100%;
+  height: 41rem;
+  padding: 3rem;
+  `
 
-const Container = styled.div `
+  const WrapperLight = styled.div `
   background-color: #f0f0f0;
   width: 100%;
   height: 41rem;
   padding: 3rem;
   `
 
-  const FormContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
   gap: 0.9rem;
-  padding: 1.5rem;
+  padding: 2.1rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #1e2139;
+  width:38%; 
+  color:white;
+  margin-top: 3rem;
+`
+const ContainerLight = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  gap: 0.9rem;
+  padding: 2.1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-  width:35%; 
-
+  width:38%; 
+  margin-top: 3rem;
 `
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
 `
 const Title = styled.h1`
-  margin-top: 1rem;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 38px;
   text-align:center;
 `
 const Social = styled.div`
@@ -138,7 +179,11 @@ const Input = styled.input`
   margin-left: auto;
   margin-right: auto;
   font-size: 15px;
-  height: 2.3rem;
+  height: 2.5rem;
+  padding: 1rem;
+  &:hover{
+    cursor:text;
+  }
 `
 const Button = styled.button`
   height: 2.8rem;
@@ -159,6 +204,8 @@ const Submit = styled.button`
   margin-right: auto;
   height: 3rem;
   border:none;
+  font-weight: bold;
+  font-size: 1.2rem;
   &:hover {
     background-color: #3c0d99;
   }
@@ -169,7 +216,17 @@ const Text = styled.p`
   width: 75%;
 
 `
+
 const Linked = styled.p`
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  text-align:center;
+  &:hover{
+    cursor:pointer
+  }
+`
+const LinkedLight = styled.p`
   color: #2c2a2b;
   font-weight: bold;
   font-size: 16px;

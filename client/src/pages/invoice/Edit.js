@@ -38,7 +38,8 @@ const Edit = (props) => {
         date:"",
         term:"",
         description:"",
-        items: itemsList
+        items: itemsList,
+        status:""
     })
 
     // Get Invoice with ID
@@ -61,14 +62,18 @@ const Edit = (props) => {
     }
 
     // Update as a draft Function
-    const updateDraft = () => {
+    const changeToDraft = () => {
         setData((data) => {
             return({
               ...data,
               status:'Draft'
-            });
-          });
-        publicRequest.put('/invoice/update/'+id, data)
+        });
+    })};
+
+    // Update as a draft Function
+    const updateDraft = async () => {
+        changeToDraft();
+        await publicRequest.put('/invoice/update/'+id, data)
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }
@@ -243,7 +248,7 @@ const Edit = (props) => {
             onChange={handleChange}
             />
         </Group>
-        <Title2> Item Listz</Title2>
+        <Title2> Item List </Title2>
         
         {
                 itemsList.length > 0 ?
@@ -289,7 +294,7 @@ const Edit = (props) => {
         <Button onClick={addItem}> + Add New Item </Button>
         <Footer>
             <Action onClick={closePopup} style={{backgroundColor:"#252945"}} > Discard </Action>
-            <Action onClick = {updateDraft} style={{backgroundColor:"#373b53"}}> Save as Draft </Action>
+            <Action onClick= {updateDraft} style={{backgroundColor:"#373b53"}}> Save as Draft </Action>
             <Action onClick={updateInvoice} style={{backgroundColor:"#7c5dfa"}}> Save & Send </Action>      
         </Footer>
         </form>
@@ -462,7 +467,7 @@ const Edit = (props) => {
                 <ButtonLight onClick={addItem}> + Add New Item </ButtonLight>
                 <Footer>
                     <Action onClick={closePopup} style={{backgroundColor:"#252945"}} > Discard </Action>
-                    <Action style={{backgroundColor:"#373b53"}}> Save as Draft </Action>
+                    <Action onClick= {updateDraft} style={{backgroundColor:"#373b53"}}> Save as Draft </Action>
                     <Action onClick={updateInvoice} style={{backgroundColor:"#7c5dfa"}}> Save & Send </Action>      
                 </Footer>
                 </form>

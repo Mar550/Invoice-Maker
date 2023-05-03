@@ -42,6 +42,20 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
     }
     
   })
+
+  // Login guest session 
+export const session = createAsyncThunk('auth/session', async (user, thunkAPI) => {
+    try {
+      return await authService.session(user)
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+    
+  })
   
   // Logout User
   export const logout = createAsyncThunk('auth/logout', async () => {

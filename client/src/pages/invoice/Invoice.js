@@ -53,7 +53,7 @@ const Invoice = (props) => {
 
   const deleteInvoice = async () => {
     await publicRequest.delete('/invoice/delete/' + id)
-    .then(navigate("/"))
+    .then(window.location.replace("/home"))
     .catch(error => console.log(error))
   }
   

@@ -61,8 +61,6 @@ const Dashboard = () => {
     setLoading(true)
   },[])
 
-  console.log(user)
-
   return (
     <>
     { invoiceList.length > 0 ? 

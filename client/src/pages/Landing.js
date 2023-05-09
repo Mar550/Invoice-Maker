@@ -30,8 +30,6 @@ const Landing = () => {
         setId(uuidv4)
       },[])
 
-    console.log(id)
-
     const guestSession = async () => {
         await publicRequest.post('/auth/session', {id})
         .then((response) => localStorage.setItem('user', JSON.stringify(response.data)))
@@ -47,7 +45,6 @@ const Landing = () => {
         dispatch(session({id}))
         navigate('/home');
     }
-    //Both normal and redux authentication are working, and we'll only need "user" in local storage
 
     return (
     <>  
@@ -69,8 +66,8 @@ const Landing = () => {
                 <TitleLight> Login </TitleLight>
                 <TextLight> This is a portfolio project developed with JavaScript, React, Node.js and Express.js. <Span> <a href="https://github.com/Mar550/Invoice-Maker" style={{ textDecoration:"none", color:"#7c5dfa" }}> View on GitHub </a>  </Span> </TextLight>
                 <Action>
-                    <Button1Light> View as a demo </Button1Light>
-                    <Button2Light> Register as a user </Button2Light>
+                    <Button1Light onClick={handleSubmit}> View as a demo </Button1Light>
+                    <Button2Light onClick={registerAuth}> Register as a user </Button2Light>
                 </Action>
         </ContainerLight>
     </WrapperLight>

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios";
 import { login, reset } from '../features/authSlice';
 import { ThemeContext } from '../App';
+import { tablet } from '../responsive';
 import { store } from "../store";
 import { Link } from 'react-router-dom'
 
@@ -136,6 +137,7 @@ const Container = styled.div`
   width:38%; 
   color:white;
   margin-top: 3rem;
+  ${tablet({width: "70%"})} 
 `
 const ContainerLight = styled.div`
   display: flex;
@@ -149,6 +151,7 @@ const ContainerLight = styled.div`
   background-color: white;
   width:38%; 
   margin-top: 3rem;
+  ${tablet({width: "70%"})} 
 `
 
 const Form = styled.form`
@@ -209,6 +212,7 @@ const Submit = styled.button`
   &:hover {
     background-color: #3c0d99;
   }
+  ${tablet({fontSize: "1.1rem"})} 
 `
 const Text = styled.p`
   color: #2c2a2b;

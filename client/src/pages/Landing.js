@@ -8,6 +8,8 @@ import { session } from '../features/authSlice'
 import { publicRequest } from '../request';
 import { v4 as uuidv4 } from "uuid";
 import { Navigate, useNavigate } from 'react-router';
+import { tablet } from '../responsive';
+import {AiFillGithub} from 'react-icons/ai';
 
 const Landing = () => {
 
@@ -18,9 +20,8 @@ const Landing = () => {
 
     const { user, isLoading, isError, isSuccess, message } = useSelector(
         (state) => state.auth
-      )
-
-    
+    )
+  
     const randomId = uuidv4()
 
     const [id, setId] = useState('')
@@ -46,7 +47,6 @@ const Landing = () => {
         dispatch(session({id}))
         navigate('/home');
     }
-
     //Both normal and redux authentication are working, and we'll only need "user" in local storage
 
     return (
@@ -56,7 +56,7 @@ const Landing = () => {
     <Wrapper>
         <Container>
                 <Title> Login </Title>
-                <Text> This is a portfolio project developed with JavaScript, React, Node.js and Express.js.  <Span> <a href="https://github.com/Mar550/Invoice-Maker" style={{ textDecoration:"none", color:"#7c5dfa" }}> View it on GitHub. </a> </Span> </Text>
+                <Text> This is a portfolio project developed with JavaScript, React, Node.js and Express.js.  <Span> <a href="https://github.com/Mar550/Invoice-Maker" style={{ textDecoration:"none", color:"#7c5dfa" }}> View on GitHub </a> </Span> </Text>
                 <Action>
                     <Button1 onClick={handleSubmit}> View as a demo </Button1>
                     <Button2 onClick={registerAuth}> Register as a user </Button2>
@@ -67,7 +67,7 @@ const Landing = () => {
     <WrapperLight>
         <ContainerLight>
                 <TitleLight> Login </TitleLight>
-                <TextLight> This is a portfolio project developed with JavaScript, React, Node.js and Express.js. View it <Span> <a href="https://github.com/Mar550/Invoice-Maker" style={{ textDecoration:"none", color:"#7c5dfa" }}> View it on GitHub. </a> </Span> </TextLight>
+                <TextLight> This is a portfolio project developed with JavaScript, React, Node.js and Express.js. <Span> <a href="https://github.com/Mar550/Invoice-Maker" style={{ textDecoration:"none", color:"#7c5dfa" }}> View on GitHub </a>  </Span> </TextLight>
                 <Action>
                     <Button1Light> View as a demo </Button1Light>
                     <Button2Light> Register as a user </Button2Light>
@@ -98,6 +98,8 @@ const Container = styled.div`
     margin-right:auto;
     padding: 2.5rem 2rem 2.5rem 2rem;
     border-radius: 0.5rem;
+    ${tablet({width: "70vh"})}  
+    ${tablet({padding: "2.2rem 1.6rem 2.2rem 1.6rem"})}  
 `
 
 const ContainerLight = styled.div`
@@ -107,6 +109,9 @@ const ContainerLight = styled.div`
     margin-right:auto;
     padding: 2.5rem 2rem 2.5rem 2rem;
     border-radius: 0.5rem;
+    ${tablet({width: "70vh"})} 
+    ${tablet({padding: "2.2rem 1.6rem 2.2rem 1.6rem"})}  
+ 
 `
 const Title = styled.p`
     color: white;
@@ -114,6 +119,8 @@ const Title = styled.p`
     font-weight: bold;
     font-size: 38px;
     letter-spacing: 2px; 
+    ${tablet({fontSize: "32px"})}  
+
 `
 const Text = styled.p`
     color: white;
@@ -127,11 +134,13 @@ const TitleLight = styled.p`
     font-weight: bold;
     font-size: 2.2rem;  
     letter-spacing: 2px; 
+    ${tablet({fontSize: "32px"})}  
 `
 const TextLight = styled.p`
     color: black;
     text-align:center;
     font-size: 1rem;
+    line-height: 30px;
 `
 
 const Action = styled.div`
@@ -163,6 +172,8 @@ const Button1 = styled.button`
     letter-spacing: -.25px;
     font-weight: 700;
     color: white;
+    ${tablet({padding: "0 1.2rem"})}  
+
 `
 
 const Button2 = styled.button`
@@ -180,6 +191,8 @@ const Button2 = styled.button`
     letter-spacing: -.25px;
     font-weight: 700;
     color: white;
+    ${tablet({padding: "0 1.2rem"})}  
+
 `
 
 const Button1Light = styled.button`
@@ -196,6 +209,8 @@ letter-spacing: -.25px;
 font-weight: 700;
 background: #373b53;
 color: #888eb0;
+${tablet({padding: "0 1.2rem"})}  
+
 `
 
 const Button2Light = styled.button`
@@ -214,6 +229,7 @@ const Button2Light = styled.button`
     font-weight: 700;
     background: #7c5dfa;
     color: #fff;
+    ${tablet({padding: "0 1.2rem"})}  
 `
 
 

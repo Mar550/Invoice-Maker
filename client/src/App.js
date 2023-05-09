@@ -22,8 +22,10 @@ function App() {
   const [darkMode, setDarkMode] = useState(true)
 
   // USER OR GUEST
-  const [user, setUser] = useState(localStorage.getItem("user") == null ? localStorage.getItem("guest") : Object.values(JSON.parse(localStorage.getItem("user")))[3])
 
+  const [user, setUser] = useState(localStorage.getItem("user") == null ? null : Object.values(JSON.parse(localStorage.getItem("user")))[3] == null ? Object.values(JSON.parse(localStorage.getItem("user")))[1] : Object.values(JSON.parse(localStorage.getItem("user")))[3])
+
+  console.log(user)
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
       <UserContext.Provider value={{ user, setUser }}>

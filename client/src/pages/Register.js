@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { register, reset } from '../features/authSlice';
 import Header from "../components/navigation/Header";
 import { ThemeContext } from "../App";
+import { tablet } from '../responsive';
+
 
 const Register = () => {
 
@@ -158,6 +160,8 @@ const Container = styled.div`
   background-color: #1e2139;
   width:38%; 
   color:white;
+  ${tablet({width: "70%"})} 
+
 `
 const ContainerLight = styled.div`
   display: flex;
@@ -170,6 +174,7 @@ const ContainerLight = styled.div`
   margin-right: auto;
   background-color: white;
   width:38%; 
+  ${tablet({width: "70%"})} 
 `
 
 const Form = styled.form`
@@ -230,6 +235,8 @@ const Submit = styled.button`
   &:hover {
     background-color: #3c0d99;
   }
+  ${tablet({fontSize: "1.1rem"})} 
+
 `
 const Text = styled.p`
   color: #2c2a2b;

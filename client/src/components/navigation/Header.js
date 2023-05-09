@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../../App';
+import { UserContext } from '../../App';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { tablet } from '../../responsive';
@@ -21,39 +22,41 @@ const Header = (props) => {
   const handleThemeChange = () => {
     setDarkMode(!darkMode)
   }
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  
   const handleLogout = (e) => {
     e.preventDefault()
     dispatch(logout())
     window.location.replace('/')
   }
-  
+  /** 
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user)
+  const userId = Object.values(user)[1]
+  console.log(userId)
+  */
 
   return (
     <>
-        <Container>
-            <Home>
-              <Link style={{textDecoration:"none", color:"white", backgroundColor: "#7c5dfa"}} to="/">
-                <AiFillHome/>
-              </Link>
-            </Home>
-            { darkMode ? 
-            <ModeDark onClick={() => handleThemeChange()} >      
-                <MdLightMode />
-            </ModeDark>
-            :
-            <ModeLight onClick={() => handleThemeChange()} >      
-                <MdModeNight />
-            </ModeLight>
-            }
-            <Icon title="Logout" onClick={(e) => handleLogout(e)}>
-              <ImExit title="Logout"  style={{color:"white", marginTop:"25%"}}/>
-            </Icon>
-        </Container>
+      <Container>
+          <Home>
+            <Link style={{textDecoration:"none", color:"white", backgroundColor: "#7c5dfa"}} to="/">
+              <AiFillHome/>
+            </Link>
+          </Home>
+          { darkMode ? 
+          <ModeDark onClick={() => handleThemeChange()} >      
+              <MdLightMode />
+          </ModeDark>
+          :
+          <ModeLight onClick={() => handleThemeChange()} >      
+              <MdModeNight />
+          </ModeLight>
+          }
+          <Icon title="Logout" onClick={(e) => handleLogout(e)}>
+            <ImExit title="Logout"  style={{color:"white", marginTop:"25%"}}/>
+          </Icon>
+      </Container>
     </>
   )
 }

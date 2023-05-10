@@ -44,8 +44,7 @@ const Register = () => {
         password
       }
       dispatch(register(userData))
-      console.log(data)
-      window.location.replace('/home')
+      navigate('/login')
     } else {
       alert("Passwords do not match")
     }

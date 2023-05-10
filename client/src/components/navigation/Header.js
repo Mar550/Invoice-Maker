@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../../App';
-import { UserContext } from '../../App';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { tablet } from '../../responsive';

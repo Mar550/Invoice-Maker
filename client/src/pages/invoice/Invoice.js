@@ -8,7 +8,6 @@ import { ThemeContext } from '../../App';
 import { UserContext } from '../../App';
 import { publicRequest } from '../../request';
 import { tablet } from '../../responsive';
-
 // UI Icons
 import { AiFillHome } from 'react-icons/ai';
 import { MdOutlineArrowBackIosNew, MdSettingsBackupRestore } from 'react-icons/md';
@@ -140,7 +139,7 @@ const Invoice = (props) => {
                 <Dark> {invoice.description} </Dark>
               </div>
               <div style={{width:"7rem"}}>
-                <Dark> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Dark>
+                <Dark> {invoice.address + ', ' + invoice.city + ', ' + invoice.postcode + ' ' + invoice.country} </Dark>
               </div>
           </Wrapper1>
       <Wrapper6> 
@@ -158,7 +157,7 @@ const Invoice = (props) => {
       <Group>
         <LabelDark> Bill To </LabelDark>
         <Text2Dark> {invoice.client_name} </Text2Dark>
-        <Dark style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Dark>
+        <Dark style={{width:"10rem"}}> {invoice.client_address + ', ' + invoice.client_city + ', ' + invoice.client_code + ', ' + invoice.client_country} </Dark>
       </Group>
       </Wrapper3>
       <Wrapper4>
@@ -235,7 +234,7 @@ const Invoice = (props) => {
               <Light> Re-branding </Light>
             </div>
             <div style={{width:"7rem"}}>
-              <Light> {invoice.address + ', ' + invoice.city + ' ' + invoice.postcode + ' ' + invoice.country} </Light>
+              <Light> {invoice.address + ', ' + invoice.city + ', ' + invoice.postcode + ' ' + invoice.country} </Light>
             </div>
           </Wrapper1>
           <Wrapper6> 
@@ -253,7 +252,7 @@ const Invoice = (props) => {
           <Group>
             <LabelLight> Bill To </LabelLight>
             <Text2Light> {invoice.client_name} </Text2Light>
-            <Light style={{width:"10rem"}}> {invoice.client_address + ' ' + invoice.client_code + ' ' + invoice.client_city + ' ' + invoice.client_country} </Light>
+            <Light style={{width:"10rem"}}> {invoice.client_address + ', ' + invoice.client_city + ', ' + invoice.client_code + ' ' + invoice.client_country} </Light>
           </Group>
         </Wrapper3>
       <Wrapper4>

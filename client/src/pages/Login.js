@@ -1,16 +1,14 @@
 import React,{useState, useEffect, useContext} from "react";
 import Header from "../components/navigation/Header";
 import styled from 'styled-components'
-import google from '../assets/google-svg.svg'
-import twitter from '../assets/twitter-svg.svg';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import axios from "axios";
 import { login, reset } from '../features/authSlice';
 import { ThemeContext } from '../App';
 import { tablet } from '../responsive';
-import { store } from "../store";
 import { Link } from 'react-router-dom'
+import { ToasContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
 
@@ -22,17 +20,18 @@ const Login = () => {
   })
 
   const { email, password } = data
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   )
   
   useEffect(() => {
     if (isError) {
       alert(message)
+    }
+    if (isSuccess || user) {
+      navigate('/home')
     }
     dispatch(reset())
   }, [user, isError, isSuccess, message, navigate, dispatch])
@@ -48,7 +47,6 @@ const Login = () => {
       password
     }
     dispatch(login(userData))
-    window.location.replace('/home')
   }
 
   return (

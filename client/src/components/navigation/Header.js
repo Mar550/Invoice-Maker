@@ -1,11 +1,14 @@
 import React, { useContext, useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../../App';
+import { UserContext } from '../../App';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { tablet } from '../../responsive';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../features/authSlice';
+import Dropdown from '../dropdown/Dropdown';
+import { useSelector } from 'react-redux';
 
 // UI Icons
 import { MdLightMode } from 'react-icons/md';
@@ -13,28 +16,43 @@ import { MdModeNight } from 'react-icons/md';
 import { AiFillHome } from 'react-icons/ai';
 import { GoMarkGithub } from 'react-icons/go';
 import { ImExit } from 'react-icons/im';
+import {IoIosArrowDropdownCircle} from 'react-icons/io';
+import { RiUserSmileFill } from 'react-icons/ri';
+import { AiFillCaretDown} from 'react-icons/ai';
 
 const Header = (props) => {
 
-  const { darkMode, setDarkMode } = useContext(ThemeContext)
-
+  const [open, setOpen] = useState(false)
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  
   const handleThemeChange = () => {
     setDarkMode(!darkMode)
   }
+
+  const toggleDropdown = () => {
+    setOpen(!open)
+  }
+
+  const user = useSelector(state=> state.auth.user);
+  console.log(user)
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleLogout = (e) => {
     e.preventDefault()
     dispatch(logout())
     window.location.replace('/')
   }
+
+  
+
   /** 
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user)
   const userId = Object.values(user)[1]
   console.log(userId)
   */
-
   return (
     <>
       <Container>
@@ -52,8 +70,18 @@ const Header = (props) => {
               <MdModeNight />
           </ModeLight>
           }
-          <Icon title="Logout" onClick={(e) => handleLogout(e)}>
-            <ImExit title="Logout"  style={{color:"white", marginTop:"25%"}}/>
+          <Icon title="Menu" >
+            {
+              open ?
+                <div  style={{display:"flex", flexDirection:"column"}}>
+                  <RiUserSmileFill onClick={toggleDropdown} className="userIcon" style={{color:"white", textAlign:"center"}}/>
+                  <Dropdown/>
+                </div>
+              :
+                <div onClick={toggleDropdown} style={{display:"flex", flexDirection:"column"}}>
+                  <RiUserSmileFill className="userIcon" style={{color:"white", textAlign:"center"}}/>
+                </div>
+            }     
           </Icon>
       </Container>
     </>
@@ -83,8 +111,8 @@ const Home = styled.div`
 const ModeDark = styled.div`
   color: white;
   border:none;
-  font-size: 25px;
-  margin-top: 1rem;
+  font-size: 26px;
+  margin-top: 1.1rem;
   color:white;
   opacity: 0.6;
   &:hover{
@@ -99,8 +127,8 @@ const ModeDark = styled.div`
 const ModeLight = styled.div`
   border:none;
   float:right;
-  font-size: 25px;
-  margin-top: 1rem;
+  font-size: 26px;
+  margin-top: 1.1rem;
   color:white;
   opacity: 0.6;
   &:hover{
@@ -115,7 +143,7 @@ const Icon = styled.div`
   grid-column-start: 12;
   grid-column-end: 12;
   justify-self: end;
-  font-size: 28px;
+  font-size: 2.3rem;
   opacity: 0.6;
   &:hover{
     cursor: pointer;
@@ -124,9 +152,14 @@ const Icon = styled.div`
   border-left: 2px solid #494e6e;
   display:flex;
   justify-content:center;
-  width: 6.5rem;
-
+  width: 6.3rem;
   ${tablet({ width:"5rem"})}
+
+  .userIcon{
+    margin-top: 1.2rem;
+    text-align:"center";
+  }
+  
 `
 
 const Page = styled.a`

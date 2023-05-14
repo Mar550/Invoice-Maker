@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { BsArrowCounterclockwise } from 'react-icons/bs';
 import styled from 'styled-components'
 import { ThemeContext } from '../App';
+import { UserContext } from '../App';
 import Header from '../components/navigation/Header';
 import { session } from '../features/authSlice'
 import { publicRequest } from '../request';
@@ -15,6 +16,8 @@ const Landing = () => {
 
     // Doing a normal authentication without redux
     const { darkMode } = useContext(ThemeContext)
+    const { userId } = useContext(UserContext)
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

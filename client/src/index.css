@@ -11,3 +11,30 @@ code {
     monospace;
 }
 
+.spinner-dark{
+  width: 6.2rem;
+  height: 6.2rem;
+  border: 8px solid;
+  border-color: white transparent #555 transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+.spinner-light{
+  width: 6.2rem;
+  width: 6.2rem;
+  border: 8px solid;
+  border-color: black transparent #555 transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { ThemeContext } from '../App';
+import { UserContext } from '../App';
 import { publicRequest } from '../request';
 import { store } from '../store';
 import {tablet} from "../responsive";
@@ -22,6 +23,10 @@ import Loading from '../components/navigation/Loading';
 
 
 const Dashboard = () => {
+
+  const { userId } = useContext(UserContext);
+
+  console.log(userId)
   
   const [invoiceList, setInvoiceList] = useState([])
   const [checked, setChecked] = useState([])
@@ -32,10 +37,11 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(false)
 
-  /** const id = String(store.getState().auth.user._doc._id) */
+
   
   const getInvoices = async () => {
     await publicRequest.get(`/invoice/all`).then(res  => {
+      const id = localStorage.getItem('user')
       /** const result = res.data.filter(inv => inv.userId == user )*/  
       const result = res.data;   
       setInvoiceList(result)

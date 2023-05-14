@@ -21,15 +21,11 @@ const Register = () => {
   })
 
   const { username,email, password} = data
-
   const navigate = useNavigate()
-
   const dispatch = useDispatch()
-
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   )
-  
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]:input.value })
   }
@@ -37,20 +33,18 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
       if (data.password == data.password2){
-
       const userData = {
         username,
         email,
         password
       }
       dispatch(register(userData))
-      navigate('/login')
+      navigate('/home')
     } else {
       alert("Passwords do not match")
     }
   };
-
-  
+ 
   return (
     <>  
     <Header/>

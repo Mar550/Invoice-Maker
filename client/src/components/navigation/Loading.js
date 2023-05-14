@@ -1,7 +1,9 @@
 import React, {useContext} from 'react'
 import styled from 'styled-components';
+import { keyframes } from 'styled-components';
 import { ThemeContext } from '../../App';
 import Header from './Header';
+import '../../index.css'
 
 const Loading = () => {
     
@@ -11,51 +13,45 @@ const Loading = () => {
         <Header/>
         { darkMode ? 
         <ContainerDark>
-            <TextDark> Loading... </TextDark>
+            <div className="spinner-dark"> </div>
         </ContainerDark>
         :
         <ContainerLight>
-            <TextLight> Loading... </TextLight>
+            <div className="spinner-light"> </div>
         </ContainerLight>
         }       
       </>
   )
 }
 
+
 const ContainerDark = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     color: white; 
     background-color: #141625; 
+    z-index: 5000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 const ContainerLight = styled.div`
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
-    color: black; 
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: white; 
     background-color: #f8f8fb; 
+    z-index: 5000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
-const TextDark= styled.p`
-    color: white;
-    font-size: 1.8rem;
-    margin-left: auto;
-    margin-right: auto;
-    letter-spacing: 2px;
-    margin-top: 18%;
-`
-
-const TextLight = styled.p`
-    color: black;
-    font-size: 1.8rem;
-    margin-left: auto;
-    margin-right: auto;
-    letter-spacing: 2px;
-    margin-top: 18%;
-`
 
 export default Loading;

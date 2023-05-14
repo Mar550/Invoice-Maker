@@ -19,10 +19,14 @@ const Dropdown = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const toDashboard = () => {
+        navigate('/home')
+    }
+
     const handleLogout = (e) => {
         e.preventDefault()
         dispatch(logout())
-        window.location.replace('/')
+        navigate('/')
       }
 
     return (
@@ -34,7 +38,7 @@ const Dropdown = () => {
                     <MdOutlineSpaceDashboard style={{fontSize:"1.6rem"}}/>
                     <Link> Dashboard </Link>
                 </Li>
-                <Li onClick={navigate('/home')}> 
+                <Li onClick={toDashboard}> 
                     <AiFillGithub style={{fontSize:"1.6rem"}}/>
                     <Link  style={{textDecoration:"none"}} className="weblink" href="https://github.com/Mar550/Citibike-Ecommerce"> View on Github </Link>
                 </Li>

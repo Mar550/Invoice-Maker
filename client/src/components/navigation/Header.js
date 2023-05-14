@@ -34,6 +34,7 @@ const Header = (props) => {
   }
 
   const user = useSelector(state=> state.auth.user);
+  const guest = localStorage.getItem("user")
   console.log(user)
 
   const dispatch = useDispatch();

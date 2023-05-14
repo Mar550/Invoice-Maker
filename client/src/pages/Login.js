@@ -7,8 +7,6 @@ import { login, reset } from '../features/authSlice';
 import { ThemeContext } from '../App';
 import { tablet } from '../responsive';
 import { Link } from 'react-router-dom'
-import { ToasContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
 

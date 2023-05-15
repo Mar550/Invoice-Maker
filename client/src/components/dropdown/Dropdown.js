@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { tablet } from '../../responsive';
 import { logout } from '../../features/authSlice';
-
+import { Link } from 'react-router-dom';
 //Icons
 import {MdOutlineSpaceDashboard} from 'react-icons/md'
 import { BiLogOut } from 'react-icons/bi';
@@ -34,17 +34,17 @@ const Dropdown = () => {
         <Wrapper>
             <Container>
             <Ul>
-                <Li onClick={navigate('/home')}> 
-                    <MdOutlineSpaceDashboard style={{fontSize:"1.6rem"}}/>
-                    <Link> Dashboard </Link>
-                </Li>
                 <Li onClick={toDashboard}> 
-                    <AiFillGithub style={{fontSize:"1.6rem"}}/>
-                    <Link  style={{textDecoration:"none"}} className="weblink" href="https://github.com/Mar550/Citibike-Ecommerce"> View on Github </Link>
+                    <MdOutlineSpaceDashboard style={{fontSize:"1.6rem"}}/>
+                    <A> Dashboard </A>
                 </Li>
-                <Li onClick={(e) => handleLogout(e)}> 
+                <Li> 
+                    <AiFillGithub style={{fontSize:"1.6rem"}}/>
+                    <A  href="https://github.com/Mar550/Invoice-Maker" target="_blank" style={{textDecoration:"none"}}> View on Github </A>
+                </Li>
+                <Li onClick={(e)=>handleLogout(e)}> 
                     <BiLogOut style={{fontSize:"1.6rem"}}/>
-                    <Link> Logout </Link>
+                    <A> Logout </A>
                 </Li>
             </Ul>
             </Container>
@@ -118,7 +118,7 @@ opacity: 1;
 cursor: pointer;
 `
 
-const Link = styled.a`
+const A = styled.a`
 max-width: 100px;
 margin-left: 5px;
 transition: var(--speed);

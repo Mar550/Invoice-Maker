@@ -29,7 +29,6 @@ const Invoice = (props) => {
   const [items, setItems] = useState([])
   const { darkMode } = useContext(ThemeContext)
   const { user, setUser } = useContext(UserContext)
-
   const [loading, setLoading] = useState(false)
 
   const getInvoice = async () => {
@@ -50,9 +49,10 @@ const Invoice = (props) => {
   const id = location.pathname.split("/")[2];
   const [buttonEdit, setButtonEdit] = useState(false);
 
-  const deleteInvoice = async () => {
+  const deleteInvoice = async (e) => {
+    e.preventDefault()
     await publicRequest.delete('/invoice/delete/' + id)
-    .then(window.location.replace("/home"))
+    .then(navigate("/home"))
     .catch(error => console.log(error))
   }
   

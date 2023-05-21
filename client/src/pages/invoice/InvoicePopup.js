@@ -3,18 +3,22 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { ThemeContext } from '../../App';
 import { publicRequest } from '../../request';
-
+import { useNavigate } from 'react-router';
 import Label from '../../components/fields/Label';
 import { v4 as uuidv4} from "uuid";
 import {FaTrashAlt} from 'react-icons/fa';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 import {tablet} from "../../responsive";
-
+import { UserContext } from '../../App';
+import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 const InvoicePopup = (props) => {
 
     const { darkMode } = useContext(ThemeContext)
     
+    const { authUser } = useContext(UserContext);
+    const navigate = useNavigate()
+
     const [itemsList, setItemsList] = useState([{        
         id: crypto.randomUUID(),
         name: "",
@@ -37,7 +41,7 @@ const InvoicePopup = (props) => {
         term:"",
         description:"",
         items: itemsList,
-        status:""
+        status:"Pending",
     })
 
     const [itemsToAdd, setItemsToAdd] = useState(1);
@@ -70,15 +74,10 @@ const InvoicePopup = (props) => {
 
     const [trigger, setTrigger] = useState(false)
     
-    const createInvoice = async () => {
-        setData((data) => {
-            return({
-              ...data,
-              status:'Pending'
-            });
-        });
+    const createInvoice = async (e) => {
+        e.preventDefault()
         await publicRequest.post('/invoice/create',data)
-        .then(response => console.log(response))
+        .then(response => response.status == 200 ? window.location.replace('/home') : console.log(response))
         .catch(error => console.log(error))
     }
 
@@ -94,7 +93,8 @@ const InvoicePopup = (props) => {
         setData({...data, items: list})
     }
 
-    const createDraft = async () => {
+    const createDraft = async (e) => {
+        e.preventDefault()
         setData((data) => {
             return({
                 ...data,
@@ -109,6 +109,9 @@ const InvoicePopup = (props) => {
     const closePopup = () => {
         props.setTrigger(false);
     }
+
+
+
 
     return (props.trigger) ? (
         <>
@@ -217,7 +220,7 @@ const InvoicePopup = (props) => {
                 />
             </Group> 
             <Group>
-                <Label title="Payment Terms"/> 
+                <Label title="Payment Term"/> 
                 <Date 
                 type="date"
                 name="term"
@@ -388,7 +391,7 @@ const InvoicePopup = (props) => {
                 />
             </Group> 
             <Group>
-                <Label title="Payment Terms"/> 
+                <Label title="Payment Term"/> 
                 <InputLight 
                 type="date"
                 name="term"

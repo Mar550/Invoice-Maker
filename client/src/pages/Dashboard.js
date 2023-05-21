@@ -24,9 +24,8 @@ import Loading from '../components/navigation/Loading';
 
 const Dashboard = () => {
 
-  const { userId } = useContext(UserContext);
+  const { authUser } = useContext(UserContext);
 
-  console.log(userId)
   
   const [invoiceList, setInvoiceList] = useState([])
   const [checked, setChecked] = useState([])
@@ -38,13 +37,16 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false)
 
 
-  
   const getInvoices = async () => {
     await publicRequest.get(`/invoice/all`).then(res  => {
       const id = localStorage.getItem('user')
-      /** const result = res.data.filter(inv => inv.userId == user )*/  
-      const result = res.data;   
-      setInvoiceList(result)
+      if (authUser !== null) {
+        const result = res.data.filter((inv) => inv.userId == authUser._id || inv.userId == null  )
+        setInvoiceList(result)
+      } else {  
+        const result = res.data;   
+        setInvoiceList(result)
+      }
     });
   }
   

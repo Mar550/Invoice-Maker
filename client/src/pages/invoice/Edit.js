@@ -39,7 +39,7 @@ const Edit = (props) => {
         term:"",
         description:"",
         items: itemsList,
-        status:""
+        status:"Pending"
     })
 
     // Get Invoice with ID
@@ -55,28 +55,27 @@ const Edit = (props) => {
     },[])
 
     // Update Function
-    const updateInvoice = async () => {
+    const updateInvoice = async (e) => {
+        e.preventDefault()
         await publicRequest.put('/invoice/update/' + id, data)
-        .then(response => console.log(response))
+        .then(response => response.status == 200 ? window.location.replace('/invoice/'+id) : console.log(response))
         .catch(error => console.log(error))
     }
 
     // Update as a draft Function
-    const changeToDraft = () => {
+    const updateDraft = async (e) => {
+        e.preventDefault()
         setData((data) => {
             return({
-              ...data,
-              status:'Draft'
+                ...data,
+                status:'Draft'
+            });
         });
-    })};
-
-    // Update as a draft Function
-    const updateDraft = async () => {
-        changeToDraft();
         await publicRequest.put('/invoice/update/'+id, data)
-        .then(response => console.log(response))
+        .then(response => response.status == 200 ? window.location.replace('/invoice/'+id) : console.log(response))
         .catch(error => console.log(error))
     }
+    
     
     // Handle Input
     const handleChange = ({ currentTarget: input }) => {

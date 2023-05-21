@@ -11,6 +11,7 @@ import Error from './pages/Error';
 import Landing from './pages/Landing';
 import { store } from './store';
 import Dropdown from './components/dropdown/Dropdown';
+import { useSelector } from 'react-redux';
 
 
 export const ThemeContext = React.createContext({})
@@ -23,14 +24,16 @@ function App() {
   const [darkMode, setDarkMode] = useState(true)
   // USER OR GUEST
 
-  const [userId, setUserId] = useState(localStorage.getItem("user") == null ? null : JSON.parse(localStorage.getItem("user"))["_id"])
+  /*const [userId, setUserId] = useState(localStorage.getItem("user") == null ? null : JSON.parse(localStorage.getItem("user"))["_id"])
   console.log(userId);
+  */  
+  const currentUser = useSelector(state => state.auth.user)
 
+  const [authUser, setAuthUser] = useState(currentUser == null ? null : currentUser);
   
-
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
-      <UserContext.Provider value={{ userId, setUserId }}>
+      <UserContext.Provider value={{ authUser, setAuthUser }}>
       <div className="App">
         <BrowserRouter>
           <Routes>

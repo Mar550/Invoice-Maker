@@ -32,9 +32,11 @@ const Header = (props) => {
   const toggleDropdown = () => {
     setOpen(!open)
   }
-
   const user = useSelector(state=> state.auth.user);
+  const { authUser } = useContext(UserContext);    
+
   const guest = localStorage.getItem("user")
+  console.log(user)
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,14 +47,13 @@ const Header = (props) => {
     window.location.replace('/')
   }
 
-  
-
   /** 
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user)
   const userId = Object.values(user)[1]
   console.log(userId)
   */
+
   return (
     <>
       <Container>
@@ -70,19 +71,27 @@ const Header = (props) => {
               <MdModeNight />
           </ModeLight>
           }
-          <Icon title="Menu" >
+          { authUser == null ? 
+            <Icon title="Menu" >
+                <div>
+                  <GoMarkGithub className="userIcon" style={{color:"white", textAlign:"center"}}/>
+                </div>
+            </Icon> 
+            :
+            <Icon title="Menu" >
             {
               open ?
                 <div  style={{display:"flex", flexDirection:"column"}}>
                   <RiUserSmileFill onClick={toggleDropdown} className="userIcon" style={{color:"white", textAlign:"center"}}/>
                   <Dropdown/>
                 </div>
-              :
+              : 
                 <div onClick={toggleDropdown} style={{display:"flex", flexDirection:"column"}}>
                   <RiUserSmileFill className="userIcon" style={{color:"white", textAlign:"center"}}/>
                 </div>
             }     
-          </Icon>
+            </Icon>
+          }
       </Container>
     </>
   )

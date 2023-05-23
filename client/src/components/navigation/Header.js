@@ -71,13 +71,6 @@ const Header = (props) => {
               <MdModeNight />
           </ModeLight>
           }
-          { authUser == null ? 
-            <Icon title="Menu" >
-                <div>
-                  <GoMarkGithub className="userIcon" style={{color:"white", textAlign:"center"}}/>
-                </div>
-            </Icon> 
-            :
             <Icon title="Menu" >
             {
               open ?
@@ -91,7 +84,6 @@ const Header = (props) => {
                 </div>
             }     
             </Icon>
-          }
       </Container>
     </>
   )
